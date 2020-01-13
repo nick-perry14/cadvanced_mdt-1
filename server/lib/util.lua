@@ -5,26 +5,26 @@ local modules = {}
 -- Shamelessly borrowed from:
 -- https://github.com/ImagicTheCat/vRP/blob/master/vrp/lib/utils.lua
 function module(path)
-  local module = modules[path]
-  if module then -- cached module
-    return module
-  else
-    local code = LoadResourceFile(path..".lua")
-    if code then
-      local f,err = load(code, "/"..path..".lua")
-      if f then
-        local ok, res = xpcall(f, debug.traceback)
-        if ok then
-          modules[path] = res
-          return res
-        else
-          error("error loading module "..path..":"..res)
-        end
-      else
-        error("error parsing module "..path..":"..debug.traceback(err))
-      end
+    local module = modules[path]
+    if module then -- cached module
+        return module
     else
-      error("resource file "..path..".lua not found")
+        local code = LoadResourceFile("cadvanced_mdt", path .. ".lua")
+        if code then
+            local f, err = load(code, "/" .. path .. ".lua")
+            if f then
+                local ok, res = xpcall(f, debug.traceback)
+                if ok then
+                    modules[path] = res
+                    return res
+                else
+                    error("error loading module " .. path .. ":" .. res)
+                end
+            else
+                error("error parsing module " .. path .. ":" .. debug.traceback(err))
+            end
+        else
+            return false
+        end
     end
-  end
 end
