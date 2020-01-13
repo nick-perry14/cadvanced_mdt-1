@@ -13,5 +13,15 @@ files {
 }
 
 client_scripts {
-    "client/client-main.lua"
+    'client/client-main.lua'
+}
+
+server_scripts {
+    'server/lib/util.lua',
+    'server/main.lua',
+    'config.lua',
+    'version.lua',
+    'server/main.lua',
+    'modules/api.lua',
+    'modules/config.lua',
 }
