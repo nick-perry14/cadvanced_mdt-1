@@ -4,6 +4,8 @@ local conf = module("server/modules/config")
 
 local users = {}
 
+local current_users = {}
+
 local whitelisted = {}
 
 -- Get the table of whitelisted users
@@ -67,7 +69,8 @@ function users.validate(source, setKickReason)
 end
 
 -- Player connect handler
--- Validate a user when they connect
+---- Validate a user when they connect
+---- Add the user table to current_users
 function users.handler_playerConnecting()
     if conf.val("enable_whitelist") then
         RegisterServerEvent("playerConnecting")
