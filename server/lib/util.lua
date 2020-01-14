@@ -28,3 +28,13 @@ function module(path)
         end
     end
 end
+
+-- Generic "check if value is in array" function
+function hasValue(tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+    return false
+end
