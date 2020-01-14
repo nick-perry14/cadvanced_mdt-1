@@ -1,23 +1,19 @@
 local api = {}
 
 function api.request(query, callback)
-
-    -- load config
-    local cfg = require "../config.lua"
-    
+    local conf = module("server/modules/config")
     PerformHttpRequest(
-        url .. '/api',
-        function (errorCode, resultData, resultHeaders)
+        conf.val("cad_url") .. "/api",
+        function(errorCode, resultData)
             if errorCode ~= 200 then
-                print('CADvanced: ERROR - Unable to perform query '
-                    .. query .. ', error ' .. errorCode)
-                callback({ error = errorCode })
+                print("CADvanced: ERROR - Unable to perform query " .. query .. ", error " .. errorCode)
+                callback({error = errorCode})
             end
-            callback({ result = json.decode(resultData) })
+            callback({result = json.decode(resultData)})
         end,
-        'POST',
+        "POST",
         query,
-        { ["Content-Type"] = 'application/json' }
+        {["Content-Type"] = "application/json"}
     )
 end
 
