@@ -16,7 +16,9 @@ function users.get_whitelisted()
             q_whitelisted,
             function(response)
                 if response.error == nil then
-                    whitelisted = response.result
+                    for _, wl in ipairs(response.result.data.allWhitelisted) do
+                        table.insert(whitelisted, wl.steamId)
+                    end
                 else
                     print(response.error)
                 end
@@ -73,7 +75,6 @@ end
 ---- Add the user table to current_users
 function users.handler_playerConnecting()
     if conf.val("enable_whitelist") then
-        RegisterServerEvent("playerConnecting")
         AddEventHandler(
             "playerConnecting",
             function(name, setKickReason)
@@ -81,6 +82,40 @@ function users.handler_playerConnecting()
             end
         )
     end
+    AddEventHandler(
+        "playerConnecting",
+        function()
+            local id = users.get_steam_id(source)
+            local q_user = queries.get_user(id)
+            api.request(
+                q_user,
+                function(response)
+                    if response.error == nil then
+                        table.insert(current_users, response.result.data.getUser)
+                    else
+                        print(response.error)
+                    end
+                end
+            )
+        end
+    )
+end
+
+-- Player dropped handler
+---- Remove the user table from current_users
+function users.handler_playerDropped()
+    AddEventHandler(
+        "playerDropped",
+        function()
+            local id = users.get_steam_id(source)
+            for i, user in ipairs(current_users) do
+                if user.steamId == id then
+                    table.remove(current_users, i)
+                    break
+                end
+            end
+        end
+    )
 end
 
 return users

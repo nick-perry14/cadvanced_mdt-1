@@ -12,3 +12,6 @@ users.get_whitelisted(whitelisted)
 
 -- Add the playerConnecting handler
 users.handler_playerConnecting()
+
+-- Add the playerDropped handler
+users.handler_playerDropped()

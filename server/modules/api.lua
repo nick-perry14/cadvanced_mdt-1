@@ -9,12 +9,7 @@ function api.request(query, callback)
                 print("CADvanced: ERROR - Unable to perform query " .. query .. ", error " .. errorCode)
                 callback({error = errorCode})
             end
-            local result = json.decode(resultData)
-            local whitelisted = {}
-            for _, wl in ipairs(result.data.allWhitelisted) do
-                table.insert(whitelisted, wl.steamId)
-            end
-            callback({result = whitelisted})
+            callback({result = json.decode(resultData)})
         end,
         "POST",
         query,
