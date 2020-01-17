@@ -19,6 +19,7 @@ button {
     border: 0;
     color: #fff;
     margin: 0 5px;
+    cursor: pointer;
 }
 button:first-child {
     margin-left: 0;

@@ -20,5 +20,6 @@ div {
     flex: 2 2 0;
     text-align: right;
     color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
 }
 </style>

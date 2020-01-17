@@ -1,17 +1,7 @@
-local conf = module("server/modules/config")
-local users = module("server/modules/users")
+local init = module("server/modules/init")
 
--- Check we have a valid config
-local sane = conf.sanity_check()
-if not sane then
-    return
-end
+-- Bootstrap data population
+init.bootstrapData()
 
--- Get the whitelisted players, if appropriate
-users.get_whitelisted(whitelisted)
-
--- Add the playerConnecting handler
-users.handler_playerConnecting()
-
--- Add the playerDropped handler
-users.handler_playerDropped()
+-- Create handlers for server events
+init.createEventHandlers()

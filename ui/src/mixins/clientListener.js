@@ -13,12 +13,15 @@ export default {
     },
     methods: {
         // Handler for incoming messages from client Lua
+        // const event = new Event('message');event.data = {action:'showMdt'};window.dispatchEvent(event);
         processMessage() {
             if (
                 event.data.hasOwnProperty('action') &&
                 event.data.action == 'showMdt'
             ) {
                 this.$store.commit('setVisible');
+            } else if (event.data.hasOwnProperty('data')) {
+                console.log(event.data);
             }
         }
     }

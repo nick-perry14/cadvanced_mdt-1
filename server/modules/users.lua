@@ -1,5 +1,5 @@
 local queries = module("server/modules/queries")
-local api = module("server/modules/api")
+local api = module("server/modules/comms/api")
 local conf = module("server/modules/config")
 
 local users = {}
