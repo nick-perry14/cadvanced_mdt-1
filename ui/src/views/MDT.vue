@@ -1,5 +1,5 @@
 <template>
-    <div id="mdt">
+    <div id="mdt" v-bind:style="{ display: isVisible }">
         <Header />
         <Main />
         <Footer />
@@ -10,12 +10,19 @@
 import Header from '../components/layout/Header.vue';
 import Main from '../views/Main.vue';
 import Footer from '../components/layout/Footer.vue';
+import nuiListener from '../mixins/clientListener';
 
 export default {
     components: {
         Header,
         Main,
         Footer
+    },
+    mixins: [nuiListener],
+    computed: {
+        isVisible() {
+            return this.$store.getters.isVisible ? 'grid' : 'none';
+        }
     }
 };
 </script>

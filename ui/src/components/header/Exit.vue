@@ -1,6 +1,19 @@
 <template>
-    <div>Exit</div>
+    <div @click="hideMdt">Exit</div>
 </template>
+
+<script>
+import clientSender from '../../mixins/clientSender';
+export default {
+    methods: {
+        hideMdt() {
+            this.sendClientMessage('hideMdt');
+            this.$store.commit('setHide');
+        }
+    },
+    mixins: [clientSender]
+};
+</script>
 
 <style scoped>
 div {

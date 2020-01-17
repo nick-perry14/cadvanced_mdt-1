@@ -13,7 +13,7 @@ files {
 }
 
 client_scripts {
-    "client/client-main.lua"
+    "client/main.lua"
 }
 
 server_scripts {
