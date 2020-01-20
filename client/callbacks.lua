@@ -6,3 +6,12 @@ RegisterNUICallback(
         cb()
     end
 )
+
+-- Callback for sending initialisation data
+RegisterNUICallback(
+    "init",
+    function(_, cb)
+        print('REQUESTED TO SEND INIT DATA')
+        cb()
+    end
+)

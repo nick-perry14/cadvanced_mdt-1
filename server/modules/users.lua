@@ -1,5 +1,6 @@
 local queries = module("server/modules/queries")
 local api = module("server/modules/comms/api")
+local client = module("server/modules/comms/client")
 local conf = module("server/modules/config")
 
 local users = {}
@@ -72,7 +73,8 @@ end
 
 -- Player connect handler
 ---- Validate a user when they connect
----- Add the user table to current_users
+---- Add the user table to current_users,
+  -- and pass to the client
 function users.handler_playerConnecting()
     if conf.val("enable_whitelist") then
         AddEventHandler(
@@ -92,6 +94,8 @@ function users.handler_playerConnecting()
                 function(response)
                     if response.error == nil then
                         table.insert(current_users, response.result.data.getUser)
+                        -- Send client the updated user list
+                        client.pass_data(current_users, "users")
                     else
                         print(response.error)
                     end
@@ -111,6 +115,8 @@ function users.handler_playerDropped()
             for i, user in ipairs(current_users) do
                 if user.steamId == id then
                     table.remove(current_users, i)
+                    -- Send client the updated user list
+                    client.pass_data(current_users, "users")
                     break
                 end
             end

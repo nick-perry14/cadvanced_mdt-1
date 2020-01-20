@@ -16,13 +16,16 @@ function calls.get_all_calls()
                 for _, call in ipairs(response.result.data.allCalls) do
                     table.insert(current_calls, call)
                 end
-                -- Pass the data to NUI (via the client)
-                client.pass_data(current_calls, "calls")
+                client.pass_data(current_calls, 'calls')
             else
                 print(response.error)
             end
         end
     )
+end
+
+function calls.get_current_calls()
+    return calls.current_calls
 end
 
 return calls

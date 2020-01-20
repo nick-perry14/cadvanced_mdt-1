@@ -11,14 +11,18 @@ import Header from '../components/layout/Header.vue';
 import Main from '../views/Main.vue';
 import Footer from '../components/layout/Footer.vue';
 import nuiListener from '../mixins/clientListener';
+import clientSender from '../mixins/clientSender';
 
 export default {
+    created: function() {
+        this.clientSender.sendClientMessage('init');
+    },
     components: {
         Header,
         Main,
         Footer
     },
-    mixins: [nuiListener],
+    mixins: [nuiListener, clientSender],
     computed: {
         isVisible() {
             return this.$store.getters.isVisible ? 'grid' : 'none';

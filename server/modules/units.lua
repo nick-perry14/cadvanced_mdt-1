@@ -25,4 +25,8 @@ function units.get_all_units()
     )
 end
 
+function units.get_current_units()
+    return units.current_units
+end
+
 return units
