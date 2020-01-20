@@ -5,10 +5,6 @@ local conf = module("server/modules/config")
 
 local users = {}
 
-local current_users = {}
-
-local whitelisted = {}
-
 -- Get the table of whitelisted users
 function users.get_whitelisted()
     if conf.val("enable_whitelist") then
@@ -17,9 +13,11 @@ function users.get_whitelisted()
             q_whitelisted,
             function(response)
                 if response.error == nil then
+                    local whitelist = {}
                     for _, wl in ipairs(response.result.data.allWhitelisted) do
-                        table.insert(whitelisted, wl.steamId)
+                        table.insert(whitelist, wl.steamId)
                     end
+                    state_set("whitelist", whitelist)
                 else
                     print(response.error)
                 end
@@ -73,8 +71,8 @@ end
 
 -- Player connect handler
 ---- Validate a user when they connect
----- Add the user table to current_users,
-  -- and pass to the client
+---- Update state
+-- and pass to the client
 function users.handler_playerConnecting()
     if conf.val("enable_whitelist") then
         AddEventHandler(
@@ -93,9 +91,13 @@ function users.handler_playerConnecting()
                 q_user,
                 function(response)
                     if response.error == nil then
-                        table.insert(current_users, response.result.data.getUser)
+                        local usr = state_get("users")
+                        table.insert(usr, response.result.data.getUser)
+                        state_set("users", usr)
                         -- Send client the updated user list
-                        client.pass_data(current_users, "users")
+                        print("SERVER: PLAYER CONNECTED " .. source)
+                        print("SERVER: SENDING CLIENT UPDATED USERS")
+                        client.pass_data(usr, "users")
                     else
                         print(response.error)
                     end
@@ -106,17 +108,19 @@ function users.handler_playerConnecting()
 end
 
 -- Player dropped handler
----- Remove the user table from current_users
+---- Remove the user table from state.users
 function users.handler_playerDropped()
     AddEventHandler(
         "playerDropped",
         function()
             local id = users.get_steam_id(source)
-            for i, user in ipairs(current_users) do
+            local usr = state_get("users")
+            for i, user in ipairs(usr) do
                 if user.steamId == id then
-                    table.remove(current_users, i)
+                    table.remove(usr, i)
+                    state_set("users", usr)
                     -- Send client the updated user list
-                    client.pass_data(current_users, "users")
+                    client.pass_data(usr, "users")
                     break
                 end
             end

@@ -17,7 +17,9 @@ client_scripts {
 }
 
 server_scripts {
+    "server/lib/state.lua",
     "server/lib/util.lua",
+    "server/lib/state.lua",
     "server/main.lua",
     "mdt_config.lua",
     "version.lua",

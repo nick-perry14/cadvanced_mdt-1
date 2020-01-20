@@ -10,12 +10,15 @@
 import Header from '../components/layout/Header.vue';
 import Main from '../views/Main.vue';
 import Footer from '../components/layout/Footer.vue';
+// Import clientListener so we call its 'created' method
+// to initialise the listener
 import nuiListener from '../mixins/clientListener';
 import clientSender from '../mixins/clientSender';
 
 export default {
     created: function() {
-        this.clientSender.sendClientMessage('init');
+        // Tell client we want some initial data
+        this.sendClientMessage('init');
     },
     components: {
         Header,

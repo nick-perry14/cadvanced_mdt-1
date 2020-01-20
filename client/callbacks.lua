@@ -11,7 +11,10 @@ RegisterNUICallback(
 RegisterNUICallback(
     "init",
     function(_, cb)
-        print('REQUESTED TO SEND INIT DATA')
+        -- Tell the server to send the init data
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO SEND INIT DATA")
+        print("CLIENT: REQUESTING INIT DATA FROM SERVER")
+        TriggerServerEvent("send_init")
         cb()
     end
 )

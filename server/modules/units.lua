@@ -1,10 +1,7 @@
 local queries = module("server/modules/queries")
 local api = module("server/modules/comms/api")
-local client = module("server/modules/comms/client")
 
 local units = {}
-
-local current_units = {}
 
 -- Get the table of all units
 function units.get_all_units()
@@ -13,20 +10,16 @@ function units.get_all_units()
         q_all_units,
         function(response)
             if response.error == nil then
+                local unt = {}
                 for _, unit in ipairs(response.result.data.allUnits) do
-                    table.insert(current_units, unit)
+                    table.insert(unt, unit)
                 end
-                -- Pass the data to NUI (via the client)
-                client.pass_data(current_units, "units")
+                state_set("units", unt)
             else
                 print(response.error)
             end
         end
     )
-end
-
-function units.get_current_units()
-    return units.current_units
 end
 
 return units
