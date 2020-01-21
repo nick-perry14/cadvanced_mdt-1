@@ -24,7 +24,17 @@ export default {
             ) {
                 this.$store.commit('setVisible');
             } else if (event.data.hasOwnProperty('data')) {
-                console.log('NUI', event.data);
+                // Identify what sort of data we're receiving
+                if (event.data.hasOwnProperty('object') && event.data.object) {
+                    switch (event.data.object) {
+                        case 'units':
+                            console.log('NUI: RECEIVED UNITS');
+                            this.$store.commit('setUnits', event.data.data);
+                            break;
+                        default:
+                            console.log('NUI: Unknown object received');
+                    }
+                }
             }
         }
     }

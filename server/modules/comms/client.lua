@@ -14,6 +14,10 @@ function client.client_event_handlers()
     AddEventHandler(
         "send_init",
         function()
+            print("SERVER: RECEIVED REQUEST FROM CLIENT FOR INIT DATA")
+            client.pass_data(state_get("users"), "users")
+            client.pass_data(state_get("calls"), "calls")
+            client.pass_data(state_get("units"), "units")
         end
     )
 end

@@ -70,21 +70,25 @@ function users.validate(source, setKickReason)
 end
 
 -- Player connect handler
----- Validate a user when they connect
----- Update state
--- and pass to the client
 function users.handler_playerConnecting()
+    -- Validate a user when they connect
     if conf.val("enable_whitelist") then
         AddEventHandler(
             "playerConnecting",
             function(name, setKickReason)
+                print("SERVER: PLAYER CONNECTED " .. source)
+                print("SERVER: VALIDATING PLAYER AGAINST WHITELIST")
                 users.validate(source, setKickReason)
             end
         )
     end
+    -- Get the user object, add it to state and pass the updated user
+    -- state to all connected clients
     AddEventHandler(
         "playerConnecting",
         function()
+            print("SERVER: PLAYER CONNECTED " .. source)
+            print("SERVER: GETTING NEWLY CONNECTED PLAYER DETAILS")
             local id = users.get_steam_id(source)
             local q_user = queries.get_user(id)
             api.request(
@@ -95,8 +99,7 @@ function users.handler_playerConnecting()
                         table.insert(usr, response.result.data.getUser)
                         state_set("users", usr)
                         -- Send client the updated user list
-                        print("SERVER: PLAYER CONNECTED " .. source)
-                        print("SERVER: SENDING CLIENT UPDATED USERS")
+                        print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
                         client.pass_data(usr, "users")
                     else
                         print(response.error)
@@ -113,6 +116,7 @@ function users.handler_playerDropped()
     AddEventHandler(
         "playerDropped",
         function()
+            print("SERVER: PLAYER DROPPED")
             local id = users.get_steam_id(source)
             local usr = state_get("users")
             for i, user in ipairs(usr) do
@@ -120,6 +124,7 @@ function users.handler_playerDropped()
                     table.remove(usr, i)
                     state_set("users", usr)
                     -- Send client the updated user list
+                    print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
                     client.pass_data(usr, "users")
                     break
                 end

@@ -17,7 +17,7 @@ function state_set(key, val)
     if not state[key] then
         state_init(key)
     end
+    print("SERVER: UPDATING STATE FOR " .. key)
     state[key] = val
-    dump_table(state)
     return state[key]
 end

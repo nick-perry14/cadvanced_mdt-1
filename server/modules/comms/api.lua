@@ -1,6 +1,7 @@
 local api = {}
 
 function api.request(query, callback)
+    print("SERVER: MAKING API CALL")
     local conf = module("server/modules/config")
     PerformHttpRequest(
         conf.val("cad_url") .. "/api",

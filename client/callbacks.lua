@@ -2,6 +2,7 @@
 RegisterNUICallback(
     "hideMdt",
     function(_, cb)
+        print("CLIENT: RECEIVED hideMdt FROM NUI")
         SetNuiFocus(false, false)
         cb()
     end
