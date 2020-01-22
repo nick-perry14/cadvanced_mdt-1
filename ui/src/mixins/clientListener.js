@@ -31,6 +31,14 @@ export default {
                             console.log('NUI: RECEIVED UNITS');
                             this.$store.commit('setUnits', event.data.data);
                             break;
+                        case 'users':
+                            console.log('NUI: RECEIVED USERS');
+                            this.$store.commit('setUsers', event.data.data);
+                            break;
+                        case 'calls':
+                            console.log('NUI: RECEIVED CALLS');
+                            this.$store.commit('setCalls', event.data.data);
+                            break;
                         default:
                             console.log('NUI: Unknown object received');
                     }
