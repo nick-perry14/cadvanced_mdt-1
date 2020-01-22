@@ -63,7 +63,7 @@ function users.validate(source, setKickReason)
         )
         CancelEvent()
     end
-    if conf.val("enable_whitelist") and not hasValue(whitelisted, id) then
+    if conf.val("enable_whitelist") and not hasValue(state_get("whitelisted"), id) then
         setKickReason("You are not whitelisted for this server")
         CancelEvent()
     end
