@@ -16,7 +16,7 @@ function queries.get_user(steam_id)
     local query = {
         operationName = null,
         query = _doSub(
-            '{ getUser(steamId: "$x") { id userName steamId avatarUrl roles { id name code } character { ... on Citizen { id firstName lastName active } ... on Officer { id firstName lastName active UserId } } } }',
+            '{ getUser(steamId: "$x") { id userName steamId avatarUrl roles { id name code } character { ... on Citizen { id firstName lastName active __typename } ... on Officer { id firstName lastName active __typename } } } }',
             {x = steam_id}
         )
     }
