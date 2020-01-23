@@ -26,6 +26,8 @@ export default {
             } else if (event.data.hasOwnProperty('data')) {
                 // Identify what sort of data we're receiving
                 if (event.data.hasOwnProperty('object') && event.data.object) {
+                    // Animate the "receiving" indicator
+                    this.$store.commit('setConnectionIsActive');
                     switch (event.data.object) {
                         case 'units':
                             console.log('NUI: RECEIVED UNITS');

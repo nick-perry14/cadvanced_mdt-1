@@ -6,6 +6,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         visible: false,
+        connectionActive: false,
         steamId: '',
         character: {},
         users: [],
@@ -28,7 +29,8 @@ const store = new Vuex.Store({
                 user.character.__typename == 'Officer'
                 ? user.character
                 : null;
-        }
+        },
+        getConnectionActive: state => state.connectionActive
     },
     mutations: {
         setVisible: state => (state.visible = true),
@@ -36,7 +38,11 @@ const store = new Vuex.Store({
         setUnits: (state, units) => (state.units = units),
         setUsers: (state, users) => (state.users = users),
         setCalls: (state, calls) => (state.calls = calls),
-        setSteamId: (state, steamId) => (state.steamId = steamId)
+        setSteamId: (state, steamId) => (state.steamId = steamId),
+        setConnectionIsActive: state => {
+            state.connectionActive = true;
+            setTimeout(() => (state.connectionActive = false), 1500);
+        }
     },
     subscribe: (mutation, state) => {
         console.log('NUI: ' + mutation.type);
@@ -46,7 +52,7 @@ const store = new Vuex.Store({
 });
 
 store.watch(
-    state => state.steamId,
+    state => state.connectionActive,
     v => console.log('VUEX WATCHER: ' + v)
 );
 
