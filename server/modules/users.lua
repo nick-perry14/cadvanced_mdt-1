@@ -58,20 +58,38 @@ function users.validate(source, setKickReason)
     return true
 end
 
--- Get a newly connected players details and update state
-function users.populate_player()
-    print("SERVER: GETTING NEWLY CONNECTED PLAYER DETAILS FOR " .. source)
-    local my_source = source
-    local id = user_helpers.get_steam_id(source)
-    local q_user = queries.get_user(id)
+-- Get a players details and update state as appropriate
+function users.populate_player(steamId)
+    local is_new = false
+    local my_source
+    if not steamId then
+        is_new = true
+        print("SERVER: GETTING NEWLY CONNECTED PLAYER DETAILS FOR " .. source)
+        my_source = source
+        steamId = user_helpers.get_steam_id(source)
+    else
+        print("SERVER: GETTING UPDATED PLAYER DETAILS FOR " .. steamId)
+    end
+    local q_user = queries.get_user(steamId)
     api.request(
         q_user,
         function(response)
             if response.error == nil then
                 local usr = state_get("users")
-                local new_user = response.result.data.getUser
-                new_user.source = my_source
-                table.insert(usr, new_user)
+                local returned_user = response.result.data.getUser
+                if is_new then
+                    returned_user.source = my_source
+                    table.insert(usr, returned_user)
+                else
+                    for i, it in ipairs(usr) do
+                        if it.steamId == steamId then
+                            -- Preserve the user's source
+                            returned_user.source = usr[i].source
+                            usr[i] = returned_user
+                            break
+                        end
+                    end
+                end
                 state_set("users", usr)
                 -- Send client the updated user list
                 print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
@@ -81,21 +99,6 @@ function users.populate_player()
             end
         end
     )
-end
-
--- Update a player object in state and update all clients
-function users.update_player(user)
-    local usr = state_get("users")
-    for i, it in ipairs(usr) do
-        if it.steamId == user.id then
-            usr[i] = user
-            state_set("users", usr)
-            -- Send client the updated user list
-            print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
-            client.pass_data(usr, "users")
-            break
-        end
-    end
 end
 
 -- Player connect handler
