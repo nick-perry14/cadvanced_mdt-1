@@ -39,6 +39,10 @@ export default {
                             console.log('NUI: RECEIVED CALLS');
                             this.$store.commit('setCalls', event.data.data);
                             break;
+                        case 'steam_id':
+                            console.log('NUI: RECEIVED STEAM ID');
+                            this.$store.commit('setSteamId', event.data.data);
+                            break;
                         default:
                             console.log('NUI: Unknown object received');
                     }

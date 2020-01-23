@@ -2,6 +2,11 @@
     <div class="call-details">
         <div>{{ incidentString }}</div>
         <div>{{ locationsString }}</div>
+        <div class="call-descriptions">
+            <div class="call-description" v-for="description in descriptions" v-bind:key="description.id" v-bind:description="description"></Unit>
+                {{ description }}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -14,6 +19,9 @@ export default {
         },
         locationsString() {
             return this.call.callLocations.map(curr => curr.name).join(', ');
+        },
+        descriptions() {
+            return this.call.callDescriptions.map(curr => curr.text);
         }
     }
 };
@@ -23,10 +31,15 @@ export default {
 .call-details {
     padding: 20px 8px;
     background: rgba(255, 255, 255, 0.1);
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     font-size: 14px;
+    font-weight: bold;
     line-height: 16px;
     color: rgba(255, 255, 255, 0.7);
+}
+.call-descriptions {
+    margin-top: 20px;
+    font-weight: normal;
 }
 div:last-child {
     margin-bottom: 0;

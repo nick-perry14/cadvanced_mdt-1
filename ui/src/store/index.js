@@ -6,6 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         visible: false,
+        steamId: '',
+        character: {},
         users: [],
         calls: [],
         units: []
@@ -14,6 +16,7 @@ export default new Vuex.Store({
         getUnits: state => state.units,
         getUsers: state => state.users,
         getCalls: state => state.calls,
+        getSteamId: state => state.SteamId,
         isVisible: state => state.visible
     },
     mutations: {
@@ -21,6 +24,7 @@ export default new Vuex.Store({
         setHide: state => (state.visible = false),
         setUnits: (state, units) => (state.units = units),
         setUsers: (state, users) => (state.users = users),
-        setCalls: (state, calls) => (state.calls = calls)
+        setCalls: (state, calls) => (state.calls = calls),
+        setSteamId: (state, steamId) => (state.steamId = steamId)
     }
 });

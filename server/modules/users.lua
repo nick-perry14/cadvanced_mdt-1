@@ -1,3 +1,4 @@
+local user_helpers = module("server/modules/helpers/users")
 local queries = module("server/modules/queries")
 local api = module("server/modules/comms/api")
 local client = module("server/modules/comms/client")
@@ -28,84 +29,72 @@ function users.get_whitelisted()
     end
 end
 
--- Get the player's Steam ID
-function users.get_steam_id(source)
-    local id = nil
-    for k, v in ipairs(GetPlayerIdentifiers(source)) do
-        if string.sub(v, 1, string.len("steam:")) == "steam:" then
-            local trimmed = v:gsub("steam:", "")
-            id = trimmed
-            break
-        end
-    end
-    return id
-end
-
--- Get a user's server Id from their Steam ID
-function users.get_user_from_steam_id(steamId)
-    local players = GetPlayers()
-    -- Iterate all players until we find the one we want
-    for _, player in ipairs(players) do
-        local id = users.get_steam_id(player)
-        if id and id == steamId then
-            return player
-        end
-    end
-    return nil
-end
-
 -- Check if a user has a SteamID
 function users.validate(source, setKickReason)
-    local id = users.get_steam_id(source)
+    if not source then
+        setKickReason(
+            "Unable to find SteamID, please relaunch FiveM with steam open or restart FiveM & Steam if steam is already open"
+        )
+        CancelEvent()
+        print("SERVER: PLAYER JOIN DENIED - NO SOURCE")
+        return false
+    end
+    local id = user_helpers.get_steam_id(source)
     if not id then
         setKickReason(
             "Unable to find SteamID, please relaunch FiveM with steam open or restart FiveM & Steam if steam is already open"
         )
         CancelEvent()
+        print("SERVER: PLAYER JOIN DENIED - NO STEAM ID")
+        return false
     end
     if conf.val("enable_whitelist") and not hasValue(state_get("whitelisted"), id) then
         setKickReason("You are not whitelisted for this server")
         CancelEvent()
+        print("SERVER: PLAYER JOIN DENIED - NOT WHITELISTED")
+        return false
     end
+    print("SERVER: PLAYER JOIN ACCEPTED")
+    return true
+end
+
+-- Get a newly connected players details and update state
+function users.populate_player()
+    print("SERVER: GETTING NEWLY CONNECTED PLAYER DETAILS FOR " .. source)
+    local my_source = source
+    local id = user_helpers.get_steam_id(source)
+    local q_user = queries.get_user(id)
+    api.request(
+        q_user,
+        function(response)
+            if response.error == nil then
+                local usr = state_get("users")
+                local new_user = response.result.data.getUser
+                new_user.source = my_source
+                table.insert(usr, new_user)
+                state_set("users", usr)
+                -- Send client the updated user list
+                print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
+                client.pass_data(usr, "users")
+            else
+                print(response.error)
+            end
+        end
+    )
 end
 
 -- Player connect handler
 function users.handler_playerConnecting()
     -- Validate a user when they connect
-    if conf.val("enable_whitelist") then
-        AddEventHandler(
-            "playerConnecting",
-            function(name, setKickReason)
-                print("SERVER: PLAYER CONNECTED " .. source)
-                print("SERVER: VALIDATING PLAYER AGAINST WHITELIST")
-                users.validate(source, setKickReason)
-            end
-        )
-    end
-    -- Get the user object, add it to state and pass the updated user
-    -- state to all connected clients
     AddEventHandler(
         "playerConnecting",
-        function()
+        function(name, setKickReason)
             print("SERVER: PLAYER CONNECTED " .. source)
-            print("SERVER: GETTING NEWLY CONNECTED PLAYER DETAILS")
-            local id = users.get_steam_id(source)
-            local q_user = queries.get_user(id)
-            api.request(
-                q_user,
-                function(response)
-                    if response.error == nil then
-                        local usr = state_get("users")
-                        table.insert(usr, response.result.data.getUser)
-                        state_set("users", usr)
-                        -- Send client the updated user list
-                        print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
-                        client.pass_data(usr, "users")
-                    else
-                        print(response.error)
-                    end
-                end
-            )
+            print("SERVER: VALIDATING PLAYER")
+            local valid = users.validate(source, setKickReason)
+            if valid then
+                users.populate_player()
+            end
         end
     )
 end
@@ -117,9 +106,10 @@ function users.handler_playerDropped()
         "playerDropped",
         function()
             print("SERVER: PLAYER DROPPED")
-            local id = users.get_steam_id(source)
+            local id = user_helpers.get_steam_id(source)
             local usr = state_get("users")
             for i, user in ipairs(usr) do
+                print("SERVER: USER'S STEAM ID " .. user.steamId .. " - ITERATED ID " .. id)
                 if user.steamId == id then
                     table.remove(usr, i)
                     state_set("users", usr)

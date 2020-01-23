@@ -35,3 +35,12 @@ AddEventHandler(
         pass_to_nui(jsonData, "users")
     end
 )
+
+RegisterNetEvent("data:steam_id")
+AddEventHandler(
+    "data:steam_id",
+    function(jsonData)
+        print("CLIENT: RECEIVED STEAM ID FROM SERVER")
+        pass_to_nui(jsonData, "steam_id")
+    end
+)

@@ -1,7 +1,7 @@
 <template>
     <div id="unit">
         <UnitHeader v-bind:unit="unit" />
-        <Call v-for="(call, index) in unit.assignedCalls" v-bind:key="index" v-bind:call="call" />
+        <Call v-for="(call, index) in assignedCalls" v-bind:key="index" v-bind:call="call" />
     </div>
 </template>
 
@@ -13,6 +13,13 @@ export default {
     components: {
         UnitHeader,
         Call
+    },
+    computed: {
+        assignedCalls() {
+            return this.$store.getters.getCalls.filter(call =>
+                call.assignedUnits.some(unit => unit.id == this.unit.id)
+            );
+        }
     }
 };
 </script>
