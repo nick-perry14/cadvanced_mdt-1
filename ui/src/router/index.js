@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Status from '../components/main/status/Status.vue';
-import Search from '../components/main/Search.vue';
+import Search from '../components/main/search/Search.vue';
 
 Vue.use(VueRouter);
 
