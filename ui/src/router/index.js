@@ -14,7 +14,25 @@ const routes = [
         }
     },
     {
-        path: '/search',
+        path: '/search/citizens',
+        components: {
+            search: Search
+        }
+    },
+    {
+        path: '/search/vehicles',
+        components: {
+            search: Search
+        }
+    },
+    {
+        path: '/search/incidents',
+        components: {
+            search: Search
+        }
+    },
+    {
+        path: '/search/bolo',
         components: {
             search: Search
         }
