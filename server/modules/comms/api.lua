@@ -3,6 +3,7 @@ local api = {}
 function api.request(query, callback)
     print("SERVER: MAKING API CALL")
     local conf = module("server/modules/config")
+    local token = conf.val("api_token")
     PerformHttpRequest(
         conf.val("cad_url") .. "/api",
         function(errorCode, resultData)
@@ -14,7 +15,10 @@ function api.request(query, callback)
         end,
         "POST",
         query,
-        {["Content-Type"] = "application/json"}
+        {
+            ["Content-Type"] = "application/json",
+            ["cadvanced-token"] = token
+        }
     )
 end
 
