@@ -1,4 +1,5 @@
 local queries = module("server/modules/queries")
+local client = module("server/modules/comms/client")
 local api = module("server/modules/comms/api")
 
 local units = {}
@@ -15,6 +16,31 @@ function units.get_all_units()
                     table.insert(unt, unit)
                 end
                 state_set("units", unt)
+            else
+                print(response.error)
+            end
+        end
+    )
+end
+
+-- Update a unit
+function units.update_unit(id)
+    local q_get_unit = queries.get_unit(id)
+    api.request(
+        q_get_unit,
+        function(response)
+            if response.error == nil then
+                local received = response.result.data.getUnit
+                local ex_units = state_get("units")
+                for i, iter in ipairs(ex_units) do
+                    if (iter.id == received.id) then
+                        ex_units[i] = received
+                    end
+                end
+                state_set("units", ex_units)
+                -- Send client the updated units list
+                print("SERVER: SENDING ALL CLIENTS UPDATED UNITS")
+                client.pass_data(ex_units, "units")
             else
                 print(response.error)
             end

@@ -39,4 +39,15 @@ function queries.get_all_units()
     return json.encode(query)
 end
 
+function queries.get_unit(unit_id)
+    local query = {
+        operationName = null,
+        query = _doSub(
+            "{ getUnit(id: $x) { id callSign unitType { id name } unitState { id name colour } } }",
+            {x = unit_id}
+        )
+    }
+    return json.encode(query)
+end
+
 return queries
