@@ -4,11 +4,14 @@
             <div
                 class="callsign"
                 v-bind:style="{ color: '#' + unit.unitState.colour }"
-            >{{ unit.callSign }}</div>
+            >
+                {{ unit.callSign }}
+            </div>
         </div>
         <div class="bottom-row">
             <div class="unit-header-summary">
-                <span class="unit-state-name">{{ unit.unitState.name }}</span> - Chief inspector
+                <span class="unit-state-name">{{ unit.unitState.name }}</span> -
+                Chief inspector
             </div>
             <div class="unit-actions">
                 <MiniButton text="Status" colour="rgba(255, 255, 255, 0.3)" />
@@ -19,12 +22,12 @@
 </template>
 
 <script>
-import MiniButton from '../../../../MiniButton.vue';
+import MiniButton from "../../../../MiniButton.vue";
 export default {
     components: {
         MiniButton
     },
-    props: ['unit']
+    props: ["unit"]
 };
 </script>
 
