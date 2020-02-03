@@ -1,6 +1,6 @@
 <template>
     <div id="units">
-        <Unit v-for="unit in units" v-bind:key="unit.id" v-bind:unit="unit"></Unit>
+        <Unit v-for="unit in units" :key="unit.id" :unit="unit"></Unit>
     </div>
 </template>
 

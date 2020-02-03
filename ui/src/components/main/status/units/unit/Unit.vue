@@ -1,7 +1,11 @@
 <template>
     <div id="unit">
-        <UnitHeader v-bind:unit="unit" />
-        <Call v-for="(call, index) in assignedCalls" v-bind:key="index" v-bind:call="call" />
+        <UnitHeader :unit="unit" />
+        <Call
+            v-for="(call, index) in assignedCalls"
+            :key="index"
+            :call="call"
+        />
     </div>
 </template>
 

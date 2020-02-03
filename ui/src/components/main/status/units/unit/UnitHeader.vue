@@ -3,7 +3,7 @@
         <div class="top-row">
             <div
                 class="callsign"
-                v-bind:style="{ color: '#' + unit.unitState.colour }"
+                :style="{ color: '#' + unit.unitState.colour }"
             >
                 {{ unit.callSign }}
             </div>
@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import MiniButton from "../../../../MiniButton.vue";
+import MiniButton from '../../../../MiniButton.vue';
 export default {
     components: {
         MiniButton
     },
-    props: ["unit"]
+    props: ['unit']
 };
 </script>
 

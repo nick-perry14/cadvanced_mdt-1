@@ -3,7 +3,7 @@
         <div>{{ incidentString }}</div>
         <div>{{ locationsString }}</div>
         <div class="call-descriptions">
-            <div class="call-description" v-for="description in descriptions" v-bind:key="description.id" v-bind:description="description"></Unit>
+            <div class="call-description" v-for="description in descriptions" :key="description.id" :description="description"></Unit>
                 {{ description }}
             </div>
         </div>

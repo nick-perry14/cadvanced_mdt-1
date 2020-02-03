@@ -1,6 +1,6 @@
 <template>
     <div id="connection_stat">
-        <div v-bind:class="{ receiving: isReceiving }" id="connection_indicator" />
+        <div :class="{ receiving: isReceiving }" id="connection_indicator" />
         <p>Connected to control</p>
     </div>
 </template>
