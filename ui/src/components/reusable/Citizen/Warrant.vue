@@ -18,7 +18,12 @@
 import Property from './Property.vue';
 import SectionProperty from './SectionProperty.vue';
 export default {
-    props: ['warrant'],
+    props: {
+        warrant: {
+            type: Object,
+            required: true
+        }
+    },
     components: {
         Property,
         SectionProperty

@@ -16,7 +16,12 @@
 import Property from './Property.vue';
 import SectionProperty from './SectionProperty.vue';
 export default {
-    props: ['weapon'],
+    props: {
+        weapon: {
+            type: Object,
+            required: true
+        }
+    },
     components: {
         Property,
         SectionProperty

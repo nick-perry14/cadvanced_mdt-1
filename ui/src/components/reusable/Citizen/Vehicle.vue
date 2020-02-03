@@ -24,7 +24,12 @@
 import Property from './Property.vue';
 import SectionProperty from './SectionProperty.vue';
 export default {
-    props: ['vehicle'],
+    props: {
+        vehicle: {
+            type: Object,
+            required: true
+        }
+    },
     components: {
         Property,
         SectionProperty

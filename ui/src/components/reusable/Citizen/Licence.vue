@@ -13,7 +13,12 @@
 import Property from './Property.vue';
 import SectionProperty from './SectionProperty.vue';
 export default {
-    props: ['licence'],
+    props: {
+        licence: {
+            type: Object,
+            required: true
+        }
+    },
     components: {
         Property,
         SectionProperty

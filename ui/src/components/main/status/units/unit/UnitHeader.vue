@@ -27,7 +27,12 @@ export default {
     components: {
         MiniButton
     },
-    props: ['unit']
+    props: {
+        unit: {
+            type: Object,
+            required: true
+        }
+    }
 };
 </script>
 

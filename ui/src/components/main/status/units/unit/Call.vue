@@ -12,7 +12,12 @@
 
 <script>
 export default {
-    props: ['call'],
+    props: {
+        call: {
+            type: Object,
+            required: true
+        }
+    },
     computed: {
         incidentString() {
             return this.call.callIncidents.map(curr => curr.name).join(', ');

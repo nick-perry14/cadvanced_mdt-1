@@ -6,7 +6,12 @@
 
 <script>
 export default {
-    props: ['label']
+    props: {
+        label: {
+            type: String,
+            required: true
+        }
+    }
 };
 </script>
 

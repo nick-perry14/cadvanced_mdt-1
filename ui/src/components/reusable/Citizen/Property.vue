@@ -1,15 +1,25 @@
 <template>
     <div class="property-container">
         <span class="label" v-if="label && label.length > 0">
-            {{ label }}:</span
-        >
-        {{ value || 'Unknown' }}
+            {{ label }}:
+        </span>
+        {{ value }}
     </div>
 </template>
 
 <script>
 export default {
-    props: ['label', 'value']
+    props: {
+        label: {
+            type: String,
+            required: false
+        },
+        value: {
+            type: String,
+            required: false,
+            default: 'Unknown'
+        }
+    }
 };
 </script>
 

@@ -120,7 +120,16 @@ export default {
         Incident,
         Alert
     },
-    props: ['citizen', 'open'],
+    props: {
+        citizen: {
+            type: Object,
+            required: true
+        },
+        open: {
+            type: String,
+            required: true
+        }
+    },
     methods: {
         setOpen() {
             this.$emit(

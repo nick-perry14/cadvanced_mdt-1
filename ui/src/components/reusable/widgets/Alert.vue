@@ -1,13 +1,22 @@
 <template>
     <div class="alert">
-        <i :class="['fas', icon]"></i>
+        <i v-if="icon" :class="['fas', icon]"></i>
         <div class="alert-text" v-if="text && text.length > 0">{{ text }}</div>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['icon', 'text']
+    props: {
+        icon: {
+            type: String,
+            required: false
+        },
+        text: {
+            type: String,
+            required: false
+        }
+    }
 };
 </script>
 

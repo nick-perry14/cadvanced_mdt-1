@@ -4,7 +4,16 @@
 
 <script>
 export default {
-    props: ['text', 'colour', 'handler', 'is-disabled']
+    props: {
+        text: {
+            type: String,
+            required: true
+        },
+        colour: {
+            type: String,
+            required: true
+        }
+    }
 };
 </script>
 

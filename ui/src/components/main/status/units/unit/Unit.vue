@@ -13,7 +13,12 @@
 import UnitHeader from './UnitHeader.vue';
 import Call from './Call.vue';
 export default {
-    props: ['unit'],
+    props: {
+        unit: {
+            type: Object,
+            required: true
+        }
+    },
     components: {
         UnitHeader,
         Call
