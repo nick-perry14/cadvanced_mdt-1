@@ -19,7 +19,7 @@ export default {
     },
     data: function() {
         return {
-            open: 1
+            open: '0'
         };
     },
     methods: {

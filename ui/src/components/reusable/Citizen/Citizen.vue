@@ -123,17 +123,15 @@ export default {
     props: ['citizen', 'open'],
     methods: {
         setOpen() {
-            console.log('isOpen', this.isOpen);
             this.$emit(
                 'openCitizenResult',
-                this.isOpen ? null : this.citizen.id
+                this.isOpen ? '0' : this.citizen.id
             );
         }
     },
     computed: {
         isOpen() {
             // Is this citizen's pane open
-            console.log(this, this.citizen.id);
             return this.open == this.citizen.id;
         },
         getAlerts() {
