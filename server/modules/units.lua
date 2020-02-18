@@ -24,7 +24,7 @@ function units.get_all_units()
 end
 
 -- Get the table of all user / unit assignments
-function units.get_all_user_units()
+function units.get_all_user_units(pass_to_client)
     local q_all_user_units = queries.get_all_user_units()
     api.request(
         q_all_user_units,
@@ -35,11 +35,19 @@ function units.get_all_user_units()
                     table.insert(user_units, assignment)
                 end
                 state_set("user_units", user_units)
+                if (pass_to_client ~= nil and pass_to_client) then
+                    client.pass_data(state.user_units, "user_units")
+                end
             else
                 print(response.error)
             end
         end
     )
+end
+
+-- Repopulate all user_units
+function units.repopulate_user_units()
+    units.get_all_user_units(true)
 end
 
 -- Update a unit
