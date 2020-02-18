@@ -23,13 +23,34 @@ function units.get_all_units()
     )
 end
 
+-- Get the table of all user / unit assignments
+function units.get_all_user_units()
+    local q_all_user_units = queries.get_all_user_units()
+    api.request(
+        q_all_user_units,
+        function(response)
+            if response.error == nil then
+                local user_units = {}
+                for _, assignment in ipairs(response.result.data.allUserUnits) do
+                    table.insert(user_units, assignment)
+                end
+                state_set("user_units", user_units)
+            else
+                print(response.error)
+            end
+        end
+    )
+end
+
 -- Update a unit
 function units.update_unit(id)
     local q_get_unit = queries.get_unit(id)
+    print("SERVER: UPDATING UNIT " .. id)
     api.request(
         q_get_unit,
         function(response)
             if response.error == nil then
+                print("SERVER: PARSING UPDATED UNIT")
                 local received = response.result.data.getUnit
                 local ex_units = state_get("units")
                 for i, iter in ipairs(ex_units) do

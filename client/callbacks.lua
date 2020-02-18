@@ -19,3 +19,27 @@ RegisterNUICallback(
         cb()
     end
 )
+
+-- Callback to handle citizen searches
+RegisterNUICallback(
+    "searchCitizen",
+    function(data, cb)
+        -- Tell the server to send the init data
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO SEND CITIZEN SEARCH PARAMETERS")
+        print("CLIENT: SENDING CITIZEN SEARCH OBJECT TO SERVER")
+        TriggerServerEvent("search_citizens", data)
+        cb()
+    end
+)
+
+-- Callback to handle citizen offences retrieval
+RegisterNUICallback(
+    "getCitizenOffences",
+    function(data, cb)
+        -- Tell the server to send the init data
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO GET CITIZEN OFFENCES")
+        print("CLIENT: SENDING GET CITIZEN OFFENCES REQUEST TO SERVER")
+        TriggerServerEvent("get_citizen_offences", data)
+        cb()
+    end
+)

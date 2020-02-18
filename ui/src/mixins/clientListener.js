@@ -45,6 +45,20 @@ export default {
                             console.log('NUI: RECEIVED STEAM ID');
                             this.$store.commit('setSteamId', event.data.data);
                             break;
+                        case 'search_results':
+                            console.log('NUI: RECEIVED SEARCH RESULTS');
+                            this.$store.commit(
+                                'setCitizenSearchResults',
+                                event.data.data
+                            );
+                            break;
+                        case 'citizen_offences':
+                            console.log('NUI: RECEIVED CITIZEN OFFENCES');
+                            this.$store.commit(
+                                'setCitizenOffences',
+                                event.data.data
+                            );
+                            break;
                         default:
                             console.log('NUI: Unknown object received');
                     }

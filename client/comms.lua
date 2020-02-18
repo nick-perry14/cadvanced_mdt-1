@@ -44,3 +44,21 @@ AddEventHandler(
         pass_to_nui(jsonData, "steam_id")
     end
 )
+
+RegisterNetEvent("data:search_results")
+AddEventHandler(
+    "data:search_results",
+    function(jsonData)
+        print("CLIENT: RECEIVED SEARCH RESULTS FROM SERVER")
+        pass_to_nui(jsonData, "search_results")
+    end
+)
+
+RegisterNetEvent("data:citizen_offences")
+AddEventHandler(
+    "data:citizen_offences",
+    function(jsonData)
+        print("CLIENT: RECEIVED CITIZEN OFFENCES FROM SERVER")
+        pass_to_nui(jsonData, "citizen_offences")
+    end
+)

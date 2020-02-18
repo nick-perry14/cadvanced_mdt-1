@@ -22,6 +22,9 @@ function init.bootstrapData()
 
     -- Get all units
     units.get_all_units()
+
+    -- Get all user / unit assignments
+    units.get_all_user_units()
 end
 
 function init.createEventHandlers()

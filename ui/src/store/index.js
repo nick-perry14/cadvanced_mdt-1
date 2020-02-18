@@ -11,13 +11,15 @@ const store = new Vuex.Store({
         character: {},
         users: [],
         calls: [],
-        units: []
+        units: [],
+        citizenSearchResults: []
     },
     getters: {
         getUnits: state => state.units,
         getUsers: state => state.users,
         getCalls: state => state.calls,
         getSteamId: state => state.SteamId,
+        getCitizenSearchResults: state => state.citizenSearchResults,
         isVisible: state => state.visible,
         getUser: state => {
             return state.users.find(user => user.steamId == state.steamId);
@@ -39,9 +41,25 @@ const store = new Vuex.Store({
         setUsers: (state, users) => (state.users = users),
         setCalls: (state, calls) => (state.calls = calls),
         setSteamId: (state, steamId) => (state.steamId = steamId),
+        setCitizenSearchResults: (state, searchResults) => {
+            state.citizenSearchResults = searchResults.map(r => ({
+                ...r,
+                offences: []
+            }));
+        },
         setConnectionIsActive: state => {
             state.connectionActive = true;
             setTimeout(() => (state.connectionActive = false), 1500);
+        },
+        setCitizenOffences: (state, citizen) => {
+            if (citizen.offences.length > 0) {
+                const foundIndex = state.citizenSearchResults.findIndex(
+                    cit => cit.id == citizen.id
+                );
+                const found = state.citizenSearchResults[foundIndex];
+                found.offences = citizen.offences;
+                state.citizenSearchResults[foundIndex] = found;
+            }
         }
     },
     subscribe: (mutation, state) => {
@@ -52,8 +70,11 @@ const store = new Vuex.Store({
 });
 
 store.watch(
-    state => state.connectionActive,
-    v => console.log('VUEX WATCHER: ' + v)
+    state => state.units,
+    v => {
+        console.log('VUEX WATCHER:');
+        console.log(JSON.stringify(v));
+    }
 );
 
 export default store;

@@ -92,11 +92,7 @@
                 />
             </div>
             <div class="incidents">
-                <Incident
-                    v-for="incident in citizen.incidents"
-                    :key="incident.id"
-                    :incident="incident"
-                />
+                <Incidents :citizen="citizen" />
             </div>
         </div>
     </div>
@@ -108,7 +104,7 @@ import Vehicle from './Vehicle.vue';
 import Weapon from './Weapon.vue';
 import Licence from './Licence.vue';
 import Warrant from './Warrant.vue';
-import Incident from './Incident.vue';
+import Incidents from './Incidents.vue';
 import Alert from '../widgets/Alert.vue';
 export default {
     components: {
@@ -117,7 +113,7 @@ export default {
         Weapon,
         Licence,
         Warrant,
-        Incident,
+        Incidents,
         Alert
     },
     props: {

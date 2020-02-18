@@ -1,15 +1,69 @@
 <template>
     <div id="search-bar">
-        <input type="text" id="search-first-name" placeholder="First name" />
-        <input type="text" id="search-surname" placeholder="Surname" />
         <input
+            v-model="firstName"
+            type="text"
+            id="search-first-name"
+            placeholder="First name"
+            v-debounce:1s="handleUpdate"
+        />
+        <input
+            v-model="lastName"
+            type="text"
+            id="search-surname"
+            placeholder="Surname"
+            v-debounce:1s="handleUpdate"
+        />
+        <input
+            v-model="dateOfBirth"
             type="text"
             id="search-date-of-birth"
             placeholder="Date of birth"
+            v-debounce:1s="handleUpdate"
         />
-        <input type="text" id="search-id" placeholder="Citizen ID" />
+        <input
+            v-model="id"
+            type="text"
+            id="search-id"
+            placeholder="Citizen ID"
+            v-debounce:1s="handleUpdate"
+        />
     </div>
 </template>
+
+<script>
+export default {
+    data: function() {
+        return {
+            firstName: '',
+            lastName: '',
+            dateOfBirth: '',
+            id: ''
+        };
+    },
+    computed: {
+        preppedSearch() {
+            let toSend = {};
+            Object.keys(this.$data).forEach(key => {
+                const value = this.$data[key];
+                if (value && value.length > 0) {
+                    toSend[key] = value;
+                }
+            });
+            return toSend;
+        }
+    },
+    methods: {
+        handleUpdate() {
+            const toSend = this.preppedSearch;
+            // Don't send empty searches
+            if (Object.keys(toSend).length > 0) {
+                this.$emit('searchChanged', this.preppedSearch);
+            }
+        }
+    }
+};
+</script>
 
 <style scoped>
 #search-bar {

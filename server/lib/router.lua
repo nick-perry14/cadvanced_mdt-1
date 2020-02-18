@@ -9,6 +9,7 @@ SetHttpHandler(
                 req.setDataHandler(
                     function(body)
                         local data = json.decode(body)
+                        print("SERVER: HANDLING UPDATED " .. data.object)
                         if (data.object == "user") then
                             -- We will receive the Steam ID of a user we
                             -- need to update our cache of
