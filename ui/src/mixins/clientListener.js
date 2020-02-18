@@ -41,6 +41,14 @@ export default {
                             console.log('NUI: RECEIVED CALLS');
                             this.$store.commit('setCalls', event.data.data);
                             break;
+                        case 'user_units':
+                            console.log('NUI: RECEIVED USER_UNITS');
+                            this.$store.commit('setUserUnits', event.data.data);
+                            break;
+                        case 'user_ranks':
+                            console.log('NUI: RECEIVED USER_RANKS');
+                            this.$store.commit('setUserRanks', event.data.data);
+                            break;
                         case 'steam_id':
                             console.log('NUI: RECEIVED STEAM ID');
                             this.$store.commit('setSteamId', event.data.data);

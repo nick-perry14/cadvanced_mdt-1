@@ -28,6 +28,24 @@ function users.get_whitelisted()
         return {}
     end
 end
+-- Get the table of user ranks
+function users.get_all_user_ranks()
+    local q_get_all_user_ranks = queries.get_all_user_ranks()
+    api.request(
+        q_get_all_user_ranks,
+        function(response)
+            if response.error == nil then
+                local user_ranks = {}
+                for _, rank in ipairs(response.result.data.allUserRanks) do
+                    table.insert(user_ranks, rank)
+                end
+                state_set("user_ranks", user_ranks)
+            else
+                print(response.error)
+            end
+        end
+    )
+end
 
 -- Check if a user has a SteamID
 function users.validate(source, setKickReason)

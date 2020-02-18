@@ -12,12 +12,20 @@ const store = new Vuex.Store({
         users: [],
         calls: [],
         units: [],
+        userUnits: [],
+        userRanks: [],
         citizenSearchResults: []
     },
     getters: {
         getUnits: state => state.units,
         getUsers: state => state.users,
         getCalls: state => state.calls,
+        getUserUnits: state => state.userUnits,
+        getUserRanks: state => state.userRanks,
+        getRank: (state, getters) => rankId => {
+            const rank = getters.getUserRanks.find(r => r.id === rankId);
+            return rank ? rank.name : null;
+        },
         getSteamId: state => state.SteamId,
         getCitizenSearchResults: state => state.citizenSearchResults,
         isVisible: state => state.visible,
@@ -38,6 +46,8 @@ const store = new Vuex.Store({
         setVisible: state => (state.visible = true),
         setHide: state => (state.visible = false),
         setUnits: (state, units) => (state.units = units),
+        setUserUnits: (state, userUnits) => (state.userUnits = userUnits),
+        setUserRanks: (state, userRanks) => (state.userRanks = userRanks),
         setUsers: (state, users) => (state.users = users),
         setCalls: (state, calls) => (state.calls = calls),
         setSteamId: (state, steamId) => (state.steamId = steamId),
@@ -70,7 +80,7 @@ const store = new Vuex.Store({
 });
 
 store.watch(
-    state => state.units,
+    state => state.userRanks,
     v => {
         console.log('VUEX WATCHER:');
         console.log(JSON.stringify(v));

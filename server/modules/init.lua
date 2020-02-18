@@ -25,6 +25,9 @@ function init.bootstrapData()
 
     -- Get all user / unit assignments
     units.get_all_user_units()
+
+    -- Get all user ranks
+    users.get_all_user_ranks()
 end
 
 function init.createEventHandlers()

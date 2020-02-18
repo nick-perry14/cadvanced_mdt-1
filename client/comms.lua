@@ -36,6 +36,24 @@ AddEventHandler(
     end
 )
 
+RegisterNetEvent("data:user_units")
+AddEventHandler(
+    "data:user_units",
+    function(jsonData)
+        print("CLIENT: RECEIVED USER_UNITS FROM SERVER")
+        pass_to_nui(jsonData, "user_units")
+    end
+)
+
+RegisterNetEvent("data:user_ranks")
+AddEventHandler(
+    "data:user_ranks",
+    function(jsonData)
+        print("CLIENT: RECEIVED USER_RANKS FROM SERVER")
+        pass_to_nui(jsonData, "user_ranks")
+    end
+)
+
 RegisterNetEvent("data:steam_id")
 AddEventHandler(
     "data:steam_id",

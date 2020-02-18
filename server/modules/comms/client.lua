@@ -5,7 +5,11 @@ local client = {}
 
 -- Generic "pass some data to all clients"
 function client.pass_data(data, type, source)
-    print("SERVER: SENDING " .. type .. " TO CLIENTS")
+    if (source) then
+        print("SERVER: SENDING " .. type .. " TO CLIENT " .. source)
+    else
+        print("SERVER: SENDING " .. type .. " TO ALL CLIENTS")
+    end
     TriggerClientEvent("data:" .. type, source or -1, data)
 end
 
@@ -21,6 +25,8 @@ function client.client_event_handlers()
             client.pass_data(state_get("users"), "users")
             client.pass_data(state_get("calls"), "calls")
             client.pass_data(state_get("units"), "units")
+            client.pass_data(state_get("user_units"), "user_units")
+            client.pass_data(state_get("user_ranks"), "user_ranks")
             client.pass_data(user_helpers.get_steam_id(source), "steam_id")
         end
     )

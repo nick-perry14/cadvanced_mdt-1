@@ -47,6 +47,14 @@ function queries.get_all_user_units()
     return json.encode(query)
 end
 
+function queries.get_all_user_ranks()
+    local query = {
+        operationName = null,
+        query = "{ allUserRanks { id name position } } "
+    }
+    return json.encode(query)
+end
+
 function queries.get_unit(unit_id)
     local query = {
         operationName = null,
