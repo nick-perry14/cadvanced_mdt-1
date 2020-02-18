@@ -7,12 +7,12 @@
             >
                 {{ unit.callSign }}
             </div>
+            <div class="unit-state-name">
+                {{ unit.unitState.name }}
+            </div>
+            <div class="unit-rank-name">{{ rankOnUnit }}</div>
         </div>
         <div class="bottom-row">
-            <div class="unit-header-summary">
-                <span class="unit-state-name">{{ unit.unitState.name }}</span> -
-                {{ rankOnUnit }}
-            </div>
             <div class="unit-actions">
                 <MiniButton text="Status" colour="rgba(255, 255, 255, 0.3)" />
                 <MiniButton
@@ -69,7 +69,7 @@ export default {
     margin-bottom: 20px;
 }
 .callsign {
-    font-size: 30px;
+    font-size: 20px;
     letter-spacing: 0.1em;
 }
 .bottom-row {
@@ -79,14 +79,16 @@ export default {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
 }
-.unit-header-summary {
-    margin-right: 14px;
-}
-.unit-state-name {
+.unit-state-name,
+.unit-rank-name {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 .unit-actions {
-    flex-shrink: 0;
-    text-align: right;
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
 }
 </style>

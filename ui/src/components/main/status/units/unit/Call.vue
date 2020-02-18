@@ -38,13 +38,15 @@ export default {
     background: rgba(255, 255, 255, 0.1);
     margin-bottom: 14px;
     font-size: 14px;
-    font-weight: bold;
+    text-transform: uppercase;
     line-height: 16px;
+    letter-spacing: 0.1em;
     color: rgba(255, 255, 255, 0.7);
 }
 .call-descriptions {
     margin-top: 20px;
     font-weight: normal;
+    text-transform: none;
 }
 div:last-child {
     margin-bottom: 0;

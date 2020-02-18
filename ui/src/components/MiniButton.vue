@@ -19,15 +19,15 @@ export default {
 
 <style scoped>
 button {
-    font-size: 16px;
+    font-size: 13px;
     letter-spacing: 0.1em;
-    min-width: 85px;
-    height: 27px;
+    min-width: 50px;
+    height: 20px;
     border-radius: 4px;
     text-transform: uppercase;
     border: 0;
     color: #fff;
-    margin: 0 5px;
+    margin: 0 2px;
     cursor: pointer;
 }
 button:first-child {
