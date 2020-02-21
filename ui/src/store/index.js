@@ -26,7 +26,7 @@ const store = new Vuex.Store({
             const rank = getters.getUserRanks.find(r => r.id === rankId);
             return rank ? rank.name : null;
         },
-        getSteamId: state => state.SteamId,
+        getSteamId: state => state.steamId,
         getCitizenSearchResults: state => state.citizenSearchResults,
         isVisible: state => state.visible,
         getUser: state => {

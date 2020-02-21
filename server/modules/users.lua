@@ -1,7 +1,7 @@
 local user_helpers = module("server/modules/helpers/users")
 local queries = module("server/modules/queries")
 local api = module("server/modules/comms/api")
-local client = module("server/modules/comms/client")
+local client_sender = module("server/modules/comms/client_sender")
 local conf = module("server/modules/config")
 
 local users = {}
@@ -111,7 +111,7 @@ function users.populate_player(steamId)
                 state_set("users", usr)
                 -- Send client the updated user list
                 print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
-                client.pass_data(usr, "users")
+                client_sender.pass_data(usr, "users")
             else
                 print(response.error)
             end
@@ -151,7 +151,7 @@ function users.handler_playerDropped()
                     state_set("users", usr)
                     -- Send client the updated user list
                     print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
-                    client.pass_data(usr, "users")
+                    client_sender.pass_data(usr, "users")
                     break
                 end
             end

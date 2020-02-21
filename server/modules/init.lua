@@ -2,7 +2,7 @@ local conf = module("server/modules/config")
 local users = module("server/modules/users")
 local calls = module("server/modules/calls")
 local units = module("server/modules/units")
-local client = module("server/modules/comms/client")
+local client_receiver = module("server/modules/comms/client_receiver")
 
 local init = {}
 
@@ -38,7 +38,7 @@ function init.createEventHandlers()
     users.handler_playerDropped()
 
     -- Add handling for client initiated events
-    client.client_event_handlers()
+    client_receiver.client_event_handlers()
 end
 
 return init

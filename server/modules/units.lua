@@ -1,5 +1,5 @@
 local queries = module("server/modules/queries")
-local client = module("server/modules/comms/client")
+local client_sender = module("server/modules/comms/client_sender")
 local api = module("server/modules/comms/api")
 
 local units = {}
@@ -36,7 +36,7 @@ function units.get_all_user_units(pass_to_client)
                 end
                 state_set("user_units", user_units)
                 if (pass_to_client ~= nil and pass_to_client) then
-                    client.pass_data(state.user_units, "user_units")
+                    client_sender.pass_data(state.user_units, "user_units")
                 end
             else
                 print(response.error)
@@ -69,7 +69,7 @@ function units.update_unit(id)
                 state_set("units", ex_units)
                 -- Send client the updated units list
                 print("SERVER: SENDING ALL CLIENTS UPDATED UNITS")
-                client.pass_data(ex_units, "units")
+                client_sender.pass_data(ex_units, "units")
             else
                 print(response.error)
             end
