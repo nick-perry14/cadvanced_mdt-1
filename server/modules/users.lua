@@ -127,10 +127,7 @@ function users.handler_playerConnecting()
         function(name, setKickReason)
             print("SERVER: PLAYER CONNECTED " .. source)
             print("SERVER: VALIDATING PLAYER")
-            local valid = users.validate(source, setKickReason)
-            if valid then
-                users.populate_player()
-            end
+            users.validate(source, setKickReason)
         end
     )
 end

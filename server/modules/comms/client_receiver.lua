@@ -14,7 +14,11 @@ function client_receiver.client_event_handlers()
         "send_init",
         function()
             print("SERVER: RECEIVED REQUEST FROM CLIENT FOR INIT DATA")
-            client_sender.pass_data(state_get("users"), "users")
+            -- We call populate_player here rather than just passing the current
+            -- state of all users because we probably don't know anything about
+            -- this player, so we want to get their data first, which will have
+            -- the side effect of distributing it to all clients, including us
+            users.populate_player()
             client_sender.pass_data(state_get("calls"), "calls")
             client_sender.pass_data(state_get("units"), "units")
             client_sender.pass_data(state_get("user_units"), "user_units")
