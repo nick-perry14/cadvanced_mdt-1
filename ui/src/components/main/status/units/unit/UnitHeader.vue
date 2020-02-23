@@ -16,6 +16,7 @@
             <div class="unit-actions">
                 <MiniButton text="Status" colour="rgba(255, 255, 255, 0.3)" />
                 <MiniButton
+                    @miniClick="leaveUnit"
                     v-if="isAssignedToUnit"
                     text="Leave"
                     colour="rgba(255, 0, 0, 0.5)"
@@ -28,10 +29,12 @@
 
 <script>
 import MiniButton from '../../../../MiniButton.vue';
+import clientSender from '../../../../../mixins/clientSender';
 export default {
     components: {
         MiniButton
     },
+    mixins: [clientSender],
     props: {
         unit: {
             type: Object,
@@ -54,6 +57,15 @@ export default {
             return unitStatus
                 ? this.$store.getters.getRank(unitStatus.UserRankId)
                 : null;
+        }
+    },
+    methods: {
+        leaveUnit() {
+            const user = this.$store.getters.getUser;
+            this.sendClientMessage('removeUserFromUnit', {
+                userId: user.id,
+                unitId: this.unit.id
+            });
         }
     }
 };

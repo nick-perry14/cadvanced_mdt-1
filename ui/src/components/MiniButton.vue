@@ -1,5 +1,7 @@
 <template>
-    <button :style="{ background: colour }" type="button">{{ text }}</button>
+    <button @click="emitClick" :style="{ background: colour }" type="button">
+        {{ text }}
+    </button>
 </template>
 
 <script>
@@ -12,6 +14,11 @@ export default {
         colour: {
             type: String,
             required: true
+        }
+    },
+    methods: {
+        emitClick() {
+            this.$emit('miniClick');
         }
     }
 };

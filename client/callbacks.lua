@@ -43,3 +43,15 @@ RegisterNUICallback(
         cb()
     end
 )
+
+-- Callback to handle removal of user from unit
+RegisterNUICallback(
+    "removeUserFromUnit",
+    function(data, cb)
+        -- Tell the server to remove the user from the unit
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO REMOVE USER " .. data.userId .. " FROM UNIT " .. data.unitId)
+        print("CLIENT: SENDING REMOVE USER FROM UNIT REQUEST TO SERVER")
+        TriggerServerEvent("remove_user_from_unit", data)
+        cb()
+    end
+)

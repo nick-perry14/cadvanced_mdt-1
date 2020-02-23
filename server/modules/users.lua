@@ -156,4 +156,52 @@ function users.handler_playerDropped()
     )
 end
 
+-- Send the API current user assignments
+function users.update_user_units(user_id)
+    local user_units = state_get("user_units")
+    local user_units_send = {}
+    -- Only include this user's assignments
+    for i, uu in ipairs(user_units) do
+        if (uu.UserId == user_id) then
+            table.insert(user_units_send, uu)
+        end
+    end
+    local payload = { user_units = user_units_send, user_id = user_id }
+    local q_update_user_units = queries.update_user_units(payload)
+    -- This request will prompt the API to notify us of the change, so
+    -- we can mostly ignore the response
+    api.request(
+        q_update_user_units,
+        function(response)
+            if response.error ~= nil then
+                print(response.error)
+            end
+        end
+    )
+end
+
+-- Remove a user from a unit in our local state
+function users.remove_from_unit(data)
+    local user_id = data.userId
+    local unit_id = data.unitId
+    if (user_id ~= nil and unit_id ~= nil) then
+        -- First remove the user from the unit in our local state
+        -- we should then have something we can send to the API
+        local assignments = state_get("user_units")
+        local found = 0
+        for i, assignment in ipairs(assignments) do
+            if assignment.UserId == user_id and assignment.UnitId == unit_id then
+                found = i
+            end
+        end
+        if found > 0 then
+            table.remove(assignments, found)
+            state_set("user_units", assignments)
+            users.update_user_units(user_id)
+        else
+            print("SERVER: UNABLE TO FIND SUPPLIED UNIT ASSIGNMENT")
+        end
+    end
+end
+
 return users

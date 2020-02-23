@@ -88,6 +88,18 @@ function queries.search_citizens(props)
     return json.encode(query)
 end
 
+function queries.update_user_units(props)
+    local query = {
+        operationname = null,
+        variables = {
+            userId = props.user_id,
+            assignments = props.user_units
+        },
+        query = "mutation ($assignments: [UserUnitInput], $userId: ID!) { updateUserAssignments(assignments: $assignments, userId: $userId) { UserId UnitId UserRankId } }"
+    }
+    return json.encode(query)
+end
+
 function queries.get_citizen_offences(data)
     local query = {
         operationname = null,
