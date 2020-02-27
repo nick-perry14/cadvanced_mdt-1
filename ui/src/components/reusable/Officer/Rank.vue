@@ -2,6 +2,7 @@
     <div class="rank-container">
         <MiniButton
             @miniClick="selectRank"
+            :fontSize="'17px'"
             :text="rank.name"
             :colour="'rgba(0, 0, 0, 0.2)'"
             :borderColour="'rgba(255,255,255,0.5)'"

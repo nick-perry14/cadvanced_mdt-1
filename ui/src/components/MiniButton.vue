@@ -3,7 +3,8 @@
         @click="emitClick"
         :style="{
             background: colour,
-            border: borderColour ? '1px solid ' + borderColour : 0
+            border: borderColour ? '1px solid ' + borderColour : 0,
+            fontSize: fontSize ? fontSize : 'unset'
         }"
         type="button"
     >
@@ -23,6 +24,10 @@ export default {
             required: true
         },
         borderColour: {
+            type: String,
+            required: false
+        },
+        fontSize: {
             type: String,
             required: false
         }
