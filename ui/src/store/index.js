@@ -8,6 +8,8 @@ const store = new Vuex.Store({
         visible: false,
         connectionActive: false,
         steamId: '',
+        activeMarker: -1,
+        activeRoute: -1,
         character: {},
         users: [],
         calls: [],
@@ -45,7 +47,9 @@ const store = new Vuex.Store({
                 : null;
         },
         getConnectionActive: state => state.connectionActive,
-        getIsModalOpen: state => type => state.modalsOpen[type]
+        getIsModalOpen: state => type => state.modalsOpen[type],
+        getActiveMarker: state => state.activeMarker,
+        getActiveRoute: state => state.activeRoute
     },
     mutations: {
         setVisible: state => (state.visible = true),
@@ -77,7 +81,9 @@ const store = new Vuex.Store({
             }
         },
         setModalOpen: (state, args) =>
-            (state.modalsOpen[args.type] = args.status)
+            (state.modalsOpen[args.type] = args.status),
+        setActiveMarker: (state, callId) => (state.activeMarker = callId),
+        setActiveRoute: (state, callId) => (state.activeRoute = callId)
     },
     subscribe: (mutation, state) => {
         console.log('NUI: ' + mutation.type);

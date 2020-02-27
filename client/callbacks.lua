@@ -67,3 +67,77 @@ RegisterNUICallback(
         cb()
     end
 )
+
+-- Callback to handle setting of call marker
+RegisterNUICallback(
+    "setCallMarker",
+    function(data, cb)
+        -- Add the marker
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO SET MARKER FOR CALL " .. data.call.id)
+        set_call_marker(data.call)
+        cb()
+    end
+)
+
+-- Callback to handle setting of call route
+RegisterNUICallback(
+    "setCallRoute",
+    function(data, cb)
+        -- Add the route
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO SET ROUTE FOR CALL " .. data.call.id)
+        set_call_route(data.call)
+        cb()
+    end
+)
+
+-- Callback to handle removal of call marker
+RegisterNUICallback(
+    "clearCallMarker",
+    function(data, cb)
+        -- Remove the marker
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO REMOVE MARKER FOR CALL " .. data.call.id)
+        clear_call_marker(data.call)
+        cb()
+    end
+)
+
+-- Callback to handle removal of call route
+RegisterNUICallback(
+    "clearCallRoute",
+    function(data, cb)
+        -- Remove the marker
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO REMOVE ROUTE FOR CALL " .. data.call.id)
+        clear_call_route(data.call)
+        cb()
+    end
+)
+
+local blips = {}
+
+function set_call_marker(call)
+    local blip = AddBlipForCoord(call.markerX, call.markerY)
+    SetBlipSprite(blip, 398)
+    SetBlipColour(blip, 0)
+    SetBlipDisplay(blip, 2)
+    SetBlipAsShortRange(blip, false)
+    BeginTextCommandSetBlipName("String")
+    AddTextComponentString(call.callType.name .. ' - ' .. call.callGrade.name)
+    EndTextCommandSetBlipName(blip)
+    blips[call.id] = blip
+end
+
+function clear_call_marker(call)
+    local blip = blips[call.id]
+    SetBlipRoute(blip, false)
+    RemoveBlip(blip)
+end
+
+function set_call_route(call)
+    local blip = blips[call.id]
+    SetBlipRoute(blip, true)
+end
+
+function clear_call_route(call)
+    local blip = blips[call.id]
+    SetBlipRoute(blip, false)
+end

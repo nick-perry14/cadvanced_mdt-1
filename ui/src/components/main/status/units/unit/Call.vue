@@ -1,6 +1,9 @@
 <template>
     <div class="call-details">
-        <div>{{ incidentString }}</div>
+        <div>
+            {{ incidentString }}
+            <CallMarker :call="call" class="marker-icon" />
+        </div>
         <div>{{ locationsString }}</div>
         <div class="call-descriptions">
             <div class="call-description" v-for="description in descriptions" :key="description.id" :description="description"></Unit>
@@ -11,7 +14,9 @@
 </template>
 
 <script>
+import CallMarker from '../../../../reusable/Call/CallMarker.vue'
 export default {
+    components: { CallMarker },
     props: {
         call: {
             type: Object,
@@ -50,5 +55,11 @@ export default {
 }
 div:last-child {
     margin-bottom: 0;
+}
+div.marker-icon {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0 0 10px 10px;
+    float: right;
 }
 </style>
