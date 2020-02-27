@@ -56,6 +56,16 @@ function client_receiver.client_event_handlers()
             users.remove_from_unit(data)
         end
     )
+
+    -- Add user to unit
+    RegisterNetEvent("add_user_to_unit")
+    AddEventHandler(
+        "add_user_to_unit",
+        function(data)
+            print("SERVER: RECEIVED REQUEST FROM CLIENT TO ADD USER TO UNIT")
+            users.add_to_unit(data)
+        end
+    )
 end
 
 return client_receiver

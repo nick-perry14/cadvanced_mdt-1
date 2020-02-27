@@ -55,3 +55,15 @@ RegisterNUICallback(
         cb()
     end
 )
+
+-- Callback to handle addition of user to unit
+RegisterNUICallback(
+    "addUserToUnit",
+    function(data, cb)
+        -- Tell the server to add the user to the unit
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO ADD USER " .. data.userId .. " TO UNIT " .. data.unitId)
+        print("CLIENT: SENDING ADD USER TO UNIT REQUEST TO SERVER")
+        TriggerServerEvent("add_user_to_unit", data)
+        cb()
+    end
+)

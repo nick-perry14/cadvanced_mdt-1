@@ -14,14 +14,18 @@ const store = new Vuex.Store({
         units: [],
         userUnits: [],
         userRanks: [],
-        citizenSearchResults: []
+        citizenSearchResults: [],
+        modalsOpen: {
+            ranks: false
+        }
     },
     getters: {
         getUnits: state => state.units,
         getUsers: state => state.users,
         getCalls: state => state.calls,
         getUserUnits: state => state.userUnits,
-        getUserRanks: state => state.userRanks,
+        getUserRanks: state =>
+            state.userRanks.sort((a, b) => a.position - b.position),
         getRank: (state, getters) => rankId => {
             const rank = getters.getUserRanks.find(r => r.id === rankId);
             return rank ? rank.name : null;
@@ -40,7 +44,8 @@ const store = new Vuex.Store({
                 ? user.character
                 : null;
         },
-        getConnectionActive: state => state.connectionActive
+        getConnectionActive: state => state.connectionActive,
+        getIsModalOpen: state => type => state.modalsOpen[type]
     },
     mutations: {
         setVisible: state => (state.visible = true),
@@ -70,7 +75,9 @@ const store = new Vuex.Store({
                 found.offences = citizen.offences;
                 state.citizenSearchResults[foundIndex] = found;
             }
-        }
+        },
+        setModalOpen: (state, args) =>
+            (state.modalsOpen[args.type] = args.status)
     },
     subscribe: (mutation, state) => {
         console.log('NUI: ' + mutation.type);

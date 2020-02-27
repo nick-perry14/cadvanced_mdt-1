@@ -204,4 +204,33 @@ function users.remove_from_unit(data)
     end
 end
 
+-- Add a user to a unit in our local state
+function users.add_to_unit(data)
+    local user_id = data.userId
+    local unit_id = data.unitId
+    local rank_id = data.rankId
+    if (user_id ~= nil and unit_id ~= nil and rank_id ~= nil) then
+        -- First add the user to the unit in our local state
+        -- we should then have something we can send to the API
+        local assignments = state_get("user_units")
+        local found = 0
+        for i, assignment in ipairs(assignments) do
+            if assignment.UserId == user_id and assignment.UnitId == unit_id and assignment.UserRankId == rank_id then
+                found = i
+            end
+        end
+        if found == 0 then
+            table.insert(assignments, {
+                UserId = user_id,
+                UnitId = unit_id,
+                UserRankId = rank_id
+            })
+            state_set("user_units", assignments)
+            users.update_user_units(user_id)
+        else
+            print("SERVER: UNABLE TO FIND SUPPLIED UNIT ASSIGNMENT")
+        end
+    end
+end
+
 return users

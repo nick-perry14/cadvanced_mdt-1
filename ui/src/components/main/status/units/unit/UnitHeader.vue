@@ -16,12 +16,17 @@
             <div class="unit-actions">
                 <MiniButton text="Status" colour="rgba(255, 255, 255, 0.3)" />
                 <MiniButton
-                    @miniClick="leaveUnit"
                     v-if="isAssignedToUnit"
+                    @miniClick="leaveUnit"
                     text="Leave"
                     colour="rgba(255, 0, 0, 0.5)"
                 />
-                <MiniButton v-else text="Join" colour="rgba(0, 255, 0, 0.5)" />
+                <MiniButton
+                    v-else
+                    @miniClick="openRanksModal"
+                    text="Join"
+                    colour="rgba(0, 255, 0, 0.5)"
+                />
             </div>
         </div>
     </div>
@@ -29,12 +34,10 @@
 
 <script>
 import MiniButton from '../../../../MiniButton.vue';
-import clientSender from '../../../../../mixins/clientSender';
 export default {
     components: {
         MiniButton
     },
-    mixins: [clientSender],
     props: {
         unit: {
             type: Object,
@@ -61,11 +64,11 @@ export default {
     },
     methods: {
         leaveUnit() {
-            const user = this.$store.getters.getUser;
-            this.sendClientMessage('removeUserFromUnit', {
-                userId: user.id,
-                unitId: this.unit.id
-            });
+            this.$emit('leaveUnit');
+        },
+        openRanksModal() {
+            this.$emit('beingEdited');
+            this.$store.commit('setModalOpen', { type: 'ranks', status: true });
         }
     }
 };

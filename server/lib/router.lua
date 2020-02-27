@@ -1,5 +1,6 @@
 local users = module("server/modules/users")
 local units = module("server/modules/units")
+local calls = module("server/modules/calls")
 
 SetHttpHandler(
     function(req, res)
@@ -19,9 +20,15 @@ SetHttpHandler(
                             elseif (data.object == "unit") then
                                 -- Update a given unit
                                 units.update_unit(data.payload.unitId)
+                            elseif (data.object == "call") then
+                                -- Update a given call
+                                calls.update_call(data.payload.callId)
                             elseif (data.object == "user_units") then
                                 -- Repopulate all user / unit assignments
                                 units.repopulate_user_units()
+                            elseif (data.object == "units") then
+                                -- Repopulate all units
+                                units.repopulate_units()
                             end
                         end
                         res.send(json.encode({result = "OK"}))

@@ -1,5 +1,12 @@
 <template>
-    <button @click="emitClick" :style="{ background: colour }" type="button">
+    <button
+        @click="emitClick"
+        :style="{
+            background: colour,
+            border: borderColour ? '1px solid ' + borderColour : 0
+        }"
+        type="button"
+    >
         {{ text }}
     </button>
 </template>
@@ -14,6 +21,10 @@ export default {
         colour: {
             type: String,
             required: true
+        },
+        borderColour: {
+            type: String,
+            required: false
         }
     },
     methods: {
@@ -26,16 +37,16 @@ export default {
 
 <style scoped>
 button {
+    padding-bottom: 3px;
     font-size: 13px;
     letter-spacing: 0.1em;
     min-width: 50px;
-    height: 20px;
     border-radius: 4px;
     text-transform: uppercase;
-    border: 0;
     color: #fff;
     margin: 0 2px;
     cursor: pointer;
+    white-space: nowrap;
 }
 button:first-child {
     margin-left: 0;

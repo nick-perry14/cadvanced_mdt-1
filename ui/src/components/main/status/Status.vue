@@ -1,5 +1,7 @@
 <template>
-    <Units />
+    <div>
+        <Units />
+    </div>
 </template>
 
 <script>

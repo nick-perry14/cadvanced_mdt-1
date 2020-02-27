@@ -57,10 +57,21 @@ end
 
 function queries.get_unit(unit_id)
     local query = {
-        operationName = null,
+        operationname = null,
         query = _doSub(
             "{ getUnit(id: $x) { id callSign unitType { id name } unitState { id name colour } } }",
             {x = unit_id}
+        )
+    }
+    return json.encode(query)
+end
+
+function queries.get_call(call_id)
+    local query = {
+        operationname = null,
+        query = _doSub(
+            "{ getCall(id: $x) { id callerInfo markerX markerY callGrade { id name } callType { id name } callLocations { id name } callIncidents { id name } callDescriptions { id text } assignedUnits { id } } }",
+            {x = call_id}
         )
     }
     return json.encode(query)

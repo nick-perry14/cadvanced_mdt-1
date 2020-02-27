@@ -1,6 +1,10 @@
 <template>
     <div id="unit">
-        <UnitHeader :unit="unit" />
+        <UnitHeader
+            @beingEdited="beingEdited"
+            @leaveUnit="leaveUnit"
+            :unit="unit"
+        />
         <Call
             v-for="(call, index) in assignedCalls"
             :key="index"
@@ -28,6 +32,14 @@ export default {
             return this.$store.getters.getCalls.filter(call =>
                 call.assignedUnits.some(unit => unit.id == this.unit.id)
             );
+        }
+    },
+    methods: {
+        leaveUnit() {
+            this.$emit('leaveUnit');
+        },
+        beingEdited() {
+            this.$emit('beingEdited');
         }
     }
 };
