@@ -84,8 +84,8 @@ RegisterNUICallback(
     "setCallRoute",
     function(data, cb)
         -- Add the route
-        print("CLIENT: RECEIVED REQUEST FROM NUI TO SET ROUTE FOR CALL " .. data.call.id)
-        set_call_route(data.call)
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO SET ROUTE")
+        set_call_route()
         cb()
     end
 )
@@ -95,26 +95,30 @@ RegisterNUICallback(
     "clearCallMarker",
     function(data, cb)
         -- Remove the marker
-        print("CLIENT: RECEIVED REQUEST FROM NUI TO REMOVE MARKER FOR CALL " .. data.call.id)
-        clear_call_marker(data.call)
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO REMOVE MARKER")
+        clear_call_marker()
         cb()
     end
 )
 
--- Callback to handle removal of call route
+-- Callback to handle removal of all call routes
 RegisterNUICallback(
     "clearCallRoute",
-    function(data, cb)
-        -- Remove the marker
-        print("CLIENT: RECEIVED REQUEST FROM NUI TO REMOVE ROUTE FOR CALL " .. data.call.id)
-        clear_call_route(data.call)
+    function(cb)
+        -- Remove the routes
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO REMOVE ROUTE")
+        clear_call_route()
         cb()
     end
 )
 
-local blips = {}
+local active_blip
 
 function set_call_marker(call)
+    -- For now, we're only allowing a single call marker
+    -- Clear any prexisting markers or routes
+    clear_call_marker()
+    clear_call_route()
     local blip = AddBlipForCoord(call.markerX, call.markerY)
     SetBlipSprite(blip, 398)
     SetBlipColour(blip, 0)
@@ -123,21 +127,24 @@ function set_call_marker(call)
     BeginTextCommandSetBlipName("String")
     AddTextComponentString(call.callType.name .. ' - ' .. call.callGrade.name)
     EndTextCommandSetBlipName(blip)
-    blips[call.id] = blip
+    active_blip = blip
 end
 
-function clear_call_marker(call)
-    local blip = blips[call.id]
-    SetBlipRoute(blip, false)
-    RemoveBlip(blip)
+function clear_call_marker()
+    if (active_blip ~= nil) then
+        RemoveBlip(active_blip)
+    end
 end
 
-function set_call_route(call)
-    local blip = blips[call.id]
-    SetBlipRoute(blip, true)
+function set_call_route()
+    if (active_blip ~= nil) then
+        clear_call_route()
+        SetBlipRoute(active_blip, true)
+    end
 end
 
-function clear_call_route(call)
-    local blip = blips[call.id]
-    SetBlipRoute(blip, false)
+function clear_call_route()
+    if (active_blip ~= nil) then
+        SetBlipRoute(active_blip, false)
+    end
 end

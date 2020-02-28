@@ -44,23 +44,24 @@ export default {
         setActiveMarker() {
             if (this.$store.getters.getActiveMarker != this.call.id) {
                 this.$store.commit('setActiveMarker', this.call.id);
+                this.$store.commit('setActiveRoute', -1);
                 this.sendClientMessage('setCallMarker', { call: this.call });
+                this.sendClientMessage('clearCallRoute');
             } else {
                 this.$store.commit('setActiveMarker', -1);
                 this.$store.commit('setActiveRoute', -1);
-                this.sendClientMessage('clearCallMarker', { call: this.call });
+                this.sendClientMessage('clearCallMarker');
+                //                this.sendClientMessage('clearCallRoute');
             }
         },
         setActiveRoute() {
             if (this.markerButtonActive) {
                 if (this.$store.getters.getActiveRoute != this.call.id) {
                     this.$store.commit('setActiveRoute', this.call.id);
-                    this.sendClientMessage('setCallRoute', { call: this.call });
+                    this.sendClientMessage('setCallRoute');
                 } else {
                     this.$store.commit('setActiveRoute', -1);
-                    this.sendClientMessage('clearCallRoute', {
-                        call: this.call
-                    });
+                    this.sendClientMessage('clearCallRoute');
                 }
             }
         }
