@@ -34,10 +34,15 @@ function calls.update_call(id)
                 print("SERVER: PARSING UPDATED CALL")
                 local received = response.result.data.getCall
                 local ex_calls = state_get("calls")
+                local found = false
                 for i, iter in ipairs(ex_calls) do
                     if (iter.id == received.id) then
                         ex_calls[i] = received
+                        found = true
                     end
+                end
+                if not found then
+                    table.insert(ex_calls, received)
                 end
                 state_set("calls", ex_calls)
                 -- Send client the updated calls list
