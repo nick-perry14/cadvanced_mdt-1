@@ -2,9 +2,10 @@
     <button
         @click="emitClick"
         :style="{
-            background: colour,
+            background: colour ? colour : 'rgba(0,0,0,0.1)',
             border: borderColour ? '1px solid ' + borderColour : 0,
-            fontSize: fontSize ? fontSize : 'unset'
+            fontSize: fontSize ? fontSize : '13px',
+            borderRadius: borderRadius ? borderRadius : '4px'
         }"
         type="button"
     >
@@ -27,6 +28,10 @@ export default {
             type: String,
             required: false
         },
+        borderRadius: {
+            type: String,
+            required: false
+        },
         fontSize: {
             type: String,
             required: false
@@ -43,13 +48,11 @@ export default {
 <style scoped>
 button {
     padding-bottom: 3px;
-    font-size: 13px;
     letter-spacing: 0.1em;
     min-width: 50px;
-    border-radius: 4px;
     text-transform: uppercase;
-    color: #fff;
-    margin: 0 2px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
     cursor: pointer;
     white-space: nowrap;
 }

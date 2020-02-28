@@ -1,6 +1,7 @@
 local user_helpers = module("server/modules/helpers/users")
 local citizens = module("server/modules/citizens")
 local users = module("server/modules/users")
+local units = module("server/modules/units")
 local client_sender = module("server/modules/comms/client_sender")
 
 local client_receiver = {}
@@ -21,6 +22,7 @@ function client_receiver.client_event_handlers()
             users.populate_player()
             client_sender.pass_data(state_get("calls"), "calls")
             client_sender.pass_data(state_get("units"), "units")
+            client_sender.pass_data(state_get("unit_states"), "unit_states")
             client_sender.pass_data(state_get("user_units"), "user_units")
             client_sender.pass_data(state_get("user_ranks"), "user_ranks")
             client_sender.pass_data(user_helpers.get_steam_id(source), "steam_id")
@@ -64,6 +66,16 @@ function client_receiver.client_event_handlers()
         function(data)
             print("SERVER: RECEIVED REQUEST FROM CLIENT TO ADD USER TO UNIT")
             users.add_to_unit(data)
+        end
+    )
+
+    -- Set a unit state
+    RegisterNetEvent("set_unit_state")
+    AddEventHandler(
+        "set_unit_state",
+        function(data)
+            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET UNIT STATE")
+            units.set_unit_state(data)
         end
     )
 end

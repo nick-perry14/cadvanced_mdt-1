@@ -34,7 +34,7 @@ end
 function queries.get_all_units()
     local query = {
         operationName = null,
-        query = "{ allUnits { id callSign unitType { id name } unitState { id name colour } } }"
+        query = "{ allUnits { id callSign unitType { id name } unitState { id name colour } UnitTypeId UnitStateId } }"
     }
     return json.encode(query)
 end
@@ -59,7 +59,7 @@ function queries.get_unit(unit_id)
     local query = {
         operationname = null,
         query = _doSub(
-            "{ getUnit(id: $x) { id callSign unitType { id name } unitState { id name colour } } }",
+            "{ getUnit(id: $x) { id callSign unitType { id name } unitState { id name colour } UnitTypeId UnitStateId } } }",
             {x = unit_id}
         )
     }
@@ -118,6 +118,28 @@ function queries.get_citizen_offences(data)
             '{ getCitizen(id: "$id") { id offences { id date time location ArrestId arrest { id date time OfficerId officer { id firstName lastName } charges { id name } } charges { id name } TicketId ticket { id date time location points fine notes OfficerId officer { id firstName lastName } } } } }',
             data
         )
+    }
+    return json.encode(query)
+end
+
+function queries.get_all_unit_states()
+    local query = {
+        operationName = null,
+        query = "{ allUnitStates { id name colour } } "
+    }
+    return json.encode(query)
+end
+
+function queries.set_unit_state(props, unit)
+    local query = {
+        operationname = null,
+        variables = {
+            id = props.unitId,
+            callSign = unit.callSign,
+            UnitStateId = props.stateId,
+            UnitTypeId = unit.UnitTypeId
+        },
+        query = "mutation ($id: ID!, $callSign: String!, $UnitTypeId: ID!, $UnitStateId: ID!) { updateUnit(id: $id, callSign: $callSign, UnitTypeId: $UnitTypeId, UnitStateId: $UnitStateId) { id callSign unitType { id name } unitState { id name colour } UnitTypeId UnitStateId } }"
     }
     return json.encode(query)
 end

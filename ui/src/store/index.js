@@ -14,15 +14,18 @@ const store = new Vuex.Store({
         users: [],
         calls: [],
         units: [],
+        unitStates: [],
         userUnits: [],
         userRanks: [],
         citizenSearchResults: [],
         modalsOpen: {
-            ranks: false
+            ranks: false,
+            unitStates: false
         }
     },
     getters: {
         getUnits: state => state.units,
+        getUnitStates: state => state.unitStates,
         getUsers: state => state.users,
         getCalls: state => state.calls,
         getUserUnits: state => state.userUnits,
@@ -55,6 +58,7 @@ const store = new Vuex.Store({
         setVisible: state => (state.visible = true),
         setHide: state => (state.visible = false),
         setUnits: (state, units) => (state.units = units),
+        setUnitStates: (state, unitStates) => (state.unitStates = unitStates),
         setUserUnits: (state, userUnits) => (state.userUnits = userUnits),
         setUserRanks: (state, userRanks) => (state.userRanks = userRanks),
         setUsers: (state, users) => (state.users = users),

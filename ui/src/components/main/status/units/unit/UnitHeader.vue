@@ -14,7 +14,12 @@
         </div>
         <div class="bottom-row">
             <div class="unit-actions">
-                <MiniButton text="Status" colour="rgba(255, 255, 255, 0.3)" />
+                <MiniButton
+                    class="unit-state-button"
+                    @miniClick="openStatusModal"
+                    text="Unit state"
+                    colour="rgba(0,0,0,0.2)"
+                />
                 <MiniButton
                     v-if="isAssignedToUnit"
                     @miniClick="leaveUnit"
@@ -69,6 +74,13 @@ export default {
         openRanksModal() {
             this.$emit('beingEdited');
             this.$store.commit('setModalOpen', { type: 'ranks', status: true });
+        },
+        openStatusModal() {
+            this.$emit('beingEdited');
+            this.$store.commit('setModalOpen', {
+                type: 'unitStates',
+                status: true
+            });
         }
     }
 };
@@ -105,5 +117,8 @@ export default {
     display: flex;
     flex-grow: 1;
     justify-content: flex-end;
+}
+.unit-state-button {
+    margin-right: 10px;
 }
 </style>

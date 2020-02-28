@@ -33,6 +33,13 @@ export default {
                             console.log('NUI: RECEIVED UNITS');
                             this.$store.commit('setUnits', event.data.data);
                             break;
+                        case 'unit_states':
+                            console.log('NUI: RECEIVED UNIT STATES');
+                            this.$store.commit(
+                                'setUnitStates',
+                                event.data.data
+                            );
+                            break;
                         case 'users':
                             console.log('NUI: RECEIVED USERS');
                             this.$store.commit('setUsers', event.data.data);

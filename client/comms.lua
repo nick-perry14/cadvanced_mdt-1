@@ -18,6 +18,15 @@ AddEventHandler(
     end
 )
 
+RegisterNetEvent("data:unit_states")
+AddEventHandler(
+    "data:unit_states",
+    function(jsonData)
+        print("CLIENT: RECEIVED UNIT STATES FROM SERVER")
+        pass_to_nui(jsonData, "unit_states")
+    end
+)
+
 RegisterNetEvent("data:calls")
 AddEventHandler(
     "data:calls",

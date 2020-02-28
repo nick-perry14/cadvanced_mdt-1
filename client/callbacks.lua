@@ -68,6 +68,18 @@ RegisterNUICallback(
     end
 )
 
+-- Callback to handle addition of user to unit
+RegisterNUICallback(
+    "setUnitState",
+    function(data, cb)
+        -- Tell the server to set the state of the unit
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO SET STATE OF UNIT " .. data.unitId .. " TO STATE " .. data.stateId)
+        print("CLIENT: SENDING SET UNIT STATE REQUEST TO SERVER")
+        TriggerServerEvent("set_unit_state", data)
+        cb()
+    end
+)
+
 -- Callback to handle setting of call marker
 RegisterNUICallback(
     "setCallMarker",

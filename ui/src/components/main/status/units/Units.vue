@@ -10,6 +10,7 @@
             ></Unit>
         </div>
         <RanksModal @selectRank="joinUnit" />
+        <StatesModal @selectState="selectState" />
     </div>
 </template>
 
@@ -17,7 +18,7 @@
 import Unit from './unit/Unit.vue';
 import clientSender from '../../../../mixins/clientSender';
 import RanksModal from '../../../reusable/Officer/RanksModal.vue';
-import StatusesModal from '../../../reusable/Unit/StatusesModal.vue';
+import StatesModal from '../../../reusable/Unit/StatesModal.vue';
 export default {
     data: function() {
         return {
@@ -28,7 +29,7 @@ export default {
     components: {
         Unit,
         RanksModal,
-        StatusesModal
+        StatesModal
     },
     computed: {
         units() {
@@ -52,6 +53,13 @@ export default {
                 userId: user.id,
                 unitId: this.unitBeingEdited,
                 rankId
+            });
+            this.unitBeingEdited = 0;
+        },
+        selectState(stateId) {
+            this.sendClientMessage('setUnitState', {
+                stateId: stateId,
+                unitId: this.unitBeingEdited
             });
             this.unitBeingEdited = 0;
         }
