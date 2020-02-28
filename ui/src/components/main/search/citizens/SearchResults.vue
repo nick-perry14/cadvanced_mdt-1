@@ -37,6 +37,6 @@ export default {
 
 <style scoped>
 #search_results {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 </style>
