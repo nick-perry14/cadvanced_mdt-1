@@ -59,7 +59,7 @@ div:last-child {
 div.marker-icon {
     cursor: pointer;
     font-size: 20px;
-    margin: 0 0 10px 10px;
+    margin: 10px 0 10px 10px;
     float: right;
 }
 </style>
