@@ -18,6 +18,6 @@ export default {
 <style scoped>
 div {
     flex: 1 1 0;
-    text-align: center;
+    text-align: right;
 }
 </style>

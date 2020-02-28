@@ -2,7 +2,6 @@
     <footer>
         <ConnectionStat />
         <Officer />
-        <Clock />
     </footer>
 </template>
 
