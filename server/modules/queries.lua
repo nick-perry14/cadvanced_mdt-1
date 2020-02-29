@@ -59,7 +59,7 @@ function queries.get_unit(unit_id)
     local query = {
         operationname = null,
         query = _doSub(
-            "{ getUnit(id: $x) { id callSign unitType { id name } unitState { id name colour } UnitTypeId UnitStateId } } }",
+            "{ getUnit(id: $x) { id callSign unitType { id name } unitState { id name colour } UnitTypeId UnitStateId } }",
             {x = unit_id}
         )
     }
