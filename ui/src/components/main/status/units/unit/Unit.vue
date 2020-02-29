@@ -1,5 +1,5 @@
 <template>
-    <div id="unit">
+    <div v-if="!ownUnits || (ownUnits && isAssignedToUnit)" id="unit">
         <UnitHeader
             @beingEdited="beingEdited"
             @leaveUnit="leaveUnit"
@@ -36,6 +36,10 @@ export default {
             required: true
         },
         isOpen: {
+            type: Boolean,
+            required: true
+        },
+        ownUnits: {
             type: Boolean,
             required: true
         }

@@ -1,6 +1,15 @@
 <template>
     <div>
-        <div id="units">
+        <div v-if="units.length > 0" id="units-filter">
+            <span>Only show my units</span>
+            <i
+                @click="toggleOwnUnits"
+                v-if="!ownUnits"
+                class="fas fa-toggle-off"
+            ></i>
+            <i @click="toggleOwnUnits" v-else class="fas fa-toggle-on"></i>
+        </div>
+        <div v-if="units.length > 0" id="units">
             <Unit
                 @leaveUnit="leaveUnit(unit.id)"
                 @beingEdited="setEditedUnit(unit.id)"
@@ -8,12 +17,16 @@
                 v-for="unit in units"
                 :key="unit.id"
                 :unit="unit"
+                :ownUnits="ownUnits"
                 :isOpen="isUnitOpen(unit.id)"
                 :class="{ open: isUnitOpen(unit.id) }"
             ></Unit>
+            <RanksModal @selectRank="joinUnit" />
+            <StatesModal @selectState="selectState" />
         </div>
-        <RanksModal @selectRank="joinUnit" />
-        <StatesModal @selectState="selectState" />
+        <div v-if="!units || units.length == 0" id="no-units">
+            <div id="no-units-text">No units available</div>
+        </div>
     </div>
 </template>
 
@@ -26,7 +39,8 @@ export default {
     data: function() {
         return {
             unitBeingEdited: 0,
-            unitsOpen: []
+            unitsOpen: [],
+            ownUnits: false
         };
     },
     mixins: [clientSender],
@@ -79,12 +93,31 @@ export default {
                     1
                 );
             }
+        },
+        toggleOwnUnits() {
+            this.ownUnits = !this.ownUnits;
         }
     }
 };
 </script>
 
 <style scoped>
+#units-filter {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+#units-filter span {
+    display: block;
+}
+#units-filter i {
+    display: block;
+    margin-left: 20px;
+}
 #units {
     display: grid;
     grid-gap: 10px;
@@ -94,5 +127,16 @@ export default {
 }
 .open {
     grid-row: span 4;
+}
+i.fas {
+    cursor: pointer;
+}
+#no-units {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding-top: 380px;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.5);
 }
 </style>
