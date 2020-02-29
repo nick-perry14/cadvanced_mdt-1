@@ -4,9 +4,12 @@
             <Unit
                 @leaveUnit="leaveUnit(unit.id)"
                 @beingEdited="setEditedUnit(unit.id)"
+                @unitToggle="setUnitOpen(unit.id)"
                 v-for="unit in units"
                 :key="unit.id"
                 :unit="unit"
+                :isOpen="isUnitOpen(unit.id)"
+                :class="{ open: isUnitOpen(unit.id) }"
             ></Unit>
         </div>
         <RanksModal @selectRank="joinUnit" />
@@ -22,7 +25,8 @@ import StatesModal from '../../../reusable/Unit/StatesModal.vue';
 export default {
     data: function() {
         return {
-            unitBeingEdited: 0
+            unitBeingEdited: 0,
+            unitsOpen: []
         };
     },
     mixins: [clientSender],
@@ -62,6 +66,19 @@ export default {
                 unitId: this.unitBeingEdited
             });
             this.unitBeingEdited = 0;
+        },
+        isUnitOpen(id) {
+            return this.unitsOpen.includes(id);
+        },
+        setUnitOpen(id) {
+            if (!this.isUnitOpen(id)) {
+                this.unitsOpen.push(id);
+            } else {
+                this.unitsOpen.splice(
+                    this.unitsOpen.findIndex(u => u == id),
+                    1
+                );
+            }
         }
     }
 };
@@ -69,7 +86,13 @@ export default {
 
 <style scoped>
 #units {
-    display: flex;
-    align-items: stretch;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: 145px;
+    grid-auto-flow: dense;
+}
+.open {
+    grid-row: span 4;
 }
 </style>

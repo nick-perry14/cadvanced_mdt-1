@@ -1,11 +1,17 @@
 <template>
     <div class="unit-header">
         <div class="top-row">
-            <div
-                class="callsign"
-                :style="{ color: '#' + unit.unitState.colour }"
-            >
-                {{ unit.callSign }}
+            <div class="key-info">
+                <div
+                    class="callsign"
+                    :style="{ color: '#' + unit.unitState.colour }"
+                >
+                    {{ unit.callSign }}
+                </div>
+                <div @click="toggled" class="expand-button">
+                    <i v-if="!isOpen" class="fas fa-toggle-off"></i>
+                    <i v-else class="fas fa-toggle-on"></i>
+                </div>
             </div>
             <div class="unit-state-name">
                 {{ unit.unitState.name }}
@@ -47,9 +53,19 @@ export default {
         unit: {
             type: Object,
             required: true
+        },
+        isOpen: {
+            type: Boolean,
+            required: true
         }
     },
     computed: {
+        rankOnUnit() {
+            const unitStatus = this.userUnitStatus;
+            return unitStatus
+                ? this.$store.getters.getRank(unitStatus.UserRankId)
+                : null;
+        },
         isAssignedToUnit() {
             return this.userUnitStatus ? true : false;
         },
@@ -59,12 +75,6 @@ export default {
             return userUnits.find(
                 uu => uu.UserId === user.id && uu.UnitId === this.unit.id
             );
-        },
-        rankOnUnit() {
-            const unitStatus = this.userUnitStatus;
-            return unitStatus
-                ? this.$store.getters.getRank(unitStatus.UserRankId)
-                : null;
         }
     },
     methods: {
@@ -81,6 +91,9 @@ export default {
                 type: 'unitStates',
                 status: true
             });
+        },
+        toggled() {
+            this.$emit('toggled');
         }
     }
 };
@@ -90,10 +103,24 @@ export default {
 .unit-header {
     background: rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 14px;
+    min-height: 98px;
 }
 .top-row {
     margin-bottom: 20px;
+}
+.key-info {
+    display: flex;
+}
+.expand-button {
+    flex-grow: 1;
+    font-size: 25px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+    color: rgba(0, 0, 0, 0.3);
+}
+.expand-button i {
+    display: block;
 }
 .callsign {
     font-size: 20px;
