@@ -96,6 +96,7 @@ export default {
     display: flex;
     flex-direction: column;
     height: 100%;
+    overflow-y: auto;
 }
 .no-calls-container {
     display: flex;
