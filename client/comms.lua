@@ -9,6 +9,15 @@ function pass_to_nui(data, object)
     )
 end
 
+RegisterNetEvent("data:config")
+AddEventHandler(
+    "data:config",
+    function(jsonData)
+        print("CLIENT: RECEIVED CONFIG FROM SERVER")
+        pass_to_nui(jsonData, "config")
+    end
+)
+
 RegisterNetEvent("data:units")
 AddEventHandler(
     "data:units",

@@ -29,6 +29,13 @@ export default {
                     // Animate the "receiving" indicator
                     this.$store.commit('setConnectionIsActive');
                     switch (event.data.object) {
+                        case 'config':
+                            console.log('NUI: RECEIVED CONFIG');
+                            this.$store.commit(
+                                'setResourceConfig',
+                                event.data.data
+                            );
+                            break;
                         case 'units':
                             console.log('NUI: RECEIVED UNITS');
                             this.$store.commit('setUnits', event.data.data);

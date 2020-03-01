@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
+        resourceConfig: {},
         visible: false,
         connectionActive: false,
         steamId: '',
@@ -24,6 +25,7 @@ const store = new Vuex.Store({
         }
     },
     getters: {
+        getResourceConfig: state => state.resourceConfig,
         getUnits: state => state.units,
         getUnitStates: state => state.unitStates,
         getUsers: state => state.users,
@@ -55,6 +57,8 @@ const store = new Vuex.Store({
         getActiveRoute: state => state.activeRoute
     },
     mutations: {
+        setResourceConfig: (state, passedConfig) =>
+            (state.resourceConfig = passedConfig),
         setVisible: state => (state.visible = true),
         setHide: state => (state.visible = false),
         setUnits: (state, units) => (state.units = units),
@@ -97,7 +101,7 @@ const store = new Vuex.Store({
 });
 
 store.watch(
-    state => state.userRanks,
+    state => state.resourceConfig,
     v => {
         console.log('VUEX WATCHER:');
         console.log(JSON.stringify(v));

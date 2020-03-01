@@ -26,6 +26,10 @@ function config.sanity_check()
             print("** Missing sound_volume value in config")
             return false
         end
+        if conf.homepage == nil then
+            print("** Missing 'homepage' entry in config")
+            return false
+        end
         return true
     else
         print(

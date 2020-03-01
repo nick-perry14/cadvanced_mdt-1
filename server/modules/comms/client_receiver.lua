@@ -1,3 +1,4 @@
+local conf = module("server/modules/config")
 local user_helpers = module("server/modules/helpers/users")
 local citizens = module("server/modules/citizens")
 local users = module("server/modules/users")
@@ -20,6 +21,9 @@ function client_receiver.client_event_handlers()
             -- this player, so we want to get their data first, which will have
             -- the side effect of distributing it to all clients, including us
             users.populate_player()
+            client_sender.pass_data({
+                homepage = conf.val("homepage")
+            }, "config")
             client_sender.pass_data(state_get("calls"), "calls")
             client_sender.pass_data(state_get("units"), "units")
             client_sender.pass_data(state_get("unit_states"), "unit_states")
