@@ -2,11 +2,7 @@
     <div>
         <div v-if="units.length > 0" id="units-filter">
             <span>Only show my units</span>
-            <i
-                @click="toggleOwnUnits"
-                v-if="!ownUnits"
-                class="fas fa-toggle-off"
-            ></i>
+            <i @click="toggleOwnUnits" v-if="!ownUnits" class="fas fa-toggle-off"></i>
             <i @click="toggleOwnUnits" v-else class="fas fa-toggle-on"></i>
         </div>
         <div v-if="units.length > 0" id="units">
@@ -121,7 +117,7 @@ export default {
 #units {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto));
     grid-auto-rows: 145px;
     grid-auto-flow: dense;
 }
