@@ -2,6 +2,8 @@ local conf = module("server/modules/config")
 local users = module("server/modules/users")
 local calls = module("server/modules/calls")
 local units = module("server/modules/units")
+local citizens = module("server/modules/citizens")
+local vehicles = module("server/modules/vehicles")
 local client_receiver = module("server/modules/comms/client_receiver")
 
 local init = {}
@@ -31,6 +33,12 @@ function init.bootstrapData()
 
     -- Get all user ranks
     users.get_all_user_ranks()
+
+    -- Get all citizen markers
+    citizens.get_all_markers()
+
+    -- Get all vehicle markers
+    vehicles.get_all_markers()
 end
 
 function init.createEventHandlers()

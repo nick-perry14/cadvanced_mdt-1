@@ -37,4 +37,23 @@ function citizens.get_citizen_offences(data, callback)
     )
 end
 
+-- Get the table of citizen markers
+function citizens.get_all_markers()
+    local q_get_all_citizen_markers = queries.get_all_citizen_markers()
+    api.request(
+        q_get_all_citizen_markers,
+        function(response)
+            if response.error == nil then
+                local citizen_markers = {}
+                for _, marker in ipairs(response.result.data.allCitizenMarkers) do
+                    table.insert(citizen_markers, marker)
+                end
+                state_set("citizen_markers", citizen_markers)
+            else
+                print(response.error)
+            end
+        end
+    )
+end
+
 return citizens

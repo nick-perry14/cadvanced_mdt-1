@@ -130,6 +130,22 @@ function queries.get_all_unit_states()
     return json.encode(query)
 end
 
+function queries.get_all_citizen_markers()
+    local query = {
+        operationName = null,
+        query = "{ allCitizenMarkers { id name } } "
+    }
+    return json.encode(query)
+end
+
+function queries.get_all_vehicle_markers()
+    local query = {
+        operationName = null,
+        query = "{ allVehicleMarkers { id name } } "
+    }
+    return json.encode(query)
+end
+
 function queries.set_unit_state(props, unit)
     local query = {
         operationname = null,
