@@ -1,62 +1,83 @@
 <template>
     <div class="vehicle">
         <SectionProperty class="section" label="Vehicle" />
-        <div class="details">
-            <div class="licence-plate">
-                <Property :label="''" :value="vehicle.licencePlate" />
+        <div class="vehicle-container">
+            <div class="details">
+                <div class="licence-plate">
+                    <Property :label="''" :value="vehicle.licencePlate" />
+                </div>
+                <div class="colour">
+                    <Property :label="''" :value="vehicle.colour" />
+                    &nbsp;
+                    <Property :label="''" :value="vehicle.vehicleModel.name" />
+                </div>
+                <div class="insurance">
+                    <Property
+                        :label="'Insurance'"
+                        :value="vehicle.insuranceStatus.name"
+                    />
+                </div>
             </div>
-            <div class="colour">
-                <Property :label="''" :value="vehicle.colour" />
-                &nbsp;
-                <Property :label="''" :value="vehicle.vehicleModel.name" />
-            </div>
-            <div class="insurance">
-                <Property
-                    :label="'Insurance'"
-                    :value="vehicle.insuranceStatus.name"
-                />
+            <div class="vehicle-markers" v-if="hasMarkers">
+                <Markers :markers="vehicle.markers" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import Property from './Property.vue';
-import SectionProperty from './SectionProperty.vue';
-export default {
-    props: {
-        vehicle: {
-            type: Object,
-            required: true
+    import Property from './Property.vue';
+    import SectionProperty from './SectionProperty.vue';
+    import Markers from './Markers.vue';
+    export default {
+        props: {
+            vehicle: {
+                type: Object,
+                required: true
+            }
+        },
+        computed: {
+            hasMarkers() {
+                return this.vehicle.markers && this.vehicle.markers.length > 0;
+            }
+        },
+        components: {
+            Property,
+            SectionProperty,
+            Markers
         }
-    },
-    components: {
-        Property,
-        SectionProperty
-    }
-};
+    };
 </script>
 
 <style scoped>
-.vehicle {
-    display: flex;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 14px;
-    min-height: 40px;
-}
-.details {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    padding: 0 30px;
-}
-.licence-plate {
-    margin-right: 30px;
-}
-.colour {
-    display: flex;
-}
-.details > div.insurance {
-    margin-left: auto;
-}
+    .vehicle {
+        display: flex;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        min-height: 40px;
+    }
+    .vehicle-container {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        padding: 10px 0;
+    }
+    .details {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        padding: 0 30px;
+    }
+    .licence-plate {
+        margin-right: 30px;
+    }
+    .colour {
+        display: flex;
+    }
+    .details > div.insurance {
+        margin-left: auto;
+    }
+    .vehicle-markers {
+        padding: 10px 0 0 30px;
+    }
 </style>
