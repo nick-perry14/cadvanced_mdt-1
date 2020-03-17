@@ -95,11 +95,8 @@
                 });
             },
             close() {
-                this.$store.commit('setModal', {
-                    type: 'markers',
-                    data: {
-                        open: false
-                    }
+                this.$store.commit('resetModal', {
+                    type: 'markers'
                 });
             }
         }

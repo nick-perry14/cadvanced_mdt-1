@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MarkersModal @addMarker="addMarker" @removeMarker="removeMarker" />
+        <MarkersModal />
         <SearchBar v-on:searchChanged="sendSearch($event)" />
         <UpdateMessage v-if="isLoading" message="Contacting control..." />
         <SearchResults v-else :searched="searched" />
@@ -32,12 +32,6 @@
                 this.isLoading = true;
                 this.searched = true;
                 this.sendClientMessage('searchCitizen', sendObject);
-            },
-            addMarker() {
-                console.log('Adding marker');
-            },
-            removeMarker() {
-                console.log('Removing marker');
             }
         },
         watch: {

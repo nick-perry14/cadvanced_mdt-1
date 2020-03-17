@@ -37,19 +37,13 @@
         methods: {
             selectRank(id) {
                 this.$emit('selectRank', id);
-                this.$store.commit('setModal', {
-                    type: 'ranks',
-                    data: {
-                        open: false
-                    }
+                this.$store.commit('resetModal', {
+                    type: 'ranks'
                 });
             },
             close() {
-                this.$store.commit('setModal', {
-                    type: 'ranks',
-                    data: {
-                        open: false
-                    }
+                this.$store.commit('resetModal', {
+                    type: 'ranks'
                 });
             }
         }

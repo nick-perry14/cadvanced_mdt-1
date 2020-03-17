@@ -18,8 +18,16 @@
                     />
                 </div>
             </div>
-            <div class="vehicle-markers" v-if="hasMarkers">
-                <Markers :markers="vehicle.markers" />
+            <div class="vehicle-markers">
+                <Markers v-if="hasMarkers" :markers="vehicle.markers" />
+                <MiniButton
+                    @miniClick="openMarkersModal()"
+                    text="Edit markers"
+                    colour="rgba(0,0,0,0.2)"
+                    borderRadius="3px"
+                    icon="fa-pen-alt"
+                    padding="6px 8px"
+                />
             </div>
         </div>
     </div>
@@ -29,6 +37,7 @@
     import Property from './Property.vue';
     import SectionProperty from './SectionProperty.vue';
     import Markers from './Markers.vue';
+    import MiniButton from '../../MiniButton.vue';
     export default {
         props: {
             vehicle: {
@@ -44,7 +53,21 @@
         components: {
             Property,
             SectionProperty,
-            Markers
+            Markers,
+            MiniButton
+        },
+        methods: {
+            openMarkersModal() {
+                this.$store.commit('setModal', {
+                    type: 'markers',
+                    data: {
+                        open: true,
+                        type: 'Vehicle',
+                        parentEntityId: this.vehicle.id,
+                        selected: this.vehicle.markers
+                    }
+                });
+            }
         }
     };
 </script>
@@ -79,5 +102,6 @@
     }
     .vehicle-markers {
         padding: 10px 0 0 30px;
+        display: flex;
     }
 </style>

@@ -3,6 +3,18 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+const modalsInit = {
+    ranks: {
+        open: false
+    },
+    unitStates: {
+        open: false
+    },
+    markers: {
+        open: false
+    }
+};
+
 const store = new Vuex.Store({
     state: {
         resourceConfig: {},
@@ -21,17 +33,7 @@ const store = new Vuex.Store({
         citizenMarkers: [],
         vehicleMarkers: [],
         citizenSearchResults: [],
-        modals: {
-            ranks: {
-                open: false
-            },
-            unitStates: {
-                open: false
-            },
-            markers: {
-                open: false
-            }
-        }
+        modals: modalsInit
     },
     getters: {
         getResourceConfig: state => state.resourceConfig,
@@ -119,6 +121,8 @@ const store = new Vuex.Store({
                 ...state.modals[args.type],
                 ...args.data
             }),
+        resetModal: (state, args) =>
+            (state.modals[args.type] = { open: false }),
         setActiveMarker: (state, callId) => (state.activeMarker = callId),
         setActiveRoute: (state, callId) => (state.activeRoute = callId)
     },

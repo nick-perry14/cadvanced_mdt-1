@@ -38,19 +38,13 @@
         methods: {
             selectState(id) {
                 this.$emit('selectState', id);
-                this.$store.commit('setModal', {
-                    type: 'unitStates',
-                    data: {
-                        open: false
-                    }
+                this.$store.commit('resetModal', {
+                    type: 'unitStates'
                 });
             },
             close() {
-                this.$store.commit('setModal', {
-                    type: 'unitStates',
-                    data: {
-                        open: false
-                    }
+                this.$store.commit('resetModal', {
+                    type: 'unitStates'
                 });
             }
         }
