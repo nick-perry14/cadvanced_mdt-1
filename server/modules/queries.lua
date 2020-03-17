@@ -160,4 +160,28 @@ function queries.set_unit_state(props, unit)
     return json.encode(query)
 end
 
+function queries.attach_marker_to_citizen(props)
+    local query = {
+        operationname = null,
+        variables = {
+            CitizenId = props.typeId,
+            MarkerId = props.markerId
+        },
+        query = "mutation ($CitizenId: ID!, $MarkerId: ID!) { attachMarkerToCitizen(CitizenId: $CitizenId, MarkerId: $MarkerId) { id name type } }"
+    }
+    return json.encode(query)
+end
+
+function queries.detach_marker_from_citizen(props)
+    local query = {
+        operationname = null,
+        variables = {
+            CitizenId = props.typeId,
+            MarkerId = props.markerId
+        },
+        query = "mutation ($CitizenId: ID!, $MarkerId: ID!) { detachMarkerFromCitizen(CitizenId: $CitizenId, MarkerId: $MarkerId) }"
+    }
+    return json.encode(query)
+end
+
 return queries

@@ -1,15 +1,20 @@
 <template>
-    <div id="search-results" v-if="results.length > 0">
-        <Citizen
-            v-for="citizen in results"
-            v-on:openCitizenResult="setOpen($event)"
-            :key="citizen.id"
-            :citizen="citizen"
-            :open="open"
-            :setOpen="setOpen"
-        ></Citizen>
+    <div>
+        <div id="search-results" v-if="results.length > 0">
+            <Citizen
+                v-for="citizen in results"
+                @openCitizenResult="setOpen($event)"
+                :key="citizen.id"
+                :citizen="citizen"
+                :open="open"
+                :setOpen="setOpen"
+            ></Citizen>
+        </div>
+        <UpdateMessage
+            v-if="searched && results.length === 0"
+            message="No results found"
+        />
     </div>
-    <UpdateMessage v-else message="No results found" />
 </template>
 
 <script>
@@ -19,6 +24,12 @@
         components: {
             Citizen,
             UpdateMessage
+        },
+        props: {
+            searched: {
+                type: Boolean,
+                required: true
+            }
         },
         data: function() {
             return {

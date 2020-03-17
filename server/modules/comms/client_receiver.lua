@@ -29,6 +29,8 @@ function client_receiver.client_event_handlers()
             client_sender.pass_data(state_get("unit_states"), "unit_states")
             client_sender.pass_data(state_get("user_units"), "user_units")
             client_sender.pass_data(state_get("user_ranks"), "user_ranks")
+            client_sender.pass_data(state_get("citizen_markers"), "citizen_markers")
+            client_sender.pass_data(state_get("vehicle_markers"), "vehicle_markers")
             client_sender.pass_data(user_helpers.get_steam_id(source), "steam_id")
         end
     )
@@ -80,6 +82,30 @@ function client_receiver.client_event_handlers()
         function(data)
             print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET UNIT STATE")
             units.set_unit_state(data)
+        end
+    )
+
+    -- Add a marker to something
+    RegisterNetEvent("add_marker")
+    AddEventHandler(
+        "add_marker",
+        function(data)
+            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET ADD MARKER TO " .. data.type)
+            if (data.type == 'Citizen') then
+                citizens.add_marker(data)
+            end
+        end
+    )
+
+    -- Remove marker from something
+    RegisterNetEvent("remove_marker")
+    AddEventHandler(
+        "remove_marker",
+        function(data)
+            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET REMOVE MARKER FROM " .. data.type)
+            if (data.type == 'Citizen') then
+                citizens.remove_marker(data)
+            end
         end
     )
 end

@@ -36,6 +36,24 @@ AddEventHandler(
     end
 )
 
+RegisterNetEvent("data:citizen_markers")
+AddEventHandler(
+    "data:citizen_markers",
+    function(jsonData)
+        print("CLIENT: RECEIVED CITIZEN MARKERS FROM SERVER")
+        pass_to_nui(jsonData, "citizen_markers")
+    end
+)
+
+RegisterNetEvent("data:vehicle_markers")
+AddEventHandler(
+    "data:vehicle_markers",
+    function(jsonData)
+        print("CLIENT: RECEIVED VEHICLE FROM SERVER")
+        pass_to_nui(jsonData, "vehicle_markers")
+    end
+)
+
 RegisterNetEvent("data:calls")
 AddEventHandler(
     "data:calls",

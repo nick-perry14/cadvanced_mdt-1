@@ -10,54 +10,56 @@
                     v-for="rank in ranks"
                     :key="rank.id"
                     :rank="rank"
-                >
-                    {{ rank.name }}
-                </Rank>
+                />
             </div>
         </template>
     </Modal>
 </template>
 
 <script>
-import Modal from '../Modal.vue';
-import MiniButton from '../../MiniButton.vue';
-import Rank from './Rank.vue';
-export default {
-    components: {
-        Modal,
-        MiniButton,
-        Rank
-    },
-    computed: {
-        ranks() {
-            return this.$store.getters.getUserRanks;
+    import Modal from '../Modal.vue';
+    import MiniButton from '../../MiniButton.vue';
+    import Rank from './Rank.vue';
+    export default {
+        components: {
+            Modal,
+            MiniButton,
+            Rank
         },
-        isOpen() {
-            return this.$store.getters.getIsModalOpen('ranks');
-        }
-    },
-    methods: {
-        selectRank(id) {
-            this.$emit('selectRank', id);
-            this.$store.commit('setModalOpen', {
-                type: 'ranks',
-                status: false
-            });
+        computed: {
+            ranks() {
+                return this.$store.getters.getUserRanks;
+            },
+            isOpen() {
+                return this.$store.getters.getIsModalOpen('ranks');
+            }
         },
-        close() {
-            this.$store.commit('setModalOpen', {
-                type: 'ranks',
-                status: false
-            });
+        methods: {
+            selectRank(id) {
+                this.$emit('selectRank', id);
+                this.$store.commit('setModal', {
+                    type: 'ranks',
+                    data: {
+                        open: false
+                    }
+                });
+            },
+            close() {
+                this.$store.commit('setModal', {
+                    type: 'ranks',
+                    data: {
+                        open: false
+                    }
+                });
+            }
         }
-    }
-};
+    };
 </script>
 
 <style scoped>
-.ranks {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+    .ranks {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 </style>

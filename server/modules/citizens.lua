@@ -56,4 +56,30 @@ function citizens.get_all_markers()
     )
 end
 
+-- Add a marker to a citizen
+function citizens.add_marker(data)
+    local q_attach_marker_to_citizen = queries.attach_marker_to_citizen(data)
+    api.request(
+        q_attach_marker_to_citizen,
+        function(response)
+            if response.error ~= nil then
+                print(response.error)
+            end
+        end
+    )
+end
+
+-- Remove a marker from a citizen
+function citizens.remove_marker(data)
+    local q_detach_marker_from_citizen = queries.detach_marker_from_citizen(data)
+    api.request(
+        q_detach_marker_from_citizen,
+        function(response)
+            if response.error ~= nil then
+                print(response.error)
+            end
+        end
+    )
+end
+
 return citizens

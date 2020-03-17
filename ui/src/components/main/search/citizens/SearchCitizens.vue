@@ -1,8 +1,9 @@
 <template>
     <div>
+        <MarkersModal @addMarker="addMarker" @removeMarker="removeMarker" />
         <SearchBar v-on:searchChanged="sendSearch($event)" />
         <UpdateMessage v-if="isLoading" message="Contacting control..." />
-        <SearchResults v-else />
+        <SearchResults v-else :searched="searched" />
     </div>
 </template>
 
@@ -10,15 +11,18 @@
     import UpdateMessage from '../../../reusable/UpdateMessage.vue';
     import SearchBar from './SearchBar.vue';
     import SearchResults from './SearchResults.vue';
+    import MarkersModal from '../../../reusable/Citizen/MarkersModal/MarkersModal.vue';
     import clientSender from '../../../../mixins/clientSender';
     export default {
         components: {
             SearchBar,
             SearchResults,
-            UpdateMessage
+            UpdateMessage,
+            MarkersModal
         },
         data: function() {
             return {
+                searched: false,
                 isLoading: false
             };
         },
@@ -26,7 +30,14 @@
         methods: {
             sendSearch(sendObject) {
                 this.isLoading = true;
+                this.searched = true;
                 this.sendClientMessage('searchCitizen', sendObject);
+            },
+            addMarker() {
+                console.log('Adding marker');
+            },
+            removeMarker() {
+                console.log('Removing marker');
             }
         },
         watch: {

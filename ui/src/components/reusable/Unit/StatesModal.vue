@@ -18,45 +18,49 @@
 </template>
 
 <script>
-import Modal from '../Modal.vue';
-import MiniButton from '../../MiniButton.vue';
-import State from './State.vue';
-export default {
-    components: {
-        Modal,
-        MiniButton,
-        State
-    },
-    computed: {
-        states() {
-            return this.$store.getters.getUnitStates;
+    import Modal from '../Modal.vue';
+    import MiniButton from '../../MiniButton.vue';
+    import State from './State.vue';
+    export default {
+        components: {
+            Modal,
+            MiniButton,
+            State
         },
-        isOpen() {
-            return this.$store.getters.getIsModalOpen('unitStates');
-        }
-    },
-    methods: {
-        selectState(id) {
-            this.$emit('selectState', id);
-            this.$store.commit('setModalOpen', {
-                type: 'unitStates',
-                status: false
-            });
+        computed: {
+            states() {
+                return this.$store.getters.getUnitStates;
+            },
+            isOpen() {
+                return this.$store.getters.getIsModalOpen('unitStates');
+            }
         },
-        close() {
-            this.$store.commit('setModalOpen', {
-                type: 'unitStates',
-                status: false
-            });
+        methods: {
+            selectState(id) {
+                this.$emit('selectState', id);
+                this.$store.commit('setModal', {
+                    type: 'unitStates',
+                    data: {
+                        open: false
+                    }
+                });
+            },
+            close() {
+                this.$store.commit('setModal', {
+                    type: 'unitStates',
+                    data: {
+                        open: false
+                    }
+                });
+            }
         }
-    }
-};
+    };
 </script>
 
 <style scoped>
-.states {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+    .states {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 </style>

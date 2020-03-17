@@ -18,10 +18,19 @@ const store = new Vuex.Store({
         unitStates: [],
         userUnits: [],
         userRanks: [],
+        citizenMarkers: [],
+        vehicleMarkers: [],
         citizenSearchResults: [],
-        modalsOpen: {
-            ranks: false,
-            unitStates: false
+        modals: {
+            ranks: {
+                open: false
+            },
+            unitStates: {
+                open: false
+            },
+            markers: {
+                open: false
+            }
         }
     },
     getters: {
@@ -30,6 +39,8 @@ const store = new Vuex.Store({
         getUnitStates: state => state.unitStates,
         getUsers: state => state.users,
         getCalls: state => state.calls,
+        getCitizenMarkers: state => state.citizenMarkers,
+        getVehicleMarkers: state => state.vehicleMarkers,
         getUserUnits: state => state.userUnits,
         getUserRanks: state =>
             state.userRanks.sort((a, b) => a.position - b.position),
@@ -52,7 +63,8 @@ const store = new Vuex.Store({
                 : null;
         },
         getConnectionActive: state => state.connectionActive,
-        getIsModalOpen: state => type => state.modalsOpen[type],
+        getIsModalOpen: state => type => state.modals[type].open,
+        getModalData: state => type => state.modals[type],
         getActiveMarker: state => state.activeMarker,
         getActiveRoute: state => state.activeRoute
     },
@@ -65,6 +77,10 @@ const store = new Vuex.Store({
         setUnitStates: (state, unitStates) => (state.unitStates = unitStates),
         setUserUnits: (state, userUnits) => (state.userUnits = userUnits),
         setUserRanks: (state, userRanks) => (state.userRanks = userRanks),
+        setCitizenMarkers: (state, citizenMarkers) =>
+            (state.citizenMarkers = citizenMarkers),
+        setVehicleMarkers: (state, vehicleMarkers) =>
+            (state.vehicleMarkers = vehicleMarkers),
         setUsers: (state, users) => (state.users = users),
         setCalls: (state, calls) => (state.calls = calls),
         setSteamId: (state, steamId) => (state.steamId = steamId),
@@ -73,6 +89,16 @@ const store = new Vuex.Store({
                 ...r,
                 offences: []
             }));
+        },
+        updateSearchResult: (state, updated) => {
+            const prop = updated.type.toLowerCase() + 'SearchResults';
+            let results = state[prop];
+            const resultIdx = results.findIndex(r => r.id === updated.typeId);
+            results.splice(resultIdx, 1, {
+                ...results[resultIdx],
+                markers: updated.data.markers
+            });
+            state[prop] = results;
         },
         setConnectionIsActive: state => {
             state.connectionActive = true;
@@ -88,8 +114,11 @@ const store = new Vuex.Store({
                 state.citizenSearchResults[foundIndex] = found;
             }
         },
-        setModalOpen: (state, args) =>
-            (state.modalsOpen[args.type] = args.status),
+        setModal: (state, args) =>
+            (state.modals[args.type] = {
+                ...state.modals[args.type],
+                ...args.data
+            }),
         setActiveMarker: (state, callId) => (state.activeMarker = callId),
         setActiveRoute: (state, callId) => (state.activeRoute = callId)
     },
@@ -101,7 +130,7 @@ const store = new Vuex.Store({
 });
 
 store.watch(
-    state => state.resourceConfig,
+    state => state.modals,
     v => {
         console.log('VUEX WATCHER:');
         console.log(JSON.stringify(v));

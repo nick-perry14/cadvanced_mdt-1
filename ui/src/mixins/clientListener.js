@@ -63,6 +63,20 @@ export default {
                             console.log('NUI: RECEIVED USER_RANKS');
                             this.$store.commit('setUserRanks', event.data.data);
                             break;
+                        case 'citizen_markers':
+                            console.log('NUI: RECEIVED CITIZEN_MARKERS');
+                            this.$store.commit(
+                                'setCitizenMarkers',
+                                event.data.data
+                            );
+                            break;
+                        case 'vehicle_markers':
+                            console.log('NUI: RECEIVED VEHICLE_MARKERS');
+                            this.$store.commit(
+                                'setVehicleMarkers',
+                                event.data.data
+                            );
+                            break;
                         case 'steam_id':
                             console.log('NUI: RECEIVED STEAM ID');
                             this.$store.commit('setSteamId', event.data.data);

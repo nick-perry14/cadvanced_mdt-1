@@ -80,6 +80,30 @@ RegisterNUICallback(
     end
 )
 
+-- Callback to handle addition of a marker
+RegisterNUICallback(
+    "addMarker",
+    function(data, cb)
+        -- Tell the server to add the marker
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO ADD MARKER " .. data.markerId .. " TO " .. data.type .. " " .. data.typeId)
+        print("CLIENT: SENDING MARKER ADDITION REQUEST TO SERVER")
+        TriggerServerEvent("add_marker", data)
+        cb()
+    end
+)
+
+-- Callback to handle removal of a marker
+RegisterNUICallback(
+    "removeMarker",
+    function(data, cb)
+        -- Tell the server to add the marker
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO REMOVE MARKER " .. data.markerId .. " FROM " .. data.type .. " " .. data.typeId)
+        print("CLIENT: SENDING MARKER REMOVAL REQUEST TO SERVER")
+        TriggerServerEvent("remove_marker", data)
+        cb()
+    end
+)
+
 -- Callback to handle setting of call marker
 RegisterNUICallback(
     "setCallMarker",

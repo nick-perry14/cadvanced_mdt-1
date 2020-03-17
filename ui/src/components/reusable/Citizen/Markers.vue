@@ -28,6 +28,7 @@
 <style scoped>
     .markers-container {
         display: flex;
+        margin-right: 10px;
     }
 
     .marker {

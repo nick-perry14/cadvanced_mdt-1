@@ -6,6 +6,14 @@
             </div>
             <div class="markers">
                 <Markers :markers="citizen.markers" />
+                <MiniButton
+                    @miniClick="openMarkersModal()"
+                    text="Edit markers"
+                    colour="rgba(0,0,0,0.2)"
+                    borderRadius="3px"
+                    icon="fa-pen-alt"
+                    padding="6px 8px"
+                />
             </div>
             <div class="shove-right">
                 <div v-if="getAlerts" class="alerts-container">
@@ -107,6 +115,7 @@
     import Markers from './Markers.vue';
     import Incidents from './Incidents.vue';
     import Alert from '../widgets/Alert.vue';
+    import MiniButton from '../../MiniButton.vue';
     export default {
         components: {
             Property,
@@ -116,7 +125,8 @@
             Warrant,
             Incidents,
             Alert,
-            Markers
+            Markers,
+            MiniButton
         },
         props: {
             citizen: {
@@ -134,6 +144,17 @@
                     'openCitizenResult',
                     this.isOpen ? '0' : this.citizen.id
                 );
+            },
+            openMarkersModal() {
+                this.$store.commit('setModal', {
+                    type: 'markers',
+                    data: {
+                        open: true,
+                        type: 'Citizen',
+                        parentEntityId: this.citizen.id,
+                        selected: this.citizen.markers
+                    }
+                });
             }
         },
         computed: {
@@ -185,6 +206,7 @@
     }
     .markers {
         margin-left: 30px;
+        display: flex;
     }
     .alerts-container {
         margin: 0 50px 0 auto;
