@@ -3,6 +3,7 @@ local user_helpers = module("server/modules/helpers/users")
 local citizens = module("server/modules/citizens")
 local users = module("server/modules/users")
 local units = module("server/modules/units")
+local vehicles = module("server/modules/vehicles")
 local client_sender = module("server/modules/comms/client_sender")
 
 local client_receiver = {}
@@ -93,6 +94,8 @@ function client_receiver.client_event_handlers()
             print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET ADD MARKER TO " .. data.type)
             if (data.type == 'Citizen') then
                 citizens.add_marker(data)
+            elseif (data.type == 'Vehicle') then
+                vehicles.add_marker(data)
             end
         end
     )
@@ -105,6 +108,8 @@ function client_receiver.client_event_handlers()
             print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET REMOVE MARKER FROM " .. data.type)
             if (data.type == 'Citizen') then
                 citizens.remove_marker(data)
+            elseif (data.type == 'Vehicle') then
+                vehicles.remove_marker(data)
             end
         end
     )

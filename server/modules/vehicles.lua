@@ -22,4 +22,30 @@ function vehicles.get_all_markers()
     )
 end
 
+-- Add a marker to a vehicle
+function vehicles.add_marker(data)
+    local q_attach_marker_to_vehicle = queries.attach_marker_to_vehicle(data)
+    api.request(
+        q_attach_marker_to_vehicle,
+        function(response)
+            if response.error ~= nil then
+                print(response.error)
+            end
+        end
+    )
+end
+
+-- Remove a marker from a vehicle
+function vehicles.remove_marker(data)
+    local q_detach_marker_from_vehicle = queries.detach_marker_from_vehicle(data)
+    api.request(
+        q_detach_marker_from_vehicle,
+        function(response)
+            if response.error ~= nil then
+                print(response.error)
+            end
+        end
+    )
+end
+
 return vehicles

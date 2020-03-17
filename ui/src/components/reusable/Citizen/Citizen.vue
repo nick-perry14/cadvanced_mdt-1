@@ -262,8 +262,6 @@
     }
     .vehicles {
         grid-area: 3/1/3/13;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, 50%);
         border-top: 1px solid rgba(255, 255, 255, 0.7);
     }
     .weapons {

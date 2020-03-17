@@ -184,4 +184,28 @@ function queries.detach_marker_from_citizen(props)
     return json.encode(query)
 end
 
+function queries.attach_marker_to_vehicle(props)
+    local query = {
+        operationname = null,
+        variables = {
+            VehicleId = props.typeId,
+            MarkerId = props.markerId
+        },
+        query = "mutation ($VehicleId: ID!, $MarkerId: ID!) { attachMarkerToVehicle(VehicleId: $VehicleId, MarkerId: $MarkerId) { id name type } }"
+    }
+    return json.encode(query)
+end
+
+function queries.detach_marker_from_vehicle(props)
+    local query = {
+        operationname = null,
+        variables = {
+            VehicleId = props.typeId,
+            MarkerId = props.markerId
+        },
+        query = "mutation ($VehicleId: ID!, $MarkerId: ID!) { detachMarkerFromVehicle(VehicleId: $VehicleId, MarkerId: $MarkerId) }"
+    }
+    return json.encode(query)
+end
+
 return queries

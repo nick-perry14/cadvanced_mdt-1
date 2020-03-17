@@ -93,14 +93,31 @@ const store = new Vuex.Store({
             }));
         },
         updateSearchResult: (state, updated) => {
-            const prop = updated.type.toLowerCase() + 'SearchResults';
-            let results = state[prop];
-            const resultIdx = results.findIndex(r => r.id === updated.typeId);
-            results.splice(resultIdx, 1, {
-                ...results[resultIdx],
-                markers: updated.data.markers
-            });
-            state[prop] = results;
+            if (updated.type === 'Citizen') {
+                const resultIdx = state.citizenSearchResults.findIndex(
+                    r => r.id === updated.typeId
+                );
+                state.citizenSearchResults.splice(resultIdx, 1, {
+                    ...results[resultIdx],
+                    markers: updated.data.markers
+                });
+            } else if (updated.type === 'Vehicle') {
+                state.citizenSearchResults.forEach((result, resultIdx) => {
+                    const vehicleIdx = result.vehicles.findIndex(
+                        v => v.id === updated.typeId
+                    );
+                    if (vehicleIdx > -1) {
+                        state.citizenSearchResults[resultIdx].vehicles.splice(
+                            vehicleIdx,
+                            1,
+                            {
+                                ...result.vehicles[vehicleIdx],
+                                markers: updated.data.markers
+                            }
+                        );
+                    }
+                });
+            }
         },
         setConnectionIsActive: state => {
             state.connectionActive = true;

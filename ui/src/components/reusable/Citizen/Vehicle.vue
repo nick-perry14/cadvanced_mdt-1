@@ -76,8 +76,12 @@
     .vehicle {
         display: flex;
         color: rgba(255, 255, 255, 0.7);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.7);
         font-size: 14px;
         min-height: 40px;
+    }
+    .vehicle:last-child {
+        border: 0;
     }
     .vehicle-container {
         display: flex;
