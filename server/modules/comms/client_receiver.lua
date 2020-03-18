@@ -36,6 +36,16 @@ function client_receiver.client_event_handlers()
         end
     )
 
+    -- Open the MDT
+    RegisterNetEvent("open_mdt")
+    AddEventHandler(
+        "open_mdt",
+        function()
+            print("SERVER: RECEIVED REQUEST FROM CLIENT TO OPEN MDT FOR USER " .. source)
+            client_sender.pass_data({ source = source }, "open_mdt", source)
+        end
+    )
+
     -- Perform citizen search
     RegisterNetEvent("search_citizens")
     AddEventHandler(

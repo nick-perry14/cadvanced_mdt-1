@@ -9,6 +9,37 @@ function pass_to_nui(data, object)
     )
 end
 
+RegisterNetEvent("data:open_mdt")
+AddEventHandler(
+    "data:open_mdt",
+    function(jsonData)
+        print("CLIENT: RECEIVED REQUEST FROM SERVER TO OPEN MDT")
+        local command_source = jsonData.source
+        local users = state_get("users")
+        local hasOfficer = false
+        for i, iter in ipairs(users) do
+            if (
+                command_source == iter.source and
+                iter.character and
+                iter.character.__typename == "Officer"
+            ) then
+                hasOfficer = true
+                break
+            end
+        end
+        if (hasOfficer) then
+            SendNUIMessage({action = "showMdt"})
+            SetNuiFocus(true, true)
+        else
+            TriggerEvent('chat:addMessage', {
+                color = { 255, 0, 0},
+                multiline = true,
+                args = {"MDT", "Only users with an active officer can open the MDT"}
+            })
+        end
+    end
+)
+
 RegisterNetEvent("data:config")
 AddEventHandler(
     "data:config",
@@ -68,6 +99,7 @@ AddEventHandler(
     "data:users",
     function(jsonData)
         print("CLIENT: RECEIVED USERS FROM SERVER")
+        state_set("users", jsonData)
         pass_to_nui(jsonData, "users")
     end
 )
