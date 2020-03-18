@@ -24,15 +24,15 @@ function client_receiver.client_event_handlers()
             users.populate_player()
             client_sender.pass_data({
                 homepage = conf.val("homepage")
-            }, "config")
-            client_sender.pass_data(state_get("calls"), "calls")
-            client_sender.pass_data(state_get("units"), "units")
-            client_sender.pass_data(state_get("unit_states"), "unit_states")
-            client_sender.pass_data(state_get("user_units"), "user_units")
-            client_sender.pass_data(state_get("user_ranks"), "user_ranks")
-            client_sender.pass_data(state_get("citizen_markers"), "citizen_markers")
-            client_sender.pass_data(state_get("vehicle_markers"), "vehicle_markers")
-            client_sender.pass_data(user_helpers.get_steam_id(source), "steam_id")
+            }, "config", source)
+            client_sender.pass_data(state_get("calls"), "calls", source)
+            client_sender.pass_data(state_get("units"), "units", source)
+            client_sender.pass_data(state_get("unit_states"), "unit_states", source)
+            client_sender.pass_data(state_get("user_units"), "user_units", source)
+            client_sender.pass_data(state_get("user_ranks"), "user_ranks", source)
+            client_sender.pass_data(state_get("citizen_markers"), "citizen_markers", source)
+            client_sender.pass_data(state_get("vehicle_markers"), "vehicle_markers", source)
+            client_sender.pass_data(user_helpers.get_steam_id(source), "steam_id", source)
         end
     )
 
@@ -42,7 +42,7 @@ function client_receiver.client_event_handlers()
         "search_citizens",
         function(data)
             print("SERVER: RECEIVED REQUEST FROM CLIENT TO SEND CITIZEN SEARCH")
-            citizens.search_citizens(data, client_sender.pass_data)
+            citizens.search_citizens(data, client_sender.pass_data, source)
         end
     )
 

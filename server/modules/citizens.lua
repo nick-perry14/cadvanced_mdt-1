@@ -3,7 +3,7 @@ local api = module("server/modules/comms/api")
 
 local citizens = {}
 
-function citizens.search_citizens(search, callback)
+function citizens.search_citizens(search, callback, src)
     local q_search_citizens = queries.search_citizens(search)
     api.request(
         q_search_citizens,
@@ -12,7 +12,7 @@ function citizens.search_citizens(search, callback)
                 local received = response.result.data.searchCitizens
                 -- Send client the search results
                 print("SERVER: SENDING ALL CLIENTS UPDATED UNITS")
-                callback(received, "search_results")
+                callback(received, "search_results", src)
             else
                 print(response.error)
             end
