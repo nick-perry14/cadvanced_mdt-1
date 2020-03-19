@@ -46,6 +46,16 @@ function client_receiver.client_event_handlers()
         end
     )
 
+    -- Update player location
+    RegisterNetEvent("update_location")
+    AddEventHandler(
+        "update_location",
+        function(data)
+            print("SERVER: RECEIVED REQUEST FROM CLIENT TO UPDATE LOCATION FOR USER " .. source)
+            users.update_location(source, data)
+        end
+    )
+
     -- Perform citizen search
     RegisterNetEvent("search_citizens")
     AddEventHandler(

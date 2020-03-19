@@ -6,10 +6,10 @@ SetHttpHandler(
     function(req, res)
         print("SERVER: ROUTER RECEIVED REQUEST TO " .. req.path)
         if req.method == "POST" then
-            if (req.path == "/update") then
+            if req.path == "/update" then
                 req.setDataHandler(
                     function(body)
-                        print("SERVER: ROUTER RECEIVED " .. body)
+                        print("SERVER: PUT ROUTER RECEIVED " .. body)
                         local data = json.decode(body)
                         if next(data) ~= nil then
                             print("SERVER: HANDLING UPDATED " .. data.object)
@@ -36,6 +36,11 @@ SetHttpHandler(
                 )
             end
         elseif req.method == "GET" then
+            print("SERVER: GET ROUTER RESPONDING")
+            if req.path == "/locations" then
+                local user_locations = users.get_locations()
+                res.send(json.encode({ userLocations = user_locations }))
+            end
         end
     end
 )

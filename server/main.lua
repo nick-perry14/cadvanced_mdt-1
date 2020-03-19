@@ -5,3 +5,6 @@ init.bootstrapData()
 
 -- Create handlers for server events
 init.createEventHandlers()
+
+-- Start any long running tasks
+init.startTasks()

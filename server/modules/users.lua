@@ -28,6 +28,7 @@ function users.get_whitelisted()
         return {}
     end
 end
+
 -- Get the table of user ranks
 function users.get_all_user_ranks()
     local q_get_all_user_ranks = queries.get_all_user_ranks()
@@ -74,6 +75,39 @@ function users.validate(source, setKickReason)
     end
     print("SERVER: PLAYER JOIN ACCEPTED")
     return true
+end
+
+-- Update a players location or add a new one
+function users.update_location(source, data)
+    local steam_id = user_helpers.get_steam_id(source)
+    local user_locations = state_get("user_locations")
+    local found = false
+    for i, it in ipairs(user_locations) do
+        if it.steamId == steam_id then
+            user_locations[i] = {
+                steamId = steam_id,
+                x = data.x,
+                y = data.y,
+                updated = os.time()
+            }
+            found = true
+            break
+        end
+    end
+    if found == false then
+        table.insert(user_locations, {
+            steamId = steam_id,
+            x = data.x,
+            y = data.y,
+            updated = os.time()
+        })
+    end
+    state_set("user_locations", user_locations)
+end
+
+-- Return all users with locations
+function users.get_locations()
+    return state_get("user_locations")
 end
 
 -- Get a players details and update state as appropriate
@@ -138,8 +172,9 @@ function users.handler_playerDropped()
     AddEventHandler(
         "playerDropped",
         function()
-            print("SERVER: PLAYER DROPPED")
             local id = user_helpers.get_steam_id(source)
+            print("SERVER: PLAYER " .. id .. " DROPPED")
+            -- Remove the player from the players table
             local usr = state_get("users")
             for i, user in ipairs(usr) do
                 print("SERVER: USER'S STEAM ID " .. user.steamId .. " - ITERATED ID " .. id)
@@ -152,6 +187,17 @@ function users.handler_playerDropped()
                     break
                 end
             end
+            -- Remove the player from the active player locations
+            local user_locations = state_get("user_locations")
+            local filtered = {}
+            for i, user_location in ipairs(user_locations) do
+                if user_location.steamId == id then
+                    print("SERVER: REMOVING LOCATION FOR PLAYER " .. id)
+                else
+                    table.insert(filtered, user_location)
+                end
+            end
+            state_set("user_locations", filtered)
         end
     )
 end

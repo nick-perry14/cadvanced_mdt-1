@@ -52,4 +52,25 @@ function init.createEventHandlers()
     client_receiver.client_event_handlers()
 end
 
+function init.startTasks()
+    -- Purge any user locations that haven't been updated
+    -- in the last 10 seconds
+    Citizen.CreateThread(function()
+        while true do
+            local locs = state_get("user_locations")
+            local expired = os.time() - 10
+            local filtered = {}
+            for i, it in ipairs(locs) do
+                if it.updated >= expired then
+                    table.insert(filtered, it)
+                else 
+                    print("SERVER: PURGING LOCATION FOR INACTIVE PLAYER " .. it.steamId)
+                end
+            end
+            state_set("user_locations", filtered)
+            Citizen.Wait(7000)
+        end
+    end)
+end
+
 return init
