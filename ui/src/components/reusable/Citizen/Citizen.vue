@@ -151,8 +151,8 @@
                     data: {
                         open: true,
                         type: 'Citizen',
-                        parentEntityId: this.citizen.id,
-                        selected: this.citizen.markers
+                        entity: this.citizen,
+                        updateMutation: 'updateCitizenSearchResult'
                     }
                 });
             }
@@ -164,8 +164,12 @@
             },
             getAlerts() {
                 // Collect together all the alerts
+                /* 
+                Temporarily disabled
                 const alerts = this.getWarrants;
                 return alerts.length > 0 ? alerts : null;
+                */
+                return null;
             },
             getWarrants() {
                 return this.citizen.warrants;

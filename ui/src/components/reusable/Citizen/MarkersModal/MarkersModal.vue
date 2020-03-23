@@ -36,7 +36,8 @@
                 return this.$store.getters.getModalData('markers').type;
             },
             selectedValues() {
-                return this.$store.getters.getModalData('markers').selected;
+                return this.$store.getters.getModalData('markers').entity
+                    .markers;
             },
             allMarkers() {
                 const method = `get${this.markerType}Markers`;
@@ -50,25 +51,26 @@
             addMarker(id) {
                 const modalData = this.$store.getters.getModalData('markers');
                 const toSend = {
-                    type: this.markerType,
-                    typeId: modalData.parentEntityId,
+                    type: modalData.type,
+                    typeId: modalData.entity.id,
                     markerId: id
                 };
                 this.sendClientMessage('addMarker', toSend);
                 const adding = this.allMarkers.find(m => m.id === id);
                 const newMarkers = [...this.selectedValues, adding];
+                // Update the selected markers in the modal
                 this.$store.commit('setModal', {
                     type: 'markers',
                     data: {
-                        selected: newMarkers
+                        entity: {
+                            ...modalData.entity,
+                            markers: newMarkers
+                        }
                     }
                 });
-                this.$store.commit('updateSearchResult', {
-                    type: this.markerType,
-                    typeId: modalData.parentEntityId,
-                    data: {
-                        markers: newMarkers
-                    }
+                // Update the search result so it displays the selected markers
+                this.$store.commit(modalData.updateMutation, {
+                    entity: this.$store.getters.getModalData('markers').entity
                 });
             },
             removeMarker(id) {
@@ -83,15 +85,14 @@
                 this.$store.commit('setModal', {
                     type: 'markers',
                     data: {
-                        selected: filtered
+                        entity: {
+                            ...modalData.entity,
+                            markers: filtered
+                        }
                     }
                 });
-                this.$store.commit('updateSearchResult', {
-                    type: this.markerType,
-                    typeId: modalData.parentEntityId,
-                    data: {
-                        markers: filtered
-                    }
+                this.$store.commit(modalData.updateMutation, {
+                    entity: this.$store.getters.getModalData('markers').entity
                 });
             },
             close() {

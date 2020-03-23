@@ -80,8 +80,17 @@ RegisterNetEvent("data:vehicle_markers")
 AddEventHandler(
     "data:vehicle_markers",
     function(jsonData)
-        print("CLIENT: RECEIVED VEHICLE FROM SERVER")
+        print("CLIENT: RECEIVED VEHICLE MARKERS FROM SERVER")
         pass_to_nui(jsonData, "vehicle_markers")
+    end
+)
+
+RegisterNetEvent("data:vehicle_models")
+AddEventHandler(
+    "data:vehicle_models",
+    function(jsonData)
+        print("CLIENT: RECEIVED VEHICLE MODELS FROM SERVER")
+        pass_to_nui(jsonData, "vehicle_models")
     end
 )
 
@@ -131,12 +140,21 @@ AddEventHandler(
     end
 )
 
-RegisterNetEvent("data:search_results")
+RegisterNetEvent("data:citizen_search_results")
 AddEventHandler(
-    "data:search_results",
+    "data:citizen_search_results",
     function(jsonData)
-        print("CLIENT: RECEIVED SEARCH RESULTS FROM SERVER")
-        pass_to_nui(jsonData, "search_results")
+        print("CLIENT: RECEIVED CITIZEN SEARCH RESULTS FROM SERVER")
+        pass_to_nui(jsonData, "citizen_search_results")
+    end
+)
+
+RegisterNetEvent("data:vehicle_search_results")
+AddEventHandler(
+    "data:vehicle_search_results",
+    function(jsonData)
+        print("CLIENT: RECEIVED VEHICLE SEARCH RESULTS FROM SERVER")
+        pass_to_nui(jsonData, "vehicle_search_results")
     end
 )
 

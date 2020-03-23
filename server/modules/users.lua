@@ -30,7 +30,7 @@ function users.get_whitelisted()
 end
 
 -- Get the table of user ranks
-function users.get_all_user_ranks()
+function users.get_all_user_ranks(pass_to_client)
     local q_get_all_user_ranks = queries.get_all_user_ranks()
     api.request(
         q_get_all_user_ranks,
@@ -41,11 +41,19 @@ function users.get_all_user_ranks()
                     table.insert(user_ranks, rank)
                 end
                 state_set("user_ranks", user_ranks)
+                if (pass_to_client ~= nil and pass_to_client) then
+                    client_sender.pass_data(state.user_ranks, "user_ranks")
+                end
             else
                 print(response.error)
             end
         end
     )
+end
+
+-- Repopulate all user_ranks
+function users.repopulate_user_ranks()
+    users.get_all_user_ranks(true)
 end
 
 -- Check if a user has a SteamID

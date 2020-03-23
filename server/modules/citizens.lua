@@ -1,4 +1,5 @@
 local queries = module("server/modules/queries")
+local client_sender = module("server/modules/comms/client_sender")
 local api = module("server/modules/comms/api")
 
 local citizens = {}
@@ -11,8 +12,8 @@ function citizens.search_citizens(search, callback, src)
             if response.error == nil then
                 local received = response.result.data.searchCitizens
                 -- Send client the search results
-                print("SERVER: SENDING ALL CLIENTS UPDATED UNITS")
-                callback(received, "search_results", src)
+                print("SERVER: SENDING ALL CLIENTS CITIZEN SEARCH RESULTS")
+                callback(received, "citizen_search_results", src)
             else
                 print(response.error)
             end
@@ -38,7 +39,7 @@ function citizens.get_citizen_offences(data, callback)
 end
 
 -- Get the table of citizen markers
-function citizens.get_all_markers()
+function citizens.get_all_markers(pass_to_client)
     local q_get_all_citizen_markers = queries.get_all_citizen_markers()
     api.request(
         q_get_all_citizen_markers,
@@ -49,11 +50,19 @@ function citizens.get_all_markers()
                     table.insert(citizen_markers, marker)
                 end
                 state_set("citizen_markers", citizen_markers)
+                if (pass_to_client ~= nil and pass_to_client) then
+                    client_sender.pass_data(state.citizen_markers, "citizen_markers")
+                end
             else
                 print(response.error)
             end
         end
     )
+end
+
+-- Repopulate all vehicle_markers
+function citizens.repopulate_citizen_markers()
+    citizens.get_all_markers(true)
 end
 
 -- Add a marker to a citizen

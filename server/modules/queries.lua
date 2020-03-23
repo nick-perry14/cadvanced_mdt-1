@@ -99,6 +99,28 @@ function queries.search_citizens(props)
     return json.encode(query)
 end
 
+function queries.search_vehicles(props)
+    -- Ensure all properties are populated, as we need to substitute
+    -- all placeholders in the query
+    local to_send = {}
+    local allProps = {'licencePlate', 'colour', 'vehicleModel'};
+    for _, key in ipairs(allProps) do
+        if props[key] ~= nil and string.len(props[key]) > 0 then
+            to_send[key] = props[key]
+        else
+            to_send[key] = ""
+        end
+    end
+    local query = {
+        operationname = null,
+        query = _doSub(
+            '{ searchVehicles(licencePlate: "$licencePlate", colour: "$colour", vehicleModel: "$vehicleModel") { id colour licencePlate vehicleModel { id name } insuranceStatus { id name } markers { id name } citizen { id firstName lastName address postalCode markers { id name } licences { id licenceType { id name } licenceStatus { id name } } } } }',
+            to_send
+        )
+    }
+    return json.encode(query)
+end
+
 function queries.update_user_units(props)
     local query = {
         operationname = null,
@@ -142,6 +164,14 @@ function queries.get_all_vehicle_markers()
     local query = {
         operationName = null,
         query = "{ allVehicleMarkers { id name } } "
+    }
+    return json.encode(query)
+end
+
+function queries.get_all_vehicle_models()
+    local query = {
+        operationName = null,
+        query = "{ allVehicleModels { id name } } "
     }
     return json.encode(query)
 end

@@ -32,7 +32,9 @@ const store = new Vuex.Store({
         userRanks: [],
         citizenMarkers: [],
         vehicleMarkers: [],
+        vehicleModels: [],
         citizenSearchResults: [],
+        vehicleSearchResults: [],
         modals: modalsInit
     },
     getters: {
@@ -43,6 +45,7 @@ const store = new Vuex.Store({
         getCalls: state => state.calls,
         getCitizenMarkers: state => state.citizenMarkers,
         getVehicleMarkers: state => state.vehicleMarkers,
+        getVehicleModels: state => state.vehicleModels,
         getUserUnits: state => state.userUnits,
         getUserRanks: state =>
             state.userRanks.sort((a, b) => a.position - b.position),
@@ -52,6 +55,7 @@ const store = new Vuex.Store({
         },
         getSteamId: state => state.steamId,
         getCitizenSearchResults: state => state.citizenSearchResults,
+        getVehicleSearchResults: state => state.vehicleSearchResults,
         isVisible: state => state.visible,
         getUser: state => {
             return state.users.find(user => user.steamId == state.steamId);
@@ -83,6 +87,8 @@ const store = new Vuex.Store({
             (state.citizenMarkers = citizenMarkers),
         setVehicleMarkers: (state, vehicleMarkers) =>
             (state.vehicleMarkers = vehicleMarkers),
+        setVehicleModels: (state, vehicleModels) =>
+            (state.vehicleModels = vehicleModels),
         setUsers: (state, users) => (state.users = users),
         setCalls: (state, calls) => (state.calls = calls),
         setSteamId: (state, steamId) => (state.steamId = steamId),
@@ -92,32 +98,52 @@ const store = new Vuex.Store({
                 offences: []
             }));
         },
-        updateSearchResult: (state, updated) => {
-            if (updated.type === 'Citizen') {
-                const resultIdx = state.citizenSearchResults.findIndex(
-                    r => r.id === updated.typeId
+        setVehicleSearchResults: (state, searchResults) =>
+            (state.vehicleSearchResults = searchResults),
+        updateCitizenSearchResult: (state, updated) => {
+            const resultIdx = state.citizenSearchResults.findIndex(
+                r => r.id === updated.entity.id
+            );
+            state.citizenSearchResults.splice(resultIdx, 1, {
+                ...state.citizenSearchResults[resultIdx],
+                markers: updated.entity.markers
+            });
+        },
+        updateVehicleSearchResult: (state, updated) => {
+            const resultIdx = state.vehicleSearchResults.findIndex(
+                r => r.id === updated.entity.id
+            );
+            state.vehicleSearchResults.splice(resultIdx, 1, {
+                ...state.vehicleSearchResults[resultIdx],
+                markers: updated.entity.markers
+            });
+        },
+        updateVehicleInCitizenSearchResult: (state, updated) => {
+            state.citizenSearchResults.forEach((result, resultIdx) => {
+                const vehicleIdx = result.vehicles.findIndex(
+                    v => v.id === updated.entity.id
                 );
-                state.citizenSearchResults.splice(resultIdx, 1, {
-                    ...results[resultIdx],
-                    markers: updated.data.markers
-                });
-            } else if (updated.type === 'Vehicle') {
-                state.citizenSearchResults.forEach((result, resultIdx) => {
-                    const vehicleIdx = result.vehicles.findIndex(
-                        v => v.id === updated.typeId
+                if (vehicleIdx > -1) {
+                    state.citizenSearchResults[resultIdx].vehicles.splice(
+                        vehicleIdx,
+                        1,
+                        {
+                            ...result.vehicles[vehicleIdx],
+                            markers: updated.entity.markers
+                        }
                     );
-                    if (vehicleIdx > -1) {
-                        state.citizenSearchResults[resultIdx].vehicles.splice(
-                            vehicleIdx,
-                            1,
-                            {
-                                ...result.vehicles[vehicleIdx],
-                                markers: updated.data.markers
-                            }
-                        );
-                    }
-                });
-            }
+                }
+            });
+        },
+        updateCitizenInVehicleSearchResult: (state, updated) => {
+            state.vehicleSearchResults.forEach((result, resultIdx) => {
+                if (result.citizen && result.citizen.id === updated.entity.id) {
+                    state.vehicleSearchResults[resultIdx].citizen = {
+                        ...state.vehicleSearchResults[resultIdx].citizen,
+                        markers: updated.entity.markers
+                    };
+                }
+            });
         },
         setConnectionIsActive: state => {
             state.connectionActive = true;

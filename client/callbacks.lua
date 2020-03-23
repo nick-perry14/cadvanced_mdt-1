@@ -32,6 +32,18 @@ RegisterNUICallback(
     end
 )
 
+-- Callback to handle vehicle searches
+RegisterNUICallback(
+    "searchVehicle",
+    function(data, cb)
+        -- Tell the server to send the init data
+        print("CLIENT: RECEIVED REQUEST FROM NUI TO SEND VEHICLE SEARCH PARAMETERS")
+        print("CLIENT: SENDING VEHICLE SEARCH OBJECT TO SERVER")
+        TriggerServerEvent("search_vehicles", data)
+        cb()
+    end
+)
+
 -- Callback to handle citizen offences retrieval
 RegisterNUICallback(
     "getCitizenOffences",

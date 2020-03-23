@@ -1,6 +1,8 @@
 local users = module("server/modules/users")
 local units = module("server/modules/units")
 local calls = module("server/modules/calls")
+local vehicles = module("server/modules/vehicles")
+local citizens = module("server/modules/citizens")
 
 SetHttpHandler(
     function(req, res)
@@ -26,6 +28,21 @@ SetHttpHandler(
                             elseif (data.object == "user_units") then
                                 -- Repopulate all user / unit assignments
                                 units.repopulate_user_units()
+                            elseif (data.object == "citizen_markers") then
+                                -- Repopulate all citizen markers
+                                citizens.repopulate_citizen_markers()
+                            elseif (data.object == "vehicle_markers") then
+                                -- Repopulate all vehicle markers
+                                vehicles.repopulate_vehicle_markers()
+                            elseif (data.object == "vehicle_models") then
+                                -- Repopulate all vehicle models
+                                vehicles.repopulate_vehicle_models()
+                            elseif (data.object == "unit_states") then
+                                -- Repopulate all unit states
+                                units.repopulate_unit_states()
+                            elseif (data.object == "user_ranks") then
+                                -- Repopulate all user ranks
+                                users.repopulate_user_ranks()
                             elseif (data.object == "units") then
                                 -- Repopulate all units
                                 units.repopulate_units()

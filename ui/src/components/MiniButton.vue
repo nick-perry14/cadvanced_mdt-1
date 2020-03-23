@@ -70,7 +70,6 @@
         color: rgba(255, 255, 255, 0.8);
         margin: 0;
         cursor: pointer;
-        white-space: nowrap;
     }
     button:first-child {
         margin-left: 0;

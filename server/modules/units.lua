@@ -80,6 +80,11 @@ function units.repopulate_units()
     units.get_all_units(true)
 end
 
+-- Repopulate all unit states
+function units.repopulate_unit_states()
+    units.get_all_unit_states(true)
+end
+
 -- Update a unit
 function units.update_unit(id)
     local q_get_unit = queries.get_unit(id)

@@ -4,12 +4,25 @@
         <div class="vehicle-container">
             <div class="details">
                 <div class="licence-plate">
-                    <Property :label="''" :value="vehicle.licencePlate" />
+                    <Property
+                        :label="''"
+                        :value="
+                            vehicle.licencePlate || '[ Unknown licence plate ]'
+                        "
+                    />
                 </div>
                 <div class="colour">
-                    <Property :label="''" :value="vehicle.colour" />
+                    <Property
+                        :label="''"
+                        :value="vehicle.colour || '[ Unknown colour ]'"
+                    />
                     &nbsp;
-                    <Property :label="''" :value="vehicle.vehicleModel.name" />
+                    <Property
+                        :label="''"
+                        :value="
+                            vehicle.vehicleModel.name || '[ Unknown model ]'
+                        "
+                    />
                 </div>
                 <div class="insurance">
                     <Property
@@ -63,8 +76,8 @@
                     data: {
                         open: true,
                         type: 'Vehicle',
-                        parentEntityId: this.vehicle.id,
-                        selected: this.vehicle.markers
+                        entity: this.vehicle,
+                        updateMutation: 'updateVehicleInCitizenSearchResult'
                     }
                 });
             }

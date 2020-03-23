@@ -32,6 +32,7 @@ function client_receiver.client_event_handlers()
             client_sender.pass_data(state_get("user_ranks"), "user_ranks", source)
             client_sender.pass_data(state_get("citizen_markers"), "citizen_markers", source)
             client_sender.pass_data(state_get("vehicle_markers"), "vehicle_markers", source)
+            client_sender.pass_data(state_get("vehicle_models"), "vehicle_models", source)
             client_sender.pass_data(user_helpers.get_steam_id(source), "steam_id", source)
         end
     )
@@ -63,6 +64,16 @@ function client_receiver.client_event_handlers()
         function(data)
             print("SERVER: RECEIVED REQUEST FROM CLIENT TO SEND CITIZEN SEARCH")
             citizens.search_citizens(data, client_sender.pass_data, source)
+        end
+    )
+
+    -- Perform vehicle search
+    RegisterNetEvent("search_vehicles")
+    AddEventHandler(
+        "search_vehicles",
+        function(data)
+            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SEND VEHICLE SEARCH")
+            vehicles.search_vehicles(data, client_sender.pass_data, source)
         end
     )
 

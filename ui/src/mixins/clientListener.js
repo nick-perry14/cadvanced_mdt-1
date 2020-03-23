@@ -77,14 +77,28 @@ export default {
                                 event.data.data
                             );
                             break;
+                        case 'vehicle_models':
+                            console.log('NUI: RECEIVED VEHICLE_MODELS');
+                            this.$store.commit(
+                                'setVehicleModels',
+                                event.data.data
+                            );
+                            break;
                         case 'steam_id':
                             console.log('NUI: RECEIVED STEAM ID');
                             this.$store.commit('setSteamId', event.data.data);
                             break;
-                        case 'search_results':
-                            console.log('NUI: RECEIVED SEARCH RESULTS');
+                        case 'citizen_search_results':
+                            console.log('NUI: RECEIVED CITIZEN SEARCH RESULTS');
                             this.$store.commit(
                                 'setCitizenSearchResults',
+                                event.data.data
+                            );
+                            break;
+                        case 'vehicle_search_results':
+                            console.log('NUI: RECEIVED VEHICLE SEARCH RESULTS');
+                            this.$store.commit(
+                                'setVehicleSearchResults',
                                 event.data.data
                             );
                             break;

@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import Home from '../components/main/Home.vue';
 import Status from '../components/main/status/Status.vue';
 import SearchCitizens from '../components/main/search/citizens/SearchCitizens.vue';
+import SearchVehicles from '../components/main/search/vehicles/SearchVehicles.vue';
 
 Vue.use(VueRouter);
 
@@ -29,7 +30,7 @@ const routes = [
     {
         path: '/search/vehicles',
         components: {
-            search: SearchCitizens
+            search: SearchVehicles
         }
     },
     {

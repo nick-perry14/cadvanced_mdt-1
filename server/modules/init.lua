@@ -39,6 +39,9 @@ function init.bootstrapData()
 
     -- Get all vehicle markers
     vehicles.get_all_markers()
+
+    -- Get all vehicle models
+    vehicles.get_all_models()
 end
 
 function init.createEventHandlers()
