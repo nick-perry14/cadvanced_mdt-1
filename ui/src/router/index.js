@@ -5,6 +5,7 @@ import Home from '../components/main/Home.vue';
 import Status from '../components/main/status/Status.vue';
 import SearchCitizens from '../components/main/search/citizens/SearchCitizens.vue';
 import SearchVehicles from '../components/main/search/vehicles/SearchVehicles.vue';
+import ComingSoon from '../components/reusable/ComingSoon.vue';
 
 Vue.use(VueRouter);
 
@@ -36,13 +37,43 @@ const routes = [
     {
         path: '/search/incidents',
         components: {
-            search: SearchCitizens
+            search: ComingSoon
         }
     },
     {
         path: '/search/bolo',
         components: {
-            search: SearchCitizens
+            search: ComingSoon
+        }
+    },
+    {
+        path: '/create/incident',
+        components: {
+            create: ComingSoon
+        }
+    },
+    {
+        path: '/create/bolo',
+        components: {
+            create: ComingSoon
+        }
+    },
+    {
+        path: '/messaging',
+        components: {
+            messaging: ComingSoon
+        }
+    },
+    {
+        path: '/notes',
+        components: {
+            notes: ComingSoon
+        }
+    },
+    {
+        path: '/panic',
+        components: {
+            panic: ComingSoon
         }
     }
 ];

@@ -12,6 +12,9 @@ const modalsInit = {
     },
     markers: {
         open: false
+    },
+    comingSoon: {
+        open: false
     }
 };
 
