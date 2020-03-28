@@ -37,6 +37,10 @@ module.exports = {
             {
                 from: 'public/css',
                 to: 'css'
+            },
+            {
+                from: 'public/sounds',
+                to: 'sounds'
             }
         ])
     ]

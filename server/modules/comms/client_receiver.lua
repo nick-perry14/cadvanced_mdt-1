@@ -23,7 +23,8 @@ function client_receiver.client_event_handlers()
             -- the side effect of distributing it to all clients, including us
             users.populate_player()
             client_sender.pass_data({
-                homepage = conf.val("homepage")
+                homepage = conf.val("homepage"),
+                sound_volume = conf.val("sound_volume")
             }, "config", source)
             client_sender.pass_data(state_get("calls"), "calls", source)
             client_sender.pass_data(state_get("units"), "units", source)

@@ -14,6 +14,7 @@
         >
             <Call
                 v-for="(call, index) in assignedCalls"
+                @changed="playRoger"
                 :key="index"
                 :call="call"
             />
@@ -27,93 +28,113 @@
 </template>
 
 <script>
-import UnitHeader from './UnitHeader.vue';
-import Call from './Call.vue';
-export default {
-    props: {
-        unit: {
-            type: Object,
-            required: true
+    import soundPlayer from '../../../../../mixins/soundPlayer';
+    import UnitHeader from './UnitHeader.vue';
+    import Call from './Call.vue';
+    export default {
+        props: {
+            unit: {
+                type: Object,
+                required: true
+            },
+            isOpen: {
+                type: Boolean,
+                required: true
+            },
+            ownUnits: {
+                type: Boolean,
+                required: true
+            }
         },
-        isOpen: {
-            type: Boolean,
-            required: true
+        components: {
+            UnitHeader,
+            Call
         },
-        ownUnits: {
-            type: Boolean,
-            required: true
+        mixins: [soundPlayer],
+        mounted: function() {
+            console.log(this.unit);
+        },
+        computed: {
+            assignedCalls() {
+                return this.$store.getters.getCalls.filter(call =>
+                    call.assignedUnits.some(unit => unit.id == this.unit.id)
+                );
+            },
+            hasCalls() {
+                return this.assignedCalls.length > 0;
+            },
+            isAssignedToUnit() {
+                return this.userUnitStatus ? true : false;
+            },
+            userUnitStatus() {
+                const user = this.$store.getters.getUser;
+                const userUnits = this.$store.getters.getUserUnits;
+                return userUnits.find(
+                    uu => uu.UserId === user.id && uu.UnitId === this.unit.id
+                );
+            }
+        },
+        methods: {
+            leaveUnit() {
+                this.$emit('leaveUnit');
+            },
+            beingEdited() {
+                this.$emit('beingEdited');
+            },
+            toggle() {
+                this.$emit('unitToggle');
+            }
+        },
+        watch: {
+            isAssignedToUnit() {
+                this.playRoger();
+            },
+            assignedCalls(newVal, oldVal) {
+                if (this.isAssignedToUnit && newVal.length !== oldVal.length) {
+                    this.playRoger();
+                }
+            },
+            'unit.unitState.id': function(newV, oldV) {
+                if (this.isAssignedToUnit && newV !== oldV) {
+                    this.playRoger();
+                }
+            }
         }
-    },
-    components: {
-        UnitHeader,
-        Call
-    },
-    computed: {
-        assignedCalls() {
-            return this.$store.getters.getCalls.filter(call =>
-                call.assignedUnits.some(unit => unit.id == this.unit.id)
-            );
-        },
-        hasCalls() {
-            return this.assignedCalls.length > 0;
-        },
-        isAssignedToUnit() {
-            return this.userUnitStatus ? true : false;
-        },
-        userUnitStatus() {
-            const user = this.$store.getters.getUser;
-            const userUnits = this.$store.getters.getUserUnits;
-            return userUnits.find(
-                uu => uu.UserId === user.id && uu.UnitId === this.unit.id
-            );
-        }
-    },
-    methods: {
-        leaveUnit() {
-            this.$emit('leaveUnit');
-        },
-        beingEdited() {
-            this.$emit('beingEdited');
-        },
-        toggle() {
-            this.$emit('unitToggle');
-        }
-    }
-};
+    };
 </script>
 
 <style scoped>
-#unit {
-    display: flex;
-    flex-direction: column;
-    border: 3px solid rgba(255, 255, 255, 0.5);
-    box-sizing: border-box;
-    border-radius: 10px;
-}
-#unit:first-child {
-    margin-left: 0;
-}
-#unit:last-child {
-    margin-right: 0;
-}
-.calls-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
-}
-.no-calls-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-}
-.no-calls {
-    font-size: 20px;
-    color: rgba(255, 255, 255, 1);
-    text-align: center;
-}
-.maskedcalls {
-    opacity: 0.3;
-}
+    #unit {
+        display: flex;
+        flex-direction: column;
+        border: 3px solid rgba(255, 255, 255, 0.5);
+        box-sizing: border-box;
+        border-radius: 10px;
+    }
+    #unit:first-child {
+        margin-left: 0;
+    }
+    #unit:last-child {
+        margin-right: 0;
+    }
+    .calls-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow-y: auto;
+    }
+    .no-calls-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+    }
+    .no-calls {
+        font-size: 20px;
+        color: rgba(255, 255, 255, 1);
+        text-align: center;
+    }
+    .maskedcalls {
+        opacity: 0.3;
+    }
 </style>
