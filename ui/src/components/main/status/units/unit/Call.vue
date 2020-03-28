@@ -42,6 +42,11 @@
             descriptions() {
                 return this.call.callDescriptions.map(curr => curr.text);
             }
+        },
+        watch: {
+            call() {
+                this.$emit('changed');
+            }
         }
     };
 </script>

@@ -8,13 +8,13 @@
             :isOpen="isOpen"
         />
         <div
-            v-if="isOpen"
+            v-show="isOpen"
             :class="{ maskedcalls: !isAssignedToUnit }"
             class="calls-container"
         >
             <Call
                 v-for="(call, index) in assignedCalls"
-                @changed="playRoger"
+                @changed="callChanged"
                 :key="index"
                 :call="call"
             />
@@ -51,9 +51,6 @@
             Call
         },
         mixins: [soundPlayer],
-        mounted: function() {
-            console.log(this.unit);
-        },
         computed: {
             assignedCalls() {
                 return this.$store.getters.getCalls.filter(call =>
@@ -83,6 +80,11 @@
             },
             toggle() {
                 this.$emit('unitToggle');
+            },
+            callChanged() {
+                if (this.isAssignedToUnit) {
+                    this.playRoger();
+                }
             }
         },
         watch: {
