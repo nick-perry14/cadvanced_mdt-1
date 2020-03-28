@@ -9,7 +9,10 @@ ui_page "ui/build/index.html"
 
 files {
     "ui/build/index.html",
-    "ui/build/bundle.js"
+    "ui/build/bundle.js",
+    "ui/build/css/reset.css",
+    "ui/build/css/main.css",
+    "ui/build/sounds/roger.ogg"
 }
 
 client_scripts {
