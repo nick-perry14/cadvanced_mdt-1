@@ -57,6 +57,9 @@ SetHttpHandler(
             if req.path == "/locations" then
                 local user_locations = users.get_locations()
                 res.send(json.encode({ userLocations = user_locations }))
+            elseif req.path == '/version' then
+                local version = GetResourceMetadata('cadvanced_mdt', 'version', 0)
+                res.send(json.encode({ version = version }))
             end
         end
     end
