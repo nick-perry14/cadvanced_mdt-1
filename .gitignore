@@ -1,4 +1,5 @@
 .vscode
 mdt_config.lua
 ui/build/
+ui/cache/
 ui/node_modules
