@@ -21,6 +21,7 @@
         margin: 30px auto;
     }
     h1 {
+        font-size: 2em;
         text-transform: uppercase;
         margin: 0 0 1em 0;
     }
