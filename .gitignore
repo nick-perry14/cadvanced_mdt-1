@@ -3,4 +3,4 @@ mdt_config.lua
 ui/build/
 ui/dist/
 ui/cache/
-ui/node_modules
+node_modules/
