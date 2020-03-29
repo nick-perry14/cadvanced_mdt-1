@@ -4,14 +4,14 @@ function api.request(query, callback)
     local conf = module("server/modules/config")
     local token = conf.val("api_token")
     local url = conf.val("cad_url") .. "/api"
-    print("SERVER: MAKING API CALL TO " .. url)
-    print("SERVER: CALL BODY: " .. query)
+    print_debug("MAKING API CALL TO " .. url)
+    print_debug("CALL BODY: " .. query)
     PerformHttpRequest(
         url,
         function(errorCode, resultData)
-            print(resultData)
+            print_debug(resultData)
             if errorCode ~= 200 then
-                print("CADvanced: ERROR - Unable to perform query " .. query .. ", error " .. errorCode)
+                print_debug("CADvanced: ERROR - Unable to perform query " .. query .. ", error " .. errorCode)
                 callback({error = errorCode})
             end
             callback({result = json.decode(resultData)})

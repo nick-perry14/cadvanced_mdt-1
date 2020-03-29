@@ -20,7 +20,7 @@ function vehicles.get_all_markers(pass_to_client)
                     client_sender.pass_data(state.vehicle_markers, "vehicle_markers")
                 end
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -47,7 +47,7 @@ function vehicles.get_all_models(pass_to_client)
                     client_sender.pass_data(state.vehicle_models, "vehicle_models")
                 end
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -65,7 +65,7 @@ function vehicles.add_marker(data)
         q_attach_marker_to_vehicle,
         function(response)
             if response.error ~= nil then
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -78,7 +78,7 @@ function vehicles.remove_marker(data)
         q_detach_marker_from_vehicle,
         function(response)
             if response.error ~= nil then
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -92,10 +92,10 @@ function vehicles.search_vehicles(search, callback, src)
             if response.error == nil then
                 local received = response.result.data.searchVehicles
                 -- Send client the search results
-                print("SERVER: SENDING ALL CLIENTS VEHICLE SEARCH RESULTS")
+                print_debug("SENDING ALL CLIENTS VEHICLE SEARCH RESULTS")
                 callback(received, "vehicle_search_results", src)
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )

@@ -17,7 +17,7 @@ function calls.get_all_calls()
                 end
                 state_set("calls", cll)
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -26,12 +26,12 @@ end
 -- Update a call
 function calls.update_call(id)
     local q_get_call = queries.get_call(id)
-    print("SERVER: UPDATING CALL " .. id)
+    print_debug("UPDATING CALL " .. id)
     api.request(
         q_get_call,
         function(response)
             if response.error == nil then
-                print("SERVER: PARSING UPDATED CALL")
+                print_debug("PARSING UPDATED CALL")
                 local received = response.result.data.getCall
                 local ex_calls = state_get("calls")
                 local found = false
@@ -46,10 +46,10 @@ function calls.update_call(id)
                 end
                 state_set("calls", ex_calls)
                 -- Send client the updated calls list
-                print("SERVER: SENDING ALL CLIENTS UPDATED CALLS")
+                print_debug("SENDING ALL CLIENTS UPDATED CALLS")
                 client_sender.pass_data(ex_calls, "calls")
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )

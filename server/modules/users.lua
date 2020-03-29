@@ -20,7 +20,7 @@ function users.get_whitelisted()
                     end
                     state_set("whitelist", whitelist)
                 else
-                    print(response.error)
+                    print_debug(response.error)
                 end
             end
         )
@@ -45,7 +45,7 @@ function users.get_all_user_ranks(pass_to_client)
                     client_sender.pass_data(state.user_ranks, "user_ranks")
                 end
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -63,7 +63,7 @@ function users.validate(source, setKickReason)
             "Unable to find SteamID, please relaunch FiveM with steam open or restart FiveM & Steam if steam is already open"
         )
         CancelEvent()
-        print("SERVER: PLAYER JOIN DENIED - NO SOURCE")
+        print_debug("PLAYER JOIN DENIED - NO SOURCE")
         return false
     end
     local id = user_helpers.get_steam_id(source)
@@ -72,16 +72,16 @@ function users.validate(source, setKickReason)
             "Unable to find SteamID, please relaunch FiveM with steam open or restart FiveM & Steam if steam is already open"
         )
         CancelEvent()
-        print("SERVER: PLAYER JOIN DENIED - NO STEAM ID")
+        print_debug("PLAYER JOIN DENIED - NO STEAM ID")
         return false
     end
     if conf.val("enable_whitelist") and not hasValue(state_get("whitelisted"), id) then
         setKickReason("You are not whitelisted for this server")
         CancelEvent()
-        print("SERVER: PLAYER JOIN DENIED - NOT WHITELISTED")
+        print_debug("PLAYER JOIN DENIED - NOT WHITELISTED")
         return false
     end
-    print("SERVER: PLAYER JOIN ACCEPTED")
+    print_debug("PLAYER JOIN ACCEPTED")
     return true
 end
 
@@ -124,11 +124,11 @@ function users.populate_player(steamId)
     local my_source
     if not steamId then
         is_new = true
-        print("SERVER: GETTING NEWLY CONNECTED PLAYER DETAILS FOR " .. source)
+        print_debug("GETTING NEWLY CONNECTED PLAYER DETAILS FOR " .. source)
         my_source = source
         steamId = user_helpers.get_steam_id(source)
     else
-        print("SERVER: GETTING UPDATED PLAYER DETAILS FOR " .. steamId)
+        print_debug("GETTING UPDATED PLAYER DETAILS FOR " .. steamId)
     end
     local q_user = queries.get_user(steamId)
     api.request(
@@ -152,10 +152,10 @@ function users.populate_player(steamId)
                 end
                 state_set("users", usr)
                 -- Send client the updated user list
-                print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
+                print_debug("SENDING ALL CLIENTS UPDATED USERS")
                 client_sender.pass_data(usr, "users")
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -167,8 +167,8 @@ function users.handler_playerConnecting()
     AddEventHandler(
         "playerConnecting",
         function(name, setKickReason)
-            print("SERVER: PLAYER CONNECTED " .. source)
-            print("SERVER: VALIDATING PLAYER")
+            print_debug("PLAYER CONNECTED " .. source)
+            print_debug("VALIDATING PLAYER")
             users.validate(source, setKickReason)
         end
     )
@@ -181,16 +181,16 @@ function users.handler_playerDropped()
         "playerDropped",
         function()
             local id = user_helpers.get_steam_id(source)
-            print("SERVER: PLAYER " .. id .. " DROPPED")
+            print_debug("PLAYER " .. id .. " DROPPED")
             -- Remove the player from the players table
             local usr = state_get("users")
             for i, user in ipairs(usr) do
-                print("SERVER: USER'S STEAM ID " .. user.steamId .. " - ITERATED ID " .. id)
+                print_debug("USER'S STEAM ID " .. user.steamId .. " - ITERATED ID " .. id)
                 if user.steamId == id then
                     table.remove(usr, i)
                     state_set("users", usr)
                     -- Send client the updated user list
-                    print("SERVER: SENDING ALL CLIENTS UPDATED USERS")
+                    print_debug("SENDING ALL CLIENTS UPDATED USERS")
                     client_sender.pass_data(usr, "users")
                     break
                 end
@@ -200,7 +200,7 @@ function users.handler_playerDropped()
             local filtered = {}
             for i, user_location in ipairs(user_locations) do
                 if user_location.steamId == id then
-                    print("SERVER: REMOVING LOCATION FOR PLAYER " .. id)
+                    print_debug("REMOVING LOCATION FOR PLAYER " .. id)
                 else
                     table.insert(filtered, user_location)
                 end
@@ -228,7 +228,7 @@ function users.update_user_units(user_id)
         q_update_user_units,
         function(response)
             if response.error ~= nil then
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -253,7 +253,7 @@ function users.remove_from_unit(data)
             state_set("user_units", assignments)
             users.update_user_units(user_id)
         else
-            print("SERVER: UNABLE TO FIND SUPPLIED UNIT ASSIGNMENT")
+            print_debug("UNABLE TO FIND SUPPLIED UNIT ASSIGNMENT")
         end
     end
 end
@@ -282,7 +282,7 @@ function users.add_to_unit(data)
             state_set("user_units", assignments)
             users.update_user_units(user_id)
         else
-            print("SERVER: UNABLE TO FIND SUPPLIED UNIT ASSIGNMENT")
+            print_debug("UNABLE TO FIND SUPPLIED UNIT ASSIGNMENT")
         end
     end
 end

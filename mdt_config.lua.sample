@@ -8,6 +8,7 @@ cfg.homepage = "WELCOME TO MY MDT!" -- Text to be displayed on the front page of
 cfg.api_token = "" -- Your CAD's API token, see Admin > Preferences in the CAD
 cfg.enable_whitelist = false -- Only allow players with the "Player" role to join
 cfg.sound_volume = 0.5 -- The volume of MDT sounds
+cfg.debug = false -- Debug mode - do not enable unless requested by support
 
 -- ##################################
 

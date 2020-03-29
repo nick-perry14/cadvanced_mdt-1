@@ -41,7 +41,7 @@ end
 
 -- Dump a table's contents to the console
 function dump_table(tbl)
-    print(tprint(tbl))
+    print_debug(tprint(tbl))
 end
 
 -- Serialize a table

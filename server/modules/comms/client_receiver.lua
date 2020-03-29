@@ -16,7 +16,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "send_init",
         function()
-            print("SERVER: RECEIVED REQUEST FROM CLIENT FOR INIT DATA")
+            print_debug("RECEIVED REQUEST FROM CLIENT FOR INIT DATA")
             -- We call populate_player here rather than just passing the current
             -- state of all users because we probably don't know anything about
             -- this player, so we want to get their data first, which will have
@@ -24,7 +24,8 @@ function client_receiver.client_event_handlers()
             users.populate_player()
             client_sender.pass_data({
                 homepage = conf.val("homepage"),
-                sound_volume = conf.val("sound_volume")
+                sound_volume = conf.val("sound_volume"),
+                debug = conf.val("debug")
             }, "config", source)
             client_sender.pass_data(state_get("calls"), "calls", source)
             client_sender.pass_data(state_get("units"), "units", source)
@@ -43,7 +44,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "open_mdt",
         function()
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO OPEN MDT FOR USER " .. source)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO OPEN MDT FOR USER " .. source)
             client_sender.pass_data({ source = source }, "open_mdt", source)
         end
     )
@@ -53,7 +54,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "update_location",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO UPDATE LOCATION FOR USER " .. source)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO UPDATE LOCATION FOR USER " .. source)
             users.update_location(source, data)
         end
     )
@@ -63,7 +64,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "search_citizens",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SEND CITIZEN SEARCH")
+            print_debug("RECEIVED REQUEST FROM CLIENT TO SEND CITIZEN SEARCH")
             citizens.search_citizens(data, client_sender.pass_data, source)
         end
     )
@@ -73,7 +74,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "search_vehicles",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SEND VEHICLE SEARCH")
+            print_debug("RECEIVED REQUEST FROM CLIENT TO SEND VEHICLE SEARCH")
             vehicles.search_vehicles(data, client_sender.pass_data, source)
         end
     )
@@ -83,7 +84,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "get_citizen_offences",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO GET CITIZEN OFFENCES")
+            print_debug("RECEIVED REQUEST FROM CLIENT TO GET CITIZEN OFFENCES")
             citizens.get_citizen_offences(data, client_sender.pass_data)
         end
     )
@@ -93,7 +94,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "remove_user_from_unit",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO REMOVE USER FROM UNIT")
+            print_debug("RECEIVED REQUEST FROM CLIENT TO REMOVE USER FROM UNIT")
             users.remove_from_unit(data)
         end
     )
@@ -103,7 +104,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "add_user_to_unit",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO ADD USER TO UNIT")
+            print_debug("RECEIVED REQUEST FROM CLIENT TO ADD USER TO UNIT")
             users.add_to_unit(data)
         end
     )
@@ -113,7 +114,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "set_unit_state",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET UNIT STATE")
+            print_debug("RECEIVED REQUEST FROM CLIENT TO SET UNIT STATE")
             units.set_unit_state(data)
         end
     )
@@ -123,7 +124,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "add_marker",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET ADD MARKER TO " .. data.type)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO SET ADD MARKER TO " .. data.type)
             if (data.type == 'Citizen') then
                 citizens.add_marker(data)
             elseif (data.type == 'Vehicle') then
@@ -137,7 +138,7 @@ function client_receiver.client_event_handlers()
     AddEventHandler(
         "remove_marker",
         function(data)
-            print("SERVER: RECEIVED REQUEST FROM CLIENT TO SET REMOVE MARKER FROM " .. data.type)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO SET REMOVE MARKER FROM " .. data.type)
             if (data.type == 'Citizen') then
                 citizens.remove_marker(data)
             elseif (data.type == 'Vehicle') then

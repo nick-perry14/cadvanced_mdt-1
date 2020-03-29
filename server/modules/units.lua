@@ -20,7 +20,7 @@ function units.get_all_units(pass_to_client)
                     client_sender.pass_data(state.units, "units")
                 end
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -42,7 +42,7 @@ function units.get_all_unit_states(pass_to_client)
                     client_sender.pass_data(state.unit_states, "unit_states")
                 end
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -64,7 +64,7 @@ function units.get_all_user_units(pass_to_client)
                     client_sender.pass_data(state.user_units, "user_units")
                 end
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -88,12 +88,12 @@ end
 -- Update a unit
 function units.update_unit(id)
     local q_get_unit = queries.get_unit(id)
-    print("SERVER: UPDATING UNIT " .. id)
+    print_debug("UPDATING UNIT " .. id)
     api.request(
         q_get_unit,
         function(response)
             if response.error == nil then
-                print("SERVER: PARSING UPDATED UNIT")
+                print_debug("PARSING UPDATED UNIT")
                 local received = response.result.data.getUnit
                 local ex_units = state_get("units")
                 local found = false
@@ -108,10 +108,10 @@ function units.update_unit(id)
                 end
                 state_set("units", ex_units)
                 -- Send client the updated units list
-                print("SERVER: SENDING ALL CLIENTS UPDATED UNITS")
+                print_debug("SENDING ALL CLIENTS UPDATED UNITS")
                 client_sender.pass_data(ex_units, "units")
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -120,14 +120,14 @@ end
 -- Update a unit's state
 function units.set_unit_state(data)
     local unit = state_get_value("units", data.unitId)
-    print("SERVER: SENDING UPDATED UNIT STATE TO CAD FOR UNIT " .. data.unitId)
+    print_debug("SENDING UPDATED UNIT STATE TO CAD FOR UNIT " .. data.unitId)
     if (unit ~= nil) then
         local q_set_unit_state = queries.set_unit_state(data, unit)
         api.request(
             q_set_unit_state,
             function(response)
                 if response.error == nil then
-                    print("SERVER: PARSING UPDATED UNIT")
+                    print_debug("PARSING UPDATED UNIT")
                     local received = response.result.data.updateUnit
                     local ex_units = state_get("units")
                     local found = false
@@ -142,10 +142,10 @@ function units.set_unit_state(data)
                     end
                     state_set("units", ex_units)
                     -- Send client the updated units list
-                    print("SERVER: SENDING ALL CLIENTS UPDATED UNITS")
+                    print_debug("SENDING ALL CLIENTS UPDATED UNITS")
                     client_sender.pass_data(ex_units, "units")
                 else
-                    print(response.error)
+                    print_debug(response.error)
                 end
             end
         )

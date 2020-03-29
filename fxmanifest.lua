@@ -20,6 +20,7 @@ client_scripts {
 }
 
 server_scripts {
+    "server/lib/debug.lua",
     "server/lib/state.lua",
     "server/lib/util.lua",
     "server/lib/router.lua",

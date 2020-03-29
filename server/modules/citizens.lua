@@ -12,10 +12,10 @@ function citizens.search_citizens(search, callback, src)
             if response.error == nil then
                 local received = response.result.data.searchCitizens
                 -- Send client the search results
-                print("SERVER: SENDING ALL CLIENTS CITIZEN SEARCH RESULTS")
+                print_debug("SENDING ALL CLIENTS CITIZEN SEARCH RESULTS")
                 callback(received, "citizen_search_results", src)
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -29,10 +29,10 @@ function citizens.get_citizen_offences(data, callback)
             if response.error == nil then
                 local received = response.result.data.getCitizen
                 -- Send client the offences
-                print("SERVER: SENDING ALL CLIENTS CITIZEN OFFENCES")
+                print_debug("SENDING ALL CLIENTS CITIZEN OFFENCES")
                 callback(received, "citizen_offences")
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -54,7 +54,7 @@ function citizens.get_all_markers(pass_to_client)
                     client_sender.pass_data(state.citizen_markers, "citizen_markers")
                 end
             else
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -72,7 +72,7 @@ function citizens.add_marker(data)
         q_attach_marker_to_citizen,
         function(response)
             if response.error ~= nil then
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )
@@ -85,7 +85,7 @@ function citizens.remove_marker(data)
         q_detach_marker_from_citizen,
         function(response)
             if response.error ~= nil then
-                print(response.error)
+                print_debug(response.error)
             end
         end
     )

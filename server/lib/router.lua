@@ -6,15 +6,15 @@ local citizens = module("server/modules/citizens")
 
 SetHttpHandler(
     function(req, res)
-        print("SERVER: ROUTER RECEIVED REQUEST TO " .. req.path)
+        print_debug("ROUTER RECEIVED REQUEST TO " .. req.path)
         if req.method == "POST" then
             if req.path == "/update" then
                 req.setDataHandler(
                     function(body)
-                        print("SERVER: PUT ROUTER RECEIVED " .. body)
+                        print_debug("PUT ROUTER RECEIVED " .. body)
                         local data = json.decode(body)
                         if next(data) ~= nil then
-                            print("SERVER: HANDLING UPDATED " .. data.object)
+                            print_debug("HANDLING UPDATED " .. data.object)
                             if (data.object == "user") then
                                 -- We will receive the Steam ID of a user we
                                 -- need to update our cache of
@@ -53,7 +53,7 @@ SetHttpHandler(
                 )
             end
         elseif req.method == "GET" then
-            print("SERVER: GET ROUTER RESPONDING")
+            print_debug("GET ROUTER RESPONDING")
             if req.path == "/locations" then
                 local user_locations = users.get_locations()
                 res.send(json.encode({ userLocations = user_locations }))

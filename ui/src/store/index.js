@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import logger from '../mixins/logger';
+
 Vue.use(Vuex);
 
 const modalsInit = {
@@ -173,17 +175,17 @@ const store = new Vuex.Store({
         setActiveRoute: (state, callId) => (state.activeRoute = callId)
     },
     subscribe: (mutation, state) => {
-        console.log('NUI: ' + mutation.type);
-        console.log('NUI: ' + mutation.payload);
-        console.log('NUI: ' + JSON.stringify(state));
+        logger.methods.doLog(mutation.type);
+        logger.methods.doLog(mutation.payload);
+        logger.methods.doLog(JSON.stringify(state));
     }
 });
 
 store.watch(
     state => state.modals,
     v => {
-        console.log('VUEX WATCHER:');
-        console.log(JSON.stringify(v));
+        logger.methods.doLog('VUEX WATCHER:');
+        logger.methods.doLog(JSON.stringify(v));
     }
 );
 

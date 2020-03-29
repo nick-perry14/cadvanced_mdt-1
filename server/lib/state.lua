@@ -29,7 +29,7 @@ function state_set(key, val)
     if not state[key] then
         state_init(key)
     end
-    print("SERVER: UPDATING STATE FOR " .. key)
+    print_debug("UPDATING STATE FOR " .. key)
     state[key] = val
     return state[key]
 end

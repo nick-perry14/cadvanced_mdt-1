@@ -89,6 +89,7 @@
 </template>
 
 <script>
+    import logger from '../../../mixins/logger';
     import SectionProperty from '../Citizen/SectionProperty.vue';
     import Property from '../Citizen/Property.vue';
     import Licence from '../Citizen/Licence.vue';
@@ -112,9 +113,10 @@
                 required: true
             }
         },
+        mixins: [logger],
         methods: {
             openVehicleMarkersModal(entity) {
-                console.log(JSON.parse(JSON.stringify(entity)));
+                this.doLog(JSON.parse(JSON.stringify(entity)));
                 this.$store.commit('setModal', {
                     type: 'markers',
                     data: {
@@ -126,7 +128,7 @@
                 });
             },
             openCitizenMarkersModal(entity) {
-                console.log(JSON.parse(JSON.stringify(entity)));
+                this.doLog(JSON.parse(JSON.stringify(entity)));
                 this.$store.commit('setModal', {
                     type: 'markers',
                     data: {

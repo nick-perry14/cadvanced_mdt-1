@@ -67,7 +67,7 @@ function init.startTasks()
                 if it.updated >= expired then
                     table.insert(filtered, it)
                 else 
-                    print("SERVER: PURGING LOCATION FOR INACTIVE PLAYER " .. it.steamId)
+                    print_debug("PURGING LOCATION FOR INACTIVE PLAYER " .. it.steamId)
                 end
             end
             state_set("user_locations", filtered)
