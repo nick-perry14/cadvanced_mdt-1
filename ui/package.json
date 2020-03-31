@@ -1,11 +1,11 @@
 {
   "name": "cadvanced_mdt",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "The Vue powered UI for the CADvanced MDT",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --config webpack.config.dev.js --host code-server.warmlight.co.uk",
+    "dev": "webpack-dev-server --config webpack.config.dev.js",,
     "fivem": "webpack --config webpack.config.fivem.js"
   },
   "author": "Andrew Isherwood <support@cadvanced.app>",
