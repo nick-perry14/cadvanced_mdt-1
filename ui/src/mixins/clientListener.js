@@ -1,17 +1,15 @@
 import logger from './logger';
 import clientSender from '../mixins/clientSender';
 export default {
-    created: function() {
+    created: function () {
         // Create listener for incoming messages coming from
         // client Lua
-        window.addEventListener('message', (event) =>
-            this.processMessage(event)
-        );
+        window.addEventListener('message', event => this.processMessage(event));
     },
-    destroyed: function() {
+    destroyed: function () {
         // Destroy listener for incoming messages coming from
         // client Lua
-        window.removeEventListener('message', (event) =>
+        window.removeEventListener('message', event =>
             this.processMessage(event)
         );
     },
@@ -22,17 +20,17 @@ export default {
             const activeMarker = this.$store.getters.getActiveMarker;
             if (activeMarker !== -1) {
                 const calls = this.$store.getters.getCalls;
-                const call = calls.find((c) => c.id === activeMarker);
+                const call = calls.find(c => c.id === activeMarker);
                 this.sendClientMessage('setCallMarker', {
-                    call,
+                    call
                 });
             }
             const activeRoute = this.$store.getters.getActiveRoute;
             if (activeRoute !== -1) {
                 const calls = this.$store.getters.getCalls;
-                const call = calls.find((c) => c.id === activeRoute);
+                const call = calls.find(c => c.id === activeRoute);
                 this.sendClientMessage('setCallRoute', {
-                    call,
+                    call
                 });
             }
         },
@@ -137,6 +135,6 @@ export default {
                     }
                 }
             }
-        },
-    },
+        }
+    }
 };
