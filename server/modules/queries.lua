@@ -23,6 +23,17 @@ function queries.get_user(steam_id)
     return json.encode(query)
 end
 
+function queries.start_panic(steam_id)
+    local query = {
+        operationName = null,
+        variables = {
+            steamId = steam_id
+        },
+        query = 'mutation ($steamId: String!) { startPanic(steamId: $steamId) { id callerInfo markerX markerY callType { id name code readonly } callGrade { id name code readonly } callLocations { id name code readonly } callIncidents { id name code readonly } callDescriptions { id text } } }'
+    }
+    return json.encode(query)
+end
+
 function queries.get_all_calls()
     local query = {
         operationName = null,

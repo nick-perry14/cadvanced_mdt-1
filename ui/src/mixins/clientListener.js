@@ -1,4 +1,5 @@
 import logger from './logger';
+import soundPlayer from './soundPlayer';
 import clientSender from '../mixins/clientSender';
 export default {
     created: function() {
@@ -13,7 +14,7 @@ export default {
             this.processMessage(event)
         );
     },
-    mixins: [logger],
+    mixins: [logger, soundPlayer, clientSender],
     methods: {
         // We may need to update the active marker and route when a call changed
         updateMarkerRoute() {
@@ -54,11 +55,10 @@ export default {
         // const event = new Event('message');event.data = {action:'showMdt'};window.dispatchEvent(event);
         processMessage() {
             this.doLog('PROCESSING MESSAGE ' + JSON.stringify(event.data));
-            if (
-                event.data.hasOwnProperty('action') &&
-                event.data.action == 'showMdt'
-            ) {
-                this.$store.commit('setVisible');
+            if (event.data.hasOwnProperty('action')) {
+                if (event.data.action == 'showMdt') {
+                    this.$store.commit('setVisible');
+                }
             } else if (event.data.hasOwnProperty('data')) {
                 // Identify what sort of data we're receiving
                 if (event.data.hasOwnProperty('object') && event.data.object) {
@@ -75,6 +75,31 @@ export default {
                         case 'units':
                             this.doLog('RECEIVED UNITS');
                             this.$store.commit('setUnits', event.data.data);
+                            break;
+                        case 'display_panic':
+                            this.doLog('RECEIVED PANIC CALL ID');
+                            this.$store.dispatch(
+                                'setPanicIsActive',
+                                event.data.data
+                            );
+                            const conf = this.$store.getters.getResourceConfig;
+                            if (conf.panic_create_marker) {
+                                const calls = this.$store.getters.getCalls;
+                                const call = calls.find(
+                                    c =>
+                                        parseInt(c.id) ===
+                                        parseInt(event.data.data.call_id)
+                                );
+                                this.sendClientMessage('setCallMarker', {
+                                    call
+                                });
+                                this.sendClientMessage('setCallRoute', {
+                                    call
+                                });
+                                this.$store.commit('setActiveMarker', call.id);
+                                this.$store.commit('setActiveRoute', call.id);
+                            }
+                            this.playPanic();
                             break;
                         case 'unit_states':
                             this.doLog('RECEIVED UNIT STATES');
