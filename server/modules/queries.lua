@@ -45,7 +45,7 @@ end
 function queries.get_all_units()
     local query = {
         operationName = null,
-        query = "{ allUnits { id callSign unitType { id name } unitState { id name colour } UnitTypeId UnitStateId } }"
+        query = "{ allUnits { id callSign unitType { id name } unitState { id name colour code } UnitTypeId UnitStateId } }"
     }
     return json.encode(query)
 end

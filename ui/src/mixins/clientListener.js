@@ -16,6 +16,30 @@ export default {
     },
     mixins: [logger, soundPlayer, clientSender],
     methods: {
+        userIsAssignedToCall(panicCallId) {
+            const user = this.$store.getters.getUser;
+            // Get the units assigned to the panic call
+            const allCalls = this.$store.getters.getCalls;
+            const call = allCalls.find(
+                call => parseInt(call.id) === parseInt(panicCallId)
+            );
+            const assignedUnits = call.assignedUnits.map(assUnit =>
+                parseInt(assUnit.id)
+            );
+            // We have a list of units assigned to the call
+            // We have a list of all user / unit assignments
+            //
+            // - Get a list of unit assignments for this user
+            const usersUnits = this.$store.getters.getUserUnits.filter(
+                uu => uu.UserId === user.id
+            );
+            // - Check if any of those units intersect with units assigned to the call
+            return (
+                usersUnits.filter(usersUnit =>
+                    assignedUnits.includes(parseInt(usersUnit.UnitId))
+                ).length > 0
+            );
+        },
         // We may need to update the active marker and route when a call changed
         updateMarkerRoute() {
             const activeMarker = this.$store.getters.getActiveMarker;
@@ -82,13 +106,18 @@ export default {
                                 'setPanicIsActive',
                                 event.data.data
                             );
+                            this.playPanic();
                             const conf = this.$store.getters.getResourceConfig;
-                            if (conf.panic_create_marker) {
+                            const panicCallId = parseInt(
+                                event.data.data.call_id
+                            );
+                            if (
+                                this.userIsAssignedToCall(panicCallId) &&
+                                conf.panic_create_marker
+                            ) {
                                 const calls = this.$store.getters.getCalls;
                                 const call = calls.find(
-                                    c =>
-                                        parseInt(c.id) ===
-                                        parseInt(event.data.data.call_id)
+                                    c => parseInt(c.id) === panicCallId
                                 );
                                 this.sendClientMessage('setCallMarker', {
                                     call
@@ -99,7 +128,6 @@ export default {
                                 this.$store.commit('setActiveMarker', call.id);
                                 this.$store.commit('setActiveRoute', call.id);
                             }
-                            this.playPanic();
                             break;
                         case 'unit_states':
                             this.doLog('RECEIVED UNIT STATES');
