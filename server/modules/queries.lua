@@ -70,7 +70,7 @@ function queries.get_unit(unit_id)
     local query = {
         operationname = null,
         query = _doSub(
-            "{ getUnit(id: $x) { id callSign unitType { id name } unitState { id name colour } UnitTypeId UnitStateId } }",
+            "{ getUnit(id: $x) { id callSign unitType { id name } unitState { id name colour code } UnitTypeId UnitStateId } }",
             {x = unit_id}
         )
     }
@@ -196,7 +196,7 @@ function queries.set_unit_state(props, unit)
             UnitStateId = props.stateId,
             UnitTypeId = unit.UnitTypeId
         },
-        query = "mutation ($id: ID!, $callSign: String!, $UnitTypeId: ID!, $UnitStateId: ID!) { updateUnit(id: $id, callSign: $callSign, UnitTypeId: $UnitTypeId, UnitStateId: $UnitStateId) { id callSign unitType { id name } unitState { id name colour } UnitTypeId UnitStateId } }"
+        query = "mutation ($id: ID!, $callSign: String!, $UnitTypeId: ID!, $UnitStateId: ID!) { updateUnit(id: $id, callSign: $callSign, UnitTypeId: $UnitTypeId, UnitStateId: $UnitStateId) { id callSign unitType { id name } unitState { id name colour code } UnitTypeId UnitStateId } }"
     }
     return json.encode(query)
 end
