@@ -47,12 +47,6 @@ const routes = [
         }
     },
     {
-        path: '/create/incident',
-        components: {
-            create: ComingSoon
-        }
-    },
-    {
         path: '/create/bolo',
         components: {
             create: ComingSoon

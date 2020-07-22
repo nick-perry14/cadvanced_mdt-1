@@ -25,6 +25,16 @@
                 </div>
             </div>
         </div>
+        <div v-if="isOpen" class="legal-actions">
+            <MiniButton
+                @miniClick="openOffenceModal(true)"
+                text="Add offence"
+                colour="rgba(0,255,0,0.5)"
+                borderRadius="3px"
+                icon="fa-pen-alt"
+                padding="6px 8px"
+            />
+        </div>
         <div v-if="isOpen" class="details">
             <Property
                 class="ethnicity property"
@@ -151,6 +161,25 @@ export default {
                 this.isOpen ? '0' : this.citizen.id
             );
         },
+        openOffenceModal(isNew) {
+            // Add a new empty offence if we need to
+            if (isNew) {
+                this.$store.commit('addEmptyOffence', {
+                    citizenId: this.citizen.id
+                });
+            }
+            const offenceCount = this.citizen.offences.length;
+            this.$store.commit('setModal', {
+                type: 'offence',
+                data: {
+                    open: true,
+                    type: 'Citizen',
+                    entity: this.citizen,
+                    updateMutation: 'updateCitizenSearchResult',
+                    offenceIndex: offenceCount - 1
+                }
+            });
+        },
         openMarkersModal() {
             this.$store.commit('setModal', {
                 type: 'markers',
@@ -220,6 +249,17 @@ export default {
 }
 .alerts-container {
     margin: 0 50px 0 auto;
+}
+.legal-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+}
+.legal-actions button {
+    margin-right: 10px;
+}
+.legal-actions button:last-child {
+    margin-right: 0;
 }
 .details {
     display: grid;

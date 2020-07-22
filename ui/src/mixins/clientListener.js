@@ -106,7 +106,8 @@ export default {
                                 'setPanicIsActive',
                                 event.data.data
                             );
-                            const officer = this.$store.getters.getActiveOfficer;
+                            const officer = this.$store.getters
+                                .getActiveOfficer;
                             if (officer) {
                                 this.playPanic();
                             }
@@ -170,6 +171,10 @@ export default {
                                 event.data.data
                             );
                             break;
+                        case 'charges':
+                            this.doLog('RECEIVED CHARGES');
+                            this.$store.commit('setCharges', event.data.data);
+                            break;
                         case 'vehicle_models':
                             this.doLog('RECEIVED VEHICLE_MODELS');
                             this.$store.commit(
@@ -188,6 +193,13 @@ export default {
                                 event.data.data
                             );
                             break;
+                        case 'citizen':
+                            this.doLog('RECEIVED CITIZEN');
+                            this.$store.commit(
+                                'setCitizenOffences',
+                                event.data.data
+                            );
+                            break;
                         case 'vehicle_search_results':
                             this.doLog('RECEIVED VEHICLE SEARCH RESULTS');
                             this.$store.commit(
@@ -197,9 +209,10 @@ export default {
                             break;
                         case 'citizen_offences':
                             this.doLog('RECEIVED CITIZEN OFFENCES');
+                            const parsed = JSON.parse(event.data.data);
                             this.$store.commit(
                                 'setCitizenOffences',
-                                event.data.data
+                                parsed.data.getCitizen
                             );
                             break;
                         default:

@@ -26,9 +26,6 @@
             >
                 Create
                 <ul class="dropdown_container">
-                    <router-link tag="li" to="/create/incident"
-                        >Incident</router-link
-                    >
                     <router-link tag="li" to="/create/bolo">BOLO</router-link>
                 </ul>
             </li>

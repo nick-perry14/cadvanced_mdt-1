@@ -1,9 +1,11 @@
 <template>
     <div>
         <Incident
-            v-for="incident in offences"
+            v-for="(incident, index) in citizen.offences"
             :key="incident.id"
             :incident="incident"
+            :citizen="citizen"
+            :index="index"
         />
     </div>
 </template>
@@ -18,16 +20,11 @@ export default {
             required: true
         }
     },
-    computed: {
-        offences() {
-            return this.citizen.offences;
-        }
-    },
     components: {
         Incident
     },
     mixins: [clientSender],
-    mounted: function () {
+    mounted: function() {
         this.sendClientMessage('getCitizenOffences', { id: this.citizen.id });
     }
 };

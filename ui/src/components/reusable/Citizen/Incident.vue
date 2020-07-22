@@ -16,7 +16,6 @@
                     <div v-if="!incident.arrest">Not made</div>
                     <div v-if="incident.arrest">
                         <div class="arrest-date-time">
-                            <span class="label">Arrest</span>
                             <div class="spread">
                                 <Property
                                     class="arrest-date"
@@ -54,6 +53,21 @@
                     </div>
                 </div>
             </div>
+            <div class="charges">
+                <div class="label">Charges</div>
+                <div class="charges-details">
+                    <div v-if="incident.charges.length === 0">
+                        No charges filed
+                    </div>
+                    <div v-if="incident.charges.length > 0">
+                        <Property
+                            :value="
+                                incident.charges.map(c => c.name).join(', ')
+                            "
+                        />
+                    </div>
+                </div>
+            </div>
             <div class="tickets">
                 <div class="label">Ticket</div>
                 <div class="ticket-list">
@@ -65,8 +79,8 @@
                                     :label="'Date & time'"
                                     :value="
                                         incident.ticket.date +
-                                        ' ' +
-                                        incident.ticket.time
+                                            ' ' +
+                                            incident.ticket.time
                                     "
                                 />
                             </li>
@@ -108,6 +122,16 @@
                     </div>
                 </div>
             </div>
+            <div class="edit">
+                <MiniButton
+                    @miniClick="openOffencesModal()"
+                    text="Edit offence"
+                    colour="rgba(0,0,0,0.2)"
+                    borderRadius="3px"
+                    icon="fa-pen-alt"
+                    padding="6px 8px"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -115,16 +139,40 @@
 <script>
 import Property from './Property.vue';
 import SectionProperty from './SectionProperty.vue';
+import MiniButton from '../../MiniButton.vue';
 export default {
     props: {
         incident: {
             type: Object,
             required: true
+        },
+        citizen: {
+            type: Object,
+            required: true
+        },
+        index: {
+            type: Number,
+            required: true
         }
     },
     components: {
         Property,
-        SectionProperty
+        SectionProperty,
+        MiniButton
+    },
+    methods: {
+        openOffencesModal() {
+            this.$store.commit('setModal', {
+                type: 'offence',
+                data: {
+                    open: true,
+                    type: 'Citizen',
+                    entity: this.citizen,
+                    updateMutation: 'updateCitizenSearchResult',
+                    offenceIndex: this.index
+                }
+            });
+        }
     }
 };
 </script>
@@ -158,14 +206,22 @@ export default {
 .spread {
     display: flex;
 }
-.arrest {
+.charges {
     padding: 10px 15px;
-    flex-basis: 50%;
+    flex-basis: 20%;
     display: flex;
     align-items: top;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
-.arrest-details {
+.arrest {
+    padding: 10px 15px;
+    flex-basis: 30%;
+    display: flex;
+    align-items: top;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+.arrest-details,
+.charges-details {
     padding-left: 30px;
 }
 .arrest-date-time,
@@ -176,11 +232,17 @@ export default {
     padding: 10px 15px;
     display: flex;
     align-items: top;
+    flex: 1;
 }
 .ticket-list {
     padding-left: 30px;
 }
 .ticket-officer {
     display: flex;
+    white-space: nowrap;
+}
+.edit {
+    padding: 10px 15px;
+    align-items: top;
 }
 </style>

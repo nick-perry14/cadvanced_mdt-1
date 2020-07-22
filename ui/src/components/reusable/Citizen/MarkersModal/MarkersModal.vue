@@ -1,5 +1,5 @@
 <template>
-    <Modal :open="isOpen" @close="close">
+    <Modal @close="close" :open="isOpen">
         <template v-slot:header>
             Choose markers
         </template>

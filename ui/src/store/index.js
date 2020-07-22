@@ -6,6 +6,9 @@ import logger from '../mixins/logger';
 Vue.use(Vuex);
 
 const modalsInit = {
+    offence: {
+        open: false
+    },
     ranks: {
         open: false
     },
@@ -18,6 +21,38 @@ const modalsInit = {
     comingSoon: {
         open: false
     }
+};
+
+const reconstructOffences = offences => {
+    return offences.map(offence => {
+        if (!offence.arrest) {
+            offence.arrest = {
+                id: null,
+                date: '',
+                time: '',
+                officer: {},
+                OfficerId: null,
+                charges: []
+            };
+        }
+        if (!offence.ticket) {
+            offence.ticket = {
+                id: null,
+                date: '',
+                time: '',
+                officer: {},
+                OfficerId: null,
+                location: '',
+                points: '',
+                fine: '',
+                notes: ''
+            };
+        }
+        if (!offence.charges) {
+            offence.charges = [];
+        }
+        return offence;
+    });
 };
 
 const store = new Vuex.Store({
@@ -38,6 +73,7 @@ const store = new Vuex.Store({
         userRanks: [],
         citizenMarkers: [],
         vehicleMarkers: [],
+        charges: [],
         vehicleModels: [],
         citizenSearchResults: [],
         vehicleSearchResults: [],
@@ -51,6 +87,7 @@ const store = new Vuex.Store({
         getCalls: state => state.calls,
         getCitizenMarkers: state => state.citizenMarkers,
         getVehicleMarkers: state => state.vehicleMarkers,
+        getCharges: state => state.charges,
         getVehicleModels: state => state.vehicleModels,
         getUserUnits: state => state.userUnits,
         getUserRanks: state =>
@@ -94,6 +131,7 @@ const store = new Vuex.Store({
             (state.citizenMarkers = citizenMarkers),
         setVehicleMarkers: (state, vehicleMarkers) =>
             (state.vehicleMarkers = vehicleMarkers),
+        setCharges: (state, charges) => (state.charges = charges),
         setVehicleModels: (state, vehicleModels) =>
             (state.vehicleModels = vehicleModels),
         setUsers: (state, users) => (state.users = users),
@@ -104,6 +142,16 @@ const store = new Vuex.Store({
                 ...r,
                 offences: []
             }));
+        },
+        setCitizen: (state, citizen) => {
+            const offences = reconstructOffences(citizen.offences);
+            citizen = {
+                ...citizen,
+                offences
+            };
+            state.citizenSearchResults = state.citizenSearchResults.map(r =>
+                r.id === citizen.id ? citizen : r
+            );
         },
         setVehicleSearchResults: (state, searchResults) =>
             (state.vehicleSearchResults = searchResults),
@@ -160,12 +208,15 @@ const store = new Vuex.Store({
             state.panicActive = newState;
         },
         setCitizenOffences: (state, citizen) => {
-            if (citizen.offences.length > 0) {
+            if (citizen.offences) {
+                // The offences we've received may be incomplete as some properties
+                // may be null
+                const rebuilt = reconstructOffences(citizen.offences);
                 const foundIndex = state.citizenSearchResults.findIndex(
                     cit => cit.id == citizen.id
                 );
                 const found = state.citizenSearchResults[foundIndex];
-                found.offences = citizen.offences;
+                found.offences = rebuilt;
                 state.citizenSearchResults[foundIndex] = found;
             }
         },
@@ -177,7 +228,42 @@ const store = new Vuex.Store({
         resetModal: (state, args) =>
             (state.modals[args.type] = { open: false }),
         setActiveMarker: (state, callId) => (state.activeMarker = callId),
-        setActiveRoute: (state, callId) => (state.activeRoute = callId)
+        setActiveRoute: (state, callId) => (state.activeRoute = callId),
+        addEmptyOffence: (state, { citizenId }) => {
+            const officer = state.character;
+            const emptyOffence = {
+                id: null,
+                date: '',
+                time: '',
+                location: '',
+                ticket: {
+                    id: null,
+                    date: '',
+                    time: '',
+                    officer: {},
+                    OfficerId: officer.id,
+                    location: '',
+                    points: '',
+                    fine: '',
+                    notes: ''
+                },
+                arrest: {
+                    id: null,
+                    date: '',
+                    time: '',
+                    officer: {},
+                    OfficerId: officer.id,
+                    charges: []
+                },
+                charges: []
+            };
+            const foundIndex = state.citizenSearchResults.findIndex(
+                cit => cit.id == citizenId
+            );
+            const found = state.citizenSearchResults[foundIndex];
+            found.offences.push(emptyOffence);
+            state.citizenSearchResults[foundIndex] = found;
+        }
     },
     actions: {
         setPanicIsActive: (context, { call_id }) => {

@@ -29,7 +29,7 @@ export default {
             required: true
         }
     },
-    data: function () {
+    data: function() {
         return {
             open: '0'
         };

@@ -1,7 +1,9 @@
 <template>
     <button @click="emitClick" :style="styles" type="button">
         <i v-if="icon" :class="['fas', icon]"></i>
-        {{ text }}
+        <span v-if="text" class="text">
+            {{ text }}
+        </span>
     </button>
 </template>
 
@@ -10,7 +12,7 @@ export default {
     props: {
         text: {
             type: String,
-            required: true
+            required: false
         },
         colour: {
             type: String,
@@ -77,7 +79,7 @@ button:first-child {
 button:last-child {
     margin-right: 0;
 }
-.fas {
-    margin-right: 5px;
+text {
+    margin-left: 5px;
 }
 </style>

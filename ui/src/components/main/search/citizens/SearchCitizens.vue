@@ -1,6 +1,7 @@
 <template>
     <div>
-        <MarkersModal />
+        <OffenceModal v-if="offenceModalOpen" />
+        <MarkersModal v-if="markersModalOpen" />
         <SearchBar v-on:searchChanged="sendSearch($event)" />
         <UpdateMessage v-if="isLoading" message="Contacting control..." />
         <SearchResults v-else :searched="searched" />
@@ -12,21 +13,34 @@ import UpdateMessage from '../../../reusable/UpdateMessage.vue';
 import SearchBar from './SearchBar.vue';
 import SearchResults from './SearchResults.vue';
 import MarkersModal from '../../../reusable/Citizen/MarkersModal/MarkersModal.vue';
+import OffenceModal from '../../../reusable/Offence/OffenceModal.vue';
 import clientSender from '../../../../mixins/clientSender';
 export default {
     components: {
         SearchBar,
         SearchResults,
         UpdateMessage,
-        MarkersModal
+        MarkersModal,
+        OffenceModal
     },
-    data: function () {
+    data: function() {
         return {
             searched: false,
             isLoading: false
         };
     },
     mixins: [clientSender],
+    computed: {
+        results() {
+            return this.$store.getters.getCitizenSearchResults;
+        },
+        offenceModalOpen() {
+            return this.$store.getters.getIsModalOpen('offence');
+        },
+        markersModalOpen() {
+            return this.$store.getters.getIsModalOpen('markers');
+        }
+    },
     methods: {
         sendSearch(sendObject) {
             this.isLoading = true;
@@ -35,16 +49,11 @@ export default {
         }
     },
     watch: {
-        results: function () {
+        results: function() {
             this.isLoading = false;
         }
     },
-    computed: {
-        results() {
-            return this.$store.getters.getCitizenSearchResults;
-        }
-    },
-    destroyed: function () {
+    destroyed: function() {
         this.$store.commit('setCitizenSearchResults', []);
     }
 };
