@@ -13,6 +13,9 @@
                     <i v-else class="fas fa-toggle-on"></i>
                 </div>
             </div>
+            <div class="unit-type-name">
+                {{ unit.unitType.name }}
+            </div>
             <div class="unit-state-name">
                 {{ unit.unitState.name }}
             </div>
@@ -138,6 +141,7 @@ export default {
     color: rgba(255, 255, 255, 0.5);
 }
 .unit-state-name,
+.unit-type-name,
 .unit-rank-name {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);

@@ -4,6 +4,7 @@
             {{ incidentString }}
             <CallMarker :call="call" class="marker-icon" />
         </div>
+        <div>{{ call.callGrade.name }}</div>
         <div>{{ locationsString }}</div>
         <div class="call-descriptions">
             <div

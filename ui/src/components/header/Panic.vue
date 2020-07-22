@@ -1,10 +1,21 @@
 <template>
-    <div @click="startPanic">&gt; Panic &lt;</div>
+    <div>
+        <MiniButton
+            @miniClick="startPanic()"
+            text="Panic"
+            colour="rgba(255,0,0,0.9)"
+            borderRadius="3px"
+            icon="fa-exclamation-triangle"
+            padding="6px 8px"
+        />
+    </div>
 </template>
 
 <script>
 import clientSender from '../../mixins/clientSender';
+import MiniButton from '../MiniButton.vue';
 export default {
+    components: { MiniButton },
     methods: {
         startPanic() {
             this.sendClientMessage('startPanic');
@@ -18,6 +29,5 @@ export default {
 div {
     flex: 2 2 0;
     text-align: right;
-    color: rgba(255, 0, 0, 0.9);
 }
 </style>

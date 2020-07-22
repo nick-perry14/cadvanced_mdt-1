@@ -14,12 +14,15 @@
                     <router-link tag="li" to="/search/vehicles"
                         >Vehicles</router-link
                     >
+                    <!--
                     <router-link tag="li" to="/search/incidents"
                         >Incidents</router-link
                     >
                     <router-link tag="li" to="/search/bolo">BOLO</router-link>
+                    -->
                 </ul>
             </li>
+            <!--
             <li
                 class="dropdown_trigger"
                 :class="{ 'router-link-active': isRoute('create') }"
@@ -31,6 +34,7 @@
             </li>
             <router-link tag="li" to="/messaging">Messaging</router-link>
             <router-link tag="li" to="/notes">Notes</router-link>
+            -->
         </ul>
     </div>
 </template>
