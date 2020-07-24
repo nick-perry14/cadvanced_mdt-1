@@ -13,8 +13,20 @@
             <div class="arrest">
                 <div class="label">Arrest</div>
                 <div class="arrest-details">
-                    <div v-if="!incident.arrest">Not made</div>
-                    <div v-if="incident.arrest">
+                    <div
+                        v-if="
+                            incident.arrest.date.length === 0 &&
+                                incident.arrest.time.length === 0
+                        "
+                    >
+                        Not made
+                    </div>
+                    <div
+                        v-if="
+                            incident.arrest.date.length > 0 &&
+                                incident.arrest.time.length > 0
+                        "
+                    >
                         <div class="arrest-date-time">
                             <div class="spread">
                                 <Property
@@ -71,8 +83,20 @@
             <div class="tickets">
                 <div class="label">Ticket</div>
                 <div class="ticket-list">
-                    <div v-if="!incident.ticket">Not issued</div>
-                    <div v-if="incident.ticket">
+                    <div
+                        v-if="
+                            incident.ticket.date.length === 0 &&
+                                incident.ticket.time.length === 0
+                        "
+                    >
+                        Not issued
+                    </div>
+                    <div
+                        v-if="
+                            incident.ticket.date.length > 0 &&
+                                incident.ticket.time.length > 0
+                        "
+                    >
                         <ul>
                             <li>
                                 <Property
@@ -131,6 +155,14 @@
                     icon="fa-pen-alt"
                     padding="6px 8px"
                 />
+                <MiniButton
+                    @miniClick="deleteOffence()"
+                    text="Delete offence"
+                    colour="rgba(255,255,0,0.5)"
+                    borderRadius="3px"
+                    icon="fa-trash-alt"
+                    padding="6px 8px"
+                />
             </div>
         </div>
     </div>
@@ -140,6 +172,7 @@
 import Property from './Property.vue';
 import SectionProperty from './SectionProperty.vue';
 import MiniButton from '../../MiniButton.vue';
+import clientSender from '../../../mixins/clientSender';
 export default {
     props: {
         incident: {
@@ -155,6 +188,7 @@ export default {
             required: true
         }
     },
+    mixins: [clientSender],
     components: {
         Property,
         SectionProperty,
@@ -171,6 +205,12 @@ export default {
                     updateMutation: 'updateCitizenSearchResult',
                     offenceIndex: this.index
                 }
+            });
+        },
+        deleteOffence() {
+            this.sendClientMessage('deleteOffence', {
+                id: this.incident.id,
+                CitizenId: this.citizen.id
             });
         }
     }
@@ -244,5 +284,13 @@ export default {
 .edit {
     padding: 10px 15px;
     align-items: top;
+    display: flex;
+    flex-direction: column;
+}
+.edit > * {
+    margin-bottom: 10px;
+}
+.edit > *:last-child {
+    margin-bottom: 0;
 }
 </style>

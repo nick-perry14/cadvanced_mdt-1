@@ -84,4 +84,18 @@ function legal.save_arrest(data)
     )
 end
 
+-- Delete an offence
+function legal.delete_offence(data)
+    local q_delete_offence = queries.delete_offence(data)
+    api.request(
+        q_delete_offence,
+        function(response)
+            response = json.decode(response)
+            if response.error ~= nil then
+                print_debug(response.error)
+            end
+        end
+    )
+end
+
 return legal

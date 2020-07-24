@@ -46,6 +46,9 @@ export default {
             this.isLoading = true;
             this.searched = true;
             this.sendClientMessage('searchCitizen', sendObject);
+        },
+        purgeEmpty() {
+            this.results;
         }
     },
     watch: {
@@ -54,7 +57,7 @@ export default {
         }
     },
     destroyed: function() {
-        this.$store.commit('setCitizenSearchResults', []);
+        this.$store.commit('setCitizenSearchResultsInitial', []);
     }
 };
 </script>

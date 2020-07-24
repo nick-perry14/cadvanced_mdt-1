@@ -203,6 +203,16 @@ function client_receiver.client_event_handlers()
         end
     )
 
+    -- Delete an offence
+    RegisterNetEvent("delete_offence")
+    AddEventHandler(
+        "delete_offence",
+        function(data)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO DELETE OFFENCE")
+            legal.delete_offence(data)
+        end
+    )
+
 end
 
 return client_receiver

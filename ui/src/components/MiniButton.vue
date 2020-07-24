@@ -72,6 +72,7 @@ button {
     color: rgba(255, 255, 255, 0.8);
     margin: 0;
     cursor: pointer;
+    outline: 0;
 }
 button:first-child {
     margin-left: 0;

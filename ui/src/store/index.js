@@ -137,11 +137,14 @@ const store = new Vuex.Store({
         setUsers: (state, users) => (state.users = users),
         setCalls: (state, calls) => (state.calls = calls),
         setSteamId: (state, steamId) => (state.steamId = steamId),
-        setCitizenSearchResults: (state, searchResults) => {
+        setCitizenSearchResultsInitial: (state, searchResults) => {
             state.citizenSearchResults = searchResults.map(r => ({
                 ...r,
                 offences: []
             }));
+        },
+        purgeEmptyOffences: (state, citizen) => {
+            citizen.offences = citizen.offences.filter(offence => offence.id);
         },
         setCitizen: (state, citizen) => {
             const offences = reconstructOffences(citizen.offences);

@@ -243,6 +243,19 @@ RegisterNUICallback(
     end
 )
 
+RegisterNUICallback(
+    "deleteOffence",
+    function(data, cb)
+        -- Tell the server to delete the offence
+        print_debug("RECEIVED REQUEST FROM NUI TO DELETE OFFENCE")
+        print_debug("SENDING DELETE OFFENCE REQUEST TO SERVER")
+        TriggerServerEvent("delete_offence", data)
+        if cb then
+            cb()
+        end
+    end
+)
+
 local active_blip
 
 function set_call_marker(call)

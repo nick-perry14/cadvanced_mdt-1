@@ -371,4 +371,16 @@ function queries.update_arrest(props)
     return json.encode(query)
 end
 
+function queries.delete_offence(props)
+    local query = {
+        operationName = null,
+        variables = {
+            id = props.id,
+            CitizenId = props.CitizenId
+        },
+        query = "mutation ($id: ID!, $CitizenId: ID!) { deleteOffence(id: $id, CitizenId: $CitizenId)}"
+    }
+    return json.encode(query)
+end
+
 return queries

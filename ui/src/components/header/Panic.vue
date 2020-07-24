@@ -3,7 +3,7 @@
         <MiniButton
             @miniClick="startPanic()"
             text="Panic"
-            colour="rgba(255,0,0,0.9)"
+            colour="rgba(255,0,0,0.6)"
             borderRadius="3px"
             icon="fa-exclamation-triangle"
             padding="6px 8px"

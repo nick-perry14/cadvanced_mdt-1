@@ -189,7 +189,7 @@ export default {
                         case 'citizen_search_results':
                             this.doLog('RECEIVED CITIZEN SEARCH RESULTS');
                             this.$store.commit(
-                                'setCitizenSearchResults',
+                                'setCitizenSearchResultsInitial',
                                 event.data.data
                             );
                             break;

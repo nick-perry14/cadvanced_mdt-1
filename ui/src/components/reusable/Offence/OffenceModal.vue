@@ -108,7 +108,7 @@
                             <div class="actionlist">
                                 <MiniButton
                                     @miniClick="saveArrest()"
-                                    text="Save arrest"
+                                    text="Send to control"
                                     colour="rgba(0,255,0,0.5)"
                                     borderRadius="3px"
                                     icon="fa-save"
@@ -135,7 +135,7 @@
                             <div class="actionlist">
                                 <MiniButton
                                     @miniClick="saveCharges()"
-                                    text="Save charges"
+                                    text="Send to control"
                                     colour="rgba(0,255,0,0.5)"
                                     borderRadius="3px"
                                     icon="fa-save"
@@ -186,7 +186,7 @@
                             <div class="actionlist">
                                 <MiniButton
                                     @miniClick="saveTicket()"
-                                    text="Save ticket"
+                                    text="Send to control"
                                     colour="rgba(0,255,0,0.5)"
                                     borderRadius="3px"
                                     icon="fa-save"
@@ -207,6 +207,12 @@ import Modal from '../Modal.vue';
 import MiniButton from '../../MiniButton.vue';
 import clientSender from '../../../mixins/clientSender';
 export default {
+    props: {
+        searchResults: {
+            type: Array,
+            required: true
+        }
+    },
     data: function() {
         return {
             activeTab: 1,
@@ -221,7 +227,6 @@ export default {
         Modal,
         MiniButton
     },
-    /// Struggling to get tags to work, this might help https://codepen.io/JohMun/pen/jKwRpN
     computed: {
         isOpen() {
             return this.$store.getters.getIsModalOpen('offence');
@@ -258,31 +263,13 @@ export default {
             return this.offenceToTags(filtered);
         }
     },
-
-    // OK, some notes:
-    //
-    // New offence:
-    // - We add an empty offence to our citizen, then send it to the API (createOffence)
-    // - The API tells us to refresh citizen X, which we do
-    // - We can then assume the new offence is the last one
-    //
-    // Edit offence:
-    //   - updateOffence (update offence metadata)
-    //   - createArrest (add new arrest)
-    //   - updateArrest (update arrest)
-    //   - updateOffence (add new charges)
-    //   - updateOffence (update charges)
-    //   - createTicket (add new ticket)
-    //   - updateTicket (update ticket)
-    //
-    // - We open the modal and it uses offence at the index specified in the modal data
-    // - We make changes:
-
     methods: {
         setActiveTab(id) {
             this.activeTab = id;
         },
         close() {
+            const modalData = this.$store.getters.getModalData('offence');
+            this.$store.commit('purgeEmptyOffences', modalData.entity);
             this.$store.commit('resetModal', {
                 type: 'offence'
             });
