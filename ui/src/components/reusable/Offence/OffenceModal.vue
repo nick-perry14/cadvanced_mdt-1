@@ -181,6 +181,9 @@
                                         placeholder="Notes"
                                         v-model="offence.ticket.notes"
                                     ></textarea>
+                                    <div class="character-count">
+                                        {{ offence.ticket.notes.length }} / 255
+                                    </div>
                                 </div>
                             </div>
                             <div class="actionlist">
@@ -449,11 +452,19 @@ button.tab.selected {
 }
 .tickets .notes {
     grid-column: span 2;
+    display: flex;
+    flex-direction: column;
 }
 .tickets textarea {
     flex-grow: 1;
     margin-right: 0;
     resize: none;
+}
+.character-count {
+    margin-top: 5px;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
 }
 .actionlist {
     display: flex;

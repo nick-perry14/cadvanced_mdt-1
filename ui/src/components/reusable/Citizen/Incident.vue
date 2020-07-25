@@ -13,20 +13,10 @@
             <div class="arrest">
                 <div class="label">Arrest</div>
                 <div class="arrest-details">
-                    <div
-                        v-if="
-                            incident.arrest.date.length === 0 &&
-                                incident.arrest.time.length === 0
-                        "
-                    >
+                    <div v-if="!incident.arrest.id">
                         Not made
                     </div>
-                    <div
-                        v-if="
-                            incident.arrest.date.length > 0 &&
-                                incident.arrest.time.length > 0
-                        "
-                    >
+                    <div v-if="incident.arrest.id">
                         <div class="arrest-date-time">
                             <div class="spread">
                                 <Property
@@ -83,20 +73,10 @@
             <div class="tickets">
                 <div class="label">Ticket</div>
                 <div class="ticket-list">
-                    <div
-                        v-if="
-                            incident.ticket.date.length === 0 &&
-                                incident.ticket.time.length === 0
-                        "
-                    >
+                    <div v-if="!incident.ticket.id">
                         Not issued
                     </div>
-                    <div
-                        v-if="
-                            incident.ticket.date.length > 0 &&
-                                incident.ticket.time.length > 0
-                        "
-                    >
+                    <div v-if="incident.ticket.id">
                         <ul>
                             <li>
                                 <Property
