@@ -14,10 +14,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-div {
-    flex: 1 1 0;
-    text-align: right;
-}
-</style>

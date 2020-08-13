@@ -59,6 +59,8 @@ const store = new Vuex.Store({
     state: {
         resourceConfig: {},
         visible: false,
+        terminalVisible: false,
+        terminalDragging: false,
         connectionActive: false,
         panicActive: false,
         steamId: '',
@@ -100,6 +102,8 @@ const store = new Vuex.Store({
         getCitizenSearchResults: state => state.citizenSearchResults,
         getVehicleSearchResults: state => state.vehicleSearchResults,
         isVisible: state => state.visible,
+        isTerminalVisible: state => state.terminalVisible,
+        isTerminalDragging: state => state.terminalDragging,
         getUser: state => {
             return state.users.find(user => user.steamId == state.steamId);
         },
@@ -110,6 +114,15 @@ const store = new Vuex.Store({
                 user.character.__typename == 'Officer'
                 ? user.character
                 : null;
+        },
+        userUnitStatus: (state, getters) => unitId => {
+            const user = getters.getUser;
+            const userUnits = getters.getUserUnits;
+            return user && userUnits
+                ? userUnits.find(
+                      uu => uu.UserId === user.id && uu.UnitId === unitId
+                  )
+                : [];
         },
         getConnectionActive: state => state.connectionActive,
         getPanicActive: state => state.panicActive,
@@ -122,6 +135,10 @@ const store = new Vuex.Store({
         setResourceConfig: (state, passedConfig) =>
             (state.resourceConfig = passedConfig),
         setVisible: state => (state.visible = true),
+        setTerminalVisible: (state, newState) =>
+            (state.terminalVisible = newState),
+        setTerminalDragging: (state, newState) =>
+            (state.terminalDragging = newState),
         setHide: state => (state.visible = false),
         setUnits: (state, units) => (state.units = units),
         setUnitStates: (state, unitStates) => (state.unitStates = unitStates),

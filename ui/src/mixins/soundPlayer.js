@@ -23,7 +23,13 @@ export default {
             }
         },
         playRoger() {
-            this.playSound('./sounds/roger.ogg');
+            // Only do this while either the MDT or terminal are open
+            if (
+                this.$store.getters.isVisible ||
+                this.$store.getters.isTerminalVisible
+            ) {
+                this.playSound('./sounds/roger.ogg');
+            }
         },
         playPanic() {
             const conf = this.$store.getters.getResourceConfig;

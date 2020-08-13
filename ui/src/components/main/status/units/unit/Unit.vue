@@ -68,11 +68,7 @@ export default {
             return this.userUnitStatus ? true : false;
         },
         userUnitStatus() {
-            const user = this.$store.getters.getUser;
-            const userUnits = this.$store.getters.getUserUnits;
-            return userUnits.find(
-                uu => uu.UserId === user.id && uu.UnitId === this.unit.id
-            );
+            return this.$store.getters.userUnitStatus(this.unit.id);
         },
         isInPanic() {
             return this.unit.unitState.code === 'PANIC';

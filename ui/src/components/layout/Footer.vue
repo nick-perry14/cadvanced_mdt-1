@@ -1,7 +1,7 @@
 <template>
     <footer>
         <ConnectionStat />
-        <Officer />
+        <Officer id="officer_footer" />
     </footer>
 </template>
 
@@ -15,6 +15,14 @@ export default {
         Clock,
         ConnectionStat,
         Officer
+    },
+    computed: {
+        styling() {
+            return {
+                flex: '1 1 0',
+                textAlign: 'right'
+            };
+        }
     }
 };
 </script>
@@ -32,5 +40,9 @@ footer {
     letter-spacing: 0.1em;
     color: rgba(255, 255, 255, 0.7);
     border-radius: 0 0 5px 5px;
+}
+#officer_footer {
+    flex: 1 1 0;
+    text-align: right;
 }
 </style>

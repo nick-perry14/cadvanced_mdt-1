@@ -76,12 +76,23 @@ export default {
             }
         },
         // Handler for incoming messages from client Lua
-        // const event = new Event('message');event.data = {action:'showMdt'};window.dispatchEvent(event);
         processMessage() {
             this.doLog('PROCESSING MESSAGE ' + JSON.stringify(event.data));
             if (event.data.hasOwnProperty('action')) {
                 if (event.data.action == 'showMdt') {
                     this.$store.commit('setVisible');
+                }
+                if (event.data.action == 'openTerminal') {
+                    this.$store.commit('setTerminalVisible', true);
+                }
+                if (event.data.action == 'closeTerminal') {
+                    this.$store.commit('setTerminalVisible', false);
+                }
+                if (event.data.action == 'terminalDraggingOn') {
+                    this.$store.commit('setTerminalDragging', true);
+                }
+                if (event.data.action == 'terminalDraggingOff') {
+                    this.$store.commit('setTerminalDragging', false);
                 }
             } else if (event.data.hasOwnProperty('data')) {
                 // Identify what sort of data we're receiving
