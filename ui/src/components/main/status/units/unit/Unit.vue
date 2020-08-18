@@ -83,13 +83,23 @@ export default {
         },
         toggle() {
             this.$emit('unitToggle');
-        },
-        callChanged() {
-            if (this.isAssignedToUnit) {
+        }
+        /*
+          Commented out because we don't need the MDT & terminal
+          playing the sound
+        callChanged(callId) {
+            if (
+                this.isAssignedToUnit &&
+                this.assignedCallIds.includes(callId)
+            ) {
                 this.playRoger();
             }
         }
-    },
+        */
+    }
+    /*
+        Commented out because we don't need the MDT & terminal
+        playing the sound
     watch: {
         isAssignedToUnit() {
             this.playRoger();
@@ -105,6 +115,7 @@ export default {
             }
         }
     }
+    */
 };
 </script>
 

@@ -38,7 +38,10 @@ export default {
         }
     },
     watch: {
-        call() {
+        incidentString: function() {
+            this.$emit('changed');
+        },
+        locationsString: function() {
             this.$emit('changed');
         }
     }
