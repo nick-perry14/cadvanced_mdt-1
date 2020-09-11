@@ -61,6 +61,7 @@ const store = new Vuex.Store({
         visible: false,
         terminalVisible: false,
         terminalDragging: false,
+        callVisible: false,
         connectionActive: false,
         panicActive: false,
         steamId: '',
@@ -76,6 +77,8 @@ const store = new Vuex.Store({
         citizenMarkers: [],
         vehicleMarkers: [],
         charges: [],
+        locations: [],
+        callGrades: [],
         vehicleModels: [],
         citizenSearchResults: [],
         vehicleSearchResults: [],
@@ -90,6 +93,8 @@ const store = new Vuex.Store({
         getCitizenMarkers: state => state.citizenMarkers,
         getVehicleMarkers: state => state.vehicleMarkers,
         getCharges: state => state.charges,
+        getLocations: state => state.locations,
+        getCallGrades: state => state.CallGrades,
         getVehicleModels: state => state.vehicleModels,
         getUserUnits: state => state.userUnits,
         getUserRanks: state =>
@@ -104,6 +109,7 @@ const store = new Vuex.Store({
         isVisible: state => state.visible,
         isTerminalVisible: state => state.terminalVisible,
         isTerminalDragging: state => state.terminalDragging,
+        isCallVisible: state => state.callVisible,
         getUser: state => {
             return state.users.find(user => user.steamId == state.steamId);
         },
@@ -139,6 +145,7 @@ const store = new Vuex.Store({
             (state.terminalVisible = newState),
         setTerminalDragging: (state, newState) =>
             (state.terminalDragging = newState),
+        setCallVisible: (state, newState) => (state.callVisible = newState),
         setHide: state => (state.visible = false),
         setUnits: (state, units) => (state.units = units),
         setUnitStates: (state, unitStates) => (state.unitStates = unitStates),
@@ -149,6 +156,8 @@ const store = new Vuex.Store({
         setVehicleMarkers: (state, vehicleMarkers) =>
             (state.vehicleMarkers = vehicleMarkers),
         setCharges: (state, charges) => (state.charges = charges),
+        setLocations: (state, locations) => (state.locations = locations),
+        setCallGrades: (state, callGrades) => (state.callGrades = callGrades),
         setVehicleModels: (state, vehicleModels) =>
             (state.vehicleModels = vehicleModels),
         setUsers: (state, users) => (state.users = users),

@@ -22,6 +22,42 @@ export default {
                 debounced();
             }
         },
+        playPromise(sound) {
+            return new Promise(resolve => {
+                const conf = this.$store.getters.getResourceConfig;
+                if (conf && conf.sound_volume) {
+                    const player = new Howl({
+                        src: sound,
+                        volume: parseFloat(conf.sound_volume),
+                        onend: () => resolve()
+                    });
+                    player.play();
+                } else {
+                    resolve();
+                }
+            });
+        },
+        async playSounds(sounds) {
+            return new Promise(async resolve => {
+                for (let i = 0; i < sounds.length; i++) {
+                    await this.playPromise(sounds[i]);
+                }
+                resolve();
+            });
+        },
+        playNoDebounce(sounds, interval) {
+            for (let i = 0; i < sounds.length; i++) {
+                setTimeout(
+                    i => {
+                        this.playPromise(sounds[i]).then(() =>
+                            console.log('played')
+                        );
+                    },
+                    interval * i,
+                    i
+                );
+            }
+        },
         playRoger() {
             // Only do this while either the MDT or terminal are open
             if (

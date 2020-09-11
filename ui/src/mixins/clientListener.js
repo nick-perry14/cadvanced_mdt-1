@@ -94,6 +94,12 @@ export default {
                 if (event.data.action == 'terminalDraggingOff') {
                     this.$store.commit('setTerminalDragging', false);
                 }
+                if (event.data.action == 'openCall') {
+                    this.$store.commit('setCallVisible', true);
+                }
+                if (event.data.action == 'closeCall') {
+                    this.$store.commit('setCallVisible', false);
+                }
             } else if (event.data.hasOwnProperty('data')) {
                 // Identify what sort of data we're receiving
                 if (event.data.hasOwnProperty('object') && event.data.object) {
@@ -185,6 +191,17 @@ export default {
                         case 'charges':
                             this.doLog('RECEIVED CHARGES');
                             this.$store.commit('setCharges', event.data.data);
+                            break;
+                        case 'locations':
+                            this.doLog('RECEIVED LOCATIONS');
+                            this.$store.commit('setLocations', event.data.data);
+                            break;
+                        case 'call_grades':
+                            this.doLog('RECEIVED CALL GRADES');
+                            this.$store.commit(
+                                'setCallGrades',
+                                event.data.data
+                            );
                             break;
                         case 'vehicle_models':
                             this.doLog('RECEIVED VEHICLE_MODELS');
