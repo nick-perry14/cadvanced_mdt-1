@@ -167,7 +167,8 @@ export default {
             return check > 5;
         },
         playDial() {
-            const sounds = this.number
+            const numbers = this.number.replace(/\D/g,'');
+            const sounds = numbers
                 .split('')
                 .map(number => `./sounds/dtmf/${number}.ogg`);
             return this.playSounds(sounds);
