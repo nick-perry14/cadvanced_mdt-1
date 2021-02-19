@@ -2,6 +2,7 @@
     <main>
         <router-view name="status"></router-view>
         <router-view name="search"></router-view>
+        <router-view name="dispatch"></router-view>
         <router-view name="create"></router-view>
         <router-view name="messaging"></router-view>
         <router-view name="notes"></router-view>

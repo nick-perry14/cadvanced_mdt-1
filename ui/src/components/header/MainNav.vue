@@ -22,6 +22,7 @@
                     -->
                 </ul>
             </li>
+            <router-link tag="li" to="/dispatch">Dispatch</router-link>
             <!--
             <li
                 class="dropdown_trigger"
