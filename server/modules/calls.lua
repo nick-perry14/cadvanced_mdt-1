@@ -88,4 +88,27 @@ function calls.get_all_call_grades(pass_to_client)
     )
 end
 
+-- Get the table of all call types
+function calls.get_all_call_types(pass_to_client)
+    local q_get_all_call_types = queries.get_all_call_types()
+    api.request(
+        q_get_all_call_types,
+        function(response)
+            response = json.decode(response)
+            if response.error == nil then
+                local call_types = {}
+                for _, call_type in ipairs(response.data.allCallTypes) do
+                    table.insert(call_types, call_type)
+                end
+                state_set("call_types", call_types)
+                if (pass_to_client ~= nil and pass_to_client) then
+                    client_sender.pass_data(state.call_types, "call_types")
+                end
+            else
+                print_debug(response.error)
+            end
+        end
+    )
+end
+
 return calls

@@ -357,6 +357,15 @@ AddEventHandler(
     end
 )
 
+RegisterNetEvent("data:call_types")
+AddEventHandler(
+    "data:call_types",
+    function(jsonData)
+        print_debug("RECEIVED CALL TYPES FROM SERVER")
+        pass_to_nui(jsonData, "call_types")
+    end
+)
+
 RegisterNetEvent("data:display_panic")
 AddEventHandler(
     "data:display_panic",

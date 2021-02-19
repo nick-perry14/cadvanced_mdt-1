@@ -415,4 +415,12 @@ function queries.get_all_call_grades()
     return json.encode(query)
 end
 
+function queries.get_all_call_types()
+    local query = {
+        operationName = null,
+        query = "{ allCallTypes { id name code } }"
+    }
+    return json.encode(query)
+end
+
 return queries

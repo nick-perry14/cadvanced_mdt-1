@@ -60,6 +60,7 @@ function client_receiver.client_event_handlers()
             client_sender.pass_data(state_get("charges"), "charges", source)
             client_sender.pass_data(state_get("locations"), "locations", source)
             client_sender.pass_data(state_get("call_grades"), "call_grades", source)
+            client_sender.pass_data(state_get("call_types"), "call_types", source)
             client_sender.pass_data(user_helpers.get_steam_id(source), "steam_id", source)
         end
     )
