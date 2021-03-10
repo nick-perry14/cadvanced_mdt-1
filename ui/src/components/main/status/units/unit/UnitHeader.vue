@@ -108,13 +108,16 @@ export default {
 
 <style scoped>
 .unit-header {
+    display: flex;
+    flex-direction: column;
     background: rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 14px;
     min-height: 98px;
 }
 .top-row {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    flex: 1;
 }
 .key-info {
     display: flex;
