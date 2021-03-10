@@ -203,6 +203,20 @@ export default {
                                 event.data.data
                             );
                             break;
+                        case 'call_types':
+                            this.doLog('RECEIVED CALL TYPES');
+                            this.$store.commit(
+                                'setCallTypes',
+                                event.data.data
+                            );
+                            break;
+                        case 'call_incidents':
+                            this.doLog('RECEIVED CALL INCIDENTS');
+                            this.$store.commit(
+                                'setCallIncidents',
+                                event.data.data
+                            );
+                            break;
                         case 'vehicle_models':
                             this.doLog('RECEIVED VEHICLE_MODELS');
                             this.$store.commit(

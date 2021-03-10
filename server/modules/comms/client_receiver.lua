@@ -5,6 +5,7 @@ local users = module("server/modules/users")
 local units = module("server/modules/units")
 local vehicles = module("server/modules/vehicles")
 local legal = module("server/modules/legal")
+local calls = module("server/modules/calls")
 local client_sender = module("server/modules/comms/client_sender")
 
 local client_receiver = {}
@@ -61,6 +62,7 @@ function client_receiver.client_event_handlers()
             client_sender.pass_data(state_get("locations"), "locations", source)
             client_sender.pass_data(state_get("call_grades"), "call_grades", source)
             client_sender.pass_data(state_get("call_types"), "call_types", source)
+            client_sender.pass_data(state_get("call_incidents"), "call_incidents", source)
             client_sender.pass_data(user_helpers.get_steam_id(source), "steam_id", source)
         end
     )
@@ -271,6 +273,26 @@ function client_receiver.client_event_handlers()
         end
     )
 
+    -- Send an call
+    RegisterNetEvent("send_call")
+    AddEventHandler(
+        "send_call",
+        function(data)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO SEND CALL")
+            calls.send_call(data)
+        end
+    )
+
+    -- Delete a call
+    RegisterNetEvent("delete_call")
+    AddEventHandler(
+        "delete_call",
+        function(data)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO DELETE CALL")
+            calls.delete_call(data)
+        end
+    )
+
     -- Save a ticket
     RegisterNetEvent("save_ticket")
     AddEventHandler(
@@ -300,6 +322,16 @@ function client_receiver.client_event_handlers()
             legal.delete_offence(data)
         end
     )
+    -- Delete a call
+    RegisterNetEvent("toggle_assignment")
+    AddEventHandler(
+        "toggle_assignment",
+        function(data)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO TOGGLE UNIT ASSIGNMENT")
+            calls.toggle_assignment(data)
+        end
+    )
+
 
 end
 

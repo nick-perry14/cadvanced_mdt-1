@@ -366,6 +366,15 @@ AddEventHandler(
     end
 )
 
+RegisterNetEvent("data:call_incidents")
+AddEventHandler(
+    "data:call_incidents",
+    function(jsonData)
+        print_debug("RECEIVED CALL INCIDENTS FROM SERVER")
+        pass_to_nui(jsonData, "call_incidents")
+    end
+)
+
 RegisterNetEvent("data:display_panic")
 AddEventHandler(
     "data:display_panic",

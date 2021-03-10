@@ -1,5 +1,13 @@
 <template>
     <div>
+        <CallModal v-if="callModalOpen" />
+        <div id="new-call-header">
+            <MiniButton
+                @miniClick="openCallModal"
+                text="Create new call"
+                colour="rgba(0, 255, 0, 0.5)"
+            />
+        </div>
         <div v-if="calls.length > 0" id="calls">
             <Call
                 v-for="call in calls"
@@ -7,6 +15,7 @@
                 :call="call"
                 :isOpen="isCallOpen(call.id)"
                 @callToggle="setCallOpen(call.id)"
+                :class="{ open: isCallOpen(call.id) }"
             />
         </div>
         <div v-if="!calls || calls.length == 0" id="no-calls">
@@ -17,19 +26,25 @@
 
 <script>
 import Call from './call/Call.vue';
+import CallModal from '../../../reusable/Call/CallModal.vue';
+import MiniButton from '../../../MiniButton.vue';
 export default {
     data: function () {
         return {
-            callBeingEdited: 0,
             callsOpen: []
         };
     },
     components: {
-        Call
+        Call,
+        CallModal,
+        MiniButton
     },
     computed: {
         calls() {
             return this.$store.getters.getCalls;
+        },
+        callModalOpen() {
+            return this.$store.getters.getIsModalOpen('call');
         }
     },
     methods: {
@@ -46,17 +61,43 @@ export default {
                 );
             }
         },
+        openCallModal() {
+            this.$store.commit('setModal', {
+                type: 'call',
+                data: {
+                    open: true,
+                    type: 'call',
+                    entity: {
+                        assignedUnits: [],
+                        callDescriptions: [],
+                        callGrade: {},
+                        callIncidents: [],
+                        callLocations: [],
+                        callType: {},
+                        callerInfo: '',
+                        id: null
+                    }
+                }
+            });
+        },
     }
 };
 </script>
 
 <style scoped>
+#new-call-header {
+    text-align: right;
+    margin-bottom: 20px;
+}
 #calls {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fit, minmax(300px, auto));
     grid-auto-rows: 145px;
     grid-auto-flow: dense;
+}
+.open {
+    grid-row: span 3;
 }
 #no-calls {
     display: flex;

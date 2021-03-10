@@ -9,6 +9,9 @@ const modalsInit = {
     offence: {
         open: false
     },
+    call: {
+        open: false
+    },
     ranks: {
         open: false
     },
@@ -79,6 +82,8 @@ const store = new Vuex.Store({
         charges: [],
         locations: [],
         callGrades: [],
+        callTypes: [],
+        callIncidents: [],
         vehicleModels: [],
         citizenSearchResults: [],
         vehicleSearchResults: [],
@@ -94,7 +99,9 @@ const store = new Vuex.Store({
         getVehicleMarkers: state => state.vehicleMarkers,
         getCharges: state => state.charges,
         getLocations: state => state.locations,
-        getCallGrades: state => state.CallGrades,
+        getCallGrades: state => state.callGrades,
+        getCallTypes: state => state.callTypes,
+        getCallIncidents: state => state.callIncidents,
         getVehicleModels: state => state.vehicleModels,
         getUserUnits: state => state.userUnits,
         getUserRanks: state =>
@@ -158,6 +165,8 @@ const store = new Vuex.Store({
         setCharges: (state, charges) => (state.charges = charges),
         setLocations: (state, locations) => (state.locations = locations),
         setCallGrades: (state, callGrades) => (state.callGrades = callGrades),
+        setCallTypes: (state, callTypes) => (state.callTypes = callTypes),
+        setCallIncidents: (state, callIncidents) => (state.callIncidents = callIncidents),
         setVehicleModels: (state, vehicleModels) =>
             (state.vehicleModels = vehicleModels),
         setUsers: (state, users) => (state.users = users),

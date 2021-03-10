@@ -55,6 +55,9 @@ function init.bootstrapData()
     -- Get all call grades
     calls.get_all_call_types()
 
+    -- Get all call incidents
+    calls.get_all_call_incidents()
+
     -- Get all locations
     locations.get_all_locations()
 end

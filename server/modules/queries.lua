@@ -45,7 +45,7 @@ end
 function queries.get_all_units()
     local query = {
         operationName = null,
-        query = "{ allUnits { id callSign unitType { id name } unitState { id name colour code } UnitTypeId UnitStateId } }"
+        query = "{ allUnits { id callSign unitType { id name } unitState { id name colour code active } UnitTypeId UnitStateId } }"
     }
     return json.encode(query)
 end
@@ -419,6 +419,75 @@ function queries.get_all_call_types()
     local query = {
         operationName = null,
         query = "{ allCallTypes { id name code } }"
+    }
+    return json.encode(query)
+end
+
+function queries.get_all_call_incidents()
+    local query = {
+        operationName = null,
+        query = "{ allIncidentTypes { id name code } }"
+    }
+    return json.encode(query)
+end
+
+function queries.create_call(props)
+    local query = {
+        operationName = null,
+        variables = {
+            callerInfo = props.callerInfo,
+            callGrade = props.callGrade,
+            callType = props.callType,
+            callIncidents = props.callIncidents,
+            callLocations = props.callLocations,
+            callDescriptions = props.callDescriptions,
+            markerX = 0,
+            markerY = 0
+        },
+        query = "mutation ($callerInfo: String, $callGrade: CallGradeInput!, $callType: CallTypeInput!, $callIncidents: [IncidentTypeInput]!, $callLocations: [LocationInput!]!, $callDescriptions: [CallDescriptionInput], $markerX: Float, $markerY: Float) { createCall(callerInfo: $callerInfo, callGrade: $callGrade, callType: $callType, callIncidents: $callIncidents, callLocations: $callLocations, callDescriptions: $callDescriptions, markerX: $markerX, markerY: $markerY) { id callerInfo markerX markerY callType { id name code readonly } callGrade { id name code readonly } callLocations { id name code readonly } callIncidents { id name code readonly } callDescriptions { id text } }}"
+    }
+    return json.encode(query)
+end
+
+function queries.update_call(props)
+    local query = {
+        operationName = null,
+        variables = {
+            id = props.id,
+            callerInfo = props.callerInfo,
+            callGrade = props.callGrade,
+            callType = props.callType,
+            callIncidents = props.callIncidents,
+            callLocations = props.callLocations,
+            callDescriptions = props.callDescriptions,
+            markerX = props.markerX,
+            markerY = props.markerY
+        },
+        query = "mutation ($id: ID!, $callerInfo: String, $callGrade: CallGradeInput!, $callType: CallTypeInput!, $callIncidents: [IncidentTypeInput]!, $callLocations: [LocationInput!]!, $callDescriptions: [CallDescriptionInput], $markerX: Float, $markerY: Float) { updateCall(id: $id, callerInfo: $callerInfo, callGrade: $callGrade, callType: $callType, callIncidents: $callIncidents, callLocations: $callLocations, callDescriptions: $callDescriptions, markerX: $markerX, markerY: $markerY) { id callerInfo markerX markerY callType { id name code readonly } callGrade { id name code readonly } callLocations { id name code readonly } callIncidents { id name code readonly } callDescriptions { id text } }}"
+    }
+    return json.encode(query)
+end
+
+function queries.delete_call(props)
+    local query = {
+        operationName = null,
+        variables = {
+            callId = props.id
+        },
+        query = "mutation ($callId: ID!) { deleteCall(id: $callId)}"
+    }
+    return json.encode(query)
+end
+
+function queries.toggle_assignment(props)
+    local mutation = props.currentlyAssigned and "divestCallFromUnit" or "assignCallToUnit"
+    local query = {
+        operationName = null,
+        variables = {
+            callId = props.callId,
+            unitId = props.unitId
+        },
+        query = "mutation ($callId: ID!, $unitId: ID!) { " .. mutation .. "(CallId: $callId, UnitId: $unitId) { callId unitId } }"
     }
     return json.encode(query)
 end
