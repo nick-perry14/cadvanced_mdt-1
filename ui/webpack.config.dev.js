@@ -12,7 +12,7 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'public'),
         hot: true,
-        host: 'code-server.warmlight.co.uk',
+        host: '<hostname_here>',
         watchOptions: {
             poll: true,
         },
