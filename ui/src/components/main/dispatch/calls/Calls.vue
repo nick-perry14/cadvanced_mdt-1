@@ -1,7 +1,7 @@
 <template>
     <div>
         <CallModal v-if="callModalOpen" />
-        <div id="new-call-header">
+        <div v-if="isSelfDispatch" id="new-call-header">
             <MiniButton
                 @miniClick="openCallModal"
                 text="Create new call"
@@ -45,6 +45,9 @@ export default {
         },
         callModalOpen() {
             return this.$store.getters.getIsModalOpen('call');
+        },
+        isSelfDispatch() {
+            return this.$store.getters.getResourceConfig.self_dispatch;
         }
     },
     methods: {

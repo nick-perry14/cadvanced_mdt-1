@@ -157,6 +157,13 @@ export default {
                                 event.data.data
                             );
                             break;
+                        case 'unit_types':
+                            this.doLog('RECEIVED UNIT TYPES');
+                            this.$store.commit(
+                                'setUnitTypes',
+                                event.data.data
+                            );
+                            break;
                         case 'users':
                             this.doLog('RECEIVED USERS');
                             this.$store.commit('setUsers', event.data.data);

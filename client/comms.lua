@@ -221,6 +221,15 @@ AddEventHandler(
     end
 )
 
+RegisterNetEvent("data:unit_types")
+AddEventHandler(
+    "data:unit_types",
+    function(jsonData)
+        print_debug("RECEIVED UNIT TYPES FROM SERVER")
+        pass_to_nui(jsonData, "unit_types")
+    end
+)
+
 RegisterNetEvent("data:citizen_markers")
 AddEventHandler(
     "data:citizen_markers",

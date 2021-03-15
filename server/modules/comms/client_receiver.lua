@@ -48,11 +48,13 @@ function client_receiver.client_event_handlers()
                 call_keybind_second = conf.val("call_keybind_second"),
                 call_number = conf.val("call_number"),
                 call_ring_filename = conf.val("call_ring_filename"),
-                call_busy_filename = conf.val("call_busy_filename")
+                call_busy_filename = conf.val("call_busy_filename"),
+                self_dispatch = conf.val("self_dispatch")
             }, "config", source)
             client_sender.pass_data(state_get("calls"), "calls", source)
             client_sender.pass_data(state_get("units"), "units", source)
             client_sender.pass_data(state_get("unit_states"), "unit_states", source)
+            client_sender.pass_data(state_get("unit_types"), "unit_types", source)
             client_sender.pass_data(state_get("user_units"), "user_units", source)
             client_sender.pass_data(state_get("user_ranks"), "user_ranks", source)
             client_sender.pass_data(state_get("citizen_markers"), "citizen_markers", source)
@@ -273,7 +275,7 @@ function client_receiver.client_event_handlers()
         end
     )
 
-    -- Send an call
+    -- Send a call
     RegisterNetEvent("send_call")
     AddEventHandler(
         "send_call",
@@ -290,6 +292,26 @@ function client_receiver.client_event_handlers()
         function(data)
             print_debug("RECEIVED REQUEST FROM CLIENT TO DELETE CALL")
             calls.delete_call(data)
+        end
+    )
+
+    -- Send a unit
+    RegisterNetEvent("send_unit")
+    AddEventHandler(
+        "send_unit",
+        function(data)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO SEND UNIT")
+            units.send_unit(data)
+        end
+    )
+
+    -- Delete a unit
+    RegisterNetEvent("delete_unit")
+    AddEventHandler(
+        "delete_unit",
+        function(data)
+            print_debug("RECEIVED REQUEST FROM CLIENT TO DELETE UNIT")
+            units.delete_unit(data)
         end
     )
 

@@ -1,13 +1,23 @@
 <template>
     <div>
-        <div v-if="units.length > 0" id="units-filter">
-            <span>Only show my units</span>
-            <i
-                @click="toggleOwnUnits"
-                v-if="!ownUnits"
-                class="fas fa-toggle-off"
-            ></i>
-            <i @click="toggleOwnUnits" v-else class="fas fa-toggle-on"></i>
+        <UnitModal v-if="unitModalOpen" />
+        <div id="unit-actions">
+            <div v-if="units.length > 0" id="units-filter">
+                <span>Only show my units</span>
+                <i
+                    @click="toggleOwnUnits"
+                    v-if="!ownUnits"
+                    class="fas fa-toggle-off"
+                ></i>
+                <i @click="toggleOwnUnits" v-else class="fas fa-toggle-on"></i>
+            </div>
+            <div v-if="isSelfDispatch" id="new-unit-header">
+                <MiniButton
+                    @miniClick="openUnitModal"
+                    text="Create new unit"
+                    colour="rgba(0, 255, 0, 0.5)"
+                />
+            </div>
         </div>
         <div v-if="units.length > 0" id="units">
             <Unit
@@ -32,6 +42,8 @@
 
 <script>
 import Unit from './unit/Unit.vue';
+import MiniButton from '../../../MiniButton.vue';
+import UnitModal from '../../../reusable/Unit/UnitModal.vue';
 import clientSender from '../../../../mixins/clientSender';
 import RanksModal from '../../../reusable/Officer/RanksModal.vue';
 import StatesModal from '../../../reusable/Unit/StatesModal.vue';
@@ -47,11 +59,19 @@ export default {
     components: {
         Unit,
         RanksModal,
-        StatesModal
+        StatesModal,
+        UnitModal,
+        MiniButton
     },
     computed: {
         units() {
             return this.$store.getters.getUnits;
+        },
+        unitModalOpen() {
+            return this.$store.getters.getIsModalOpen('unit');
+        },
+        isSelfDispatch() {
+            return this.$store.getters.getResourceConfig.self_dispatch;
         }
     },
     methods: {
@@ -96,12 +116,41 @@ export default {
         },
         toggleOwnUnits() {
             this.ownUnits = !this.ownUnits;
-        }
+        },
+        openUnitModal() {
+            this.$store.commit('setModal', {
+                type: 'unit',
+                data: {
+                    open: true,
+                    type: 'unit',
+                    entity: {
+                        id: null,
+                        callSign: '',
+                        unitState: {},
+                        unitType: {}
+                    }
+                }
+            });
+        },
     }
 };
 </script>
 
 <style scoped>
+#unit-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+#unit-actions div {
+    margin-right: 40px;
+}
+#unit-actions div:last-child {
+    margin-right: 0;
+}
+#new-unit-header {
+    text-align: right;
+    margin-bottom: 20px;
+}
 #units-filter {
     display: flex;
     margin-bottom: 20px;
@@ -116,7 +165,7 @@ export default {
 }
 #units-filter i {
     display: block;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 #units {
     display: grid;

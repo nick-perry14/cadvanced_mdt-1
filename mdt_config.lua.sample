@@ -30,6 +30,7 @@ cfg.call_keybind_second = "197" -- The second keybind to use to open the termina
 cfg.call_number = "999" -- The number that is dialed when a citizen places a call
 cfg.call_ring_filename = "ringing_uk.ogg" -- Sound file used for ringing tone
 cfg.call_busy_filename = "busy_uk.ogg" -- Sound file used for busy tone
+cfg.self_dispatch = false -- Enable self dispatch in the MDT
 
 -- ##################################
 

@@ -1,7 +1,8 @@
 <template>
     <div id="main_nav">
         <ul id="top_level">
-            <router-link tag="li" to="/status">Status</router-link>
+            <router-link v-if="isSelfDispatch" tag="li" to="/dispatch">Dispatch</router-link>
+            <router-link v-else tag="li" to="/status">Status</router-link>
             <li
                 class="dropdown_trigger"
                 :class="{ 'router-link-active': isRoute('search') }"
@@ -22,7 +23,6 @@
                     -->
                 </ul>
             </li>
-            <router-link tag="li" to="/dispatch">Dispatch</router-link>
             <!--
             <li
                 class="dropdown_trigger"
@@ -46,6 +46,11 @@ export default {
         isRoute(path) {
             const regex = new RegExp(path);
             return regex.exec(this.$route.path);
+        }
+    },
+    computed: {
+        isSelfDispatch() {
+            return this.$store.getters.getResourceConfig.self_dispatch;
         }
     }
 };

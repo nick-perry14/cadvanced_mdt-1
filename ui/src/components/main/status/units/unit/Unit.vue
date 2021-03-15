@@ -16,6 +16,7 @@
             :class="{ maskedcalls: !isAssignedToUnit }"
             class="calls-container"
         >
+            <UnitTools v-if="isSelfDispatch" :unit="unit" />
             <Call
                 v-for="(call, index) in assignedCalls"
                 @changed="callChanged"
@@ -34,6 +35,7 @@
 <script>
 import soundPlayer from '../../../../../mixins/soundPlayer';
 import UnitHeader from './UnitHeader.vue';
+import UnitTools from './UnitTools.vue';
 import Call from './Call.vue';
 export default {
     props: {
@@ -52,6 +54,7 @@ export default {
     },
     components: {
         UnitHeader,
+        UnitTools,
         Call
     },
     mixins: [soundPlayer],
@@ -72,6 +75,9 @@ export default {
         },
         isInPanic() {
             return this.unit.unitState.code === 'PANIC';
+        },
+        isSelfDispatch() {
+            return this.$store.getters.getResourceConfig.self_dispatch;
         }
     },
     methods: {

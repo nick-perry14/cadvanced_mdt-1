@@ -12,6 +12,9 @@ const modalsInit = {
     call: {
         open: false
     },
+    unit: {
+        open: false
+    },
     ranks: {
         open: false
     },
@@ -75,6 +78,7 @@ const store = new Vuex.Store({
         calls: [],
         units: [],
         unitStates: [],
+        unitTypes: [],
         userUnits: [],
         userRanks: [],
         citizenMarkers: [],
@@ -93,6 +97,7 @@ const store = new Vuex.Store({
         getResourceConfig: state => state.resourceConfig,
         getUnits: state => state.units,
         getUnitStates: state => state.unitStates,
+        getUnitTypes: state => state.unitTypes,
         getUsers: state => state.users,
         getCalls: state => state.calls,
         getCitizenMarkers: state => state.citizenMarkers,
@@ -156,6 +161,7 @@ const store = new Vuex.Store({
         setHide: state => (state.visible = false),
         setUnits: (state, units) => (state.units = units),
         setUnitStates: (state, unitStates) => (state.unitStates = unitStates),
+        setUnitTypes: (state, unitTypes) => (state.unitTypes = unitTypes),
         setUserUnits: (state, userUnits) => (state.userUnits = userUnits),
         setUserRanks: (state, userRanks) => (state.userRanks = userRanks),
         setCitizenMarkers: (state, citizenMarkers) =>

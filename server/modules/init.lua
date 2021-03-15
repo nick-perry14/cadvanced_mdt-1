@@ -31,6 +31,9 @@ function init.bootstrapData()
     -- Get all unit states
     units.get_all_unit_states()
 
+    -- Get all unit types
+    units.get_all_unit_types()
+
     -- Get all user / unit assignments
     units.get_all_user_units()
 

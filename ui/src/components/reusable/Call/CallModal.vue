@@ -35,7 +35,7 @@
                 </div>
                 <div class="descriptions">
                     <div
-                        v-for="(description, index) in call.callDescriptions"
+                        v-for="(description, index) in allDescriptions()"
                         :key="description.id"
                         class="description">
                             <input
@@ -44,24 +44,12 @@
                                 placeholder="Description"
                             />
                             <MiniButton
+                                v-if="description.text.length > 0"
                                 @miniClick="deleteDescription(index)"
                                 class="description-button"
                                 icon="fa-trash-alt"
                                 colour="rgba(255,0,0,0.5)"
                             />
-                    </div>
-                    <div class="description">
-                        <input
-                            type="text"
-                            v-model="newDescription"
-                            placeholder="Description"
-                        />
-                        <MiniButton
-                            @miniClick="saveDescription"
-                            class="description-button"
-                            icon="fa-save"
-                            colour="rgba(0,255,0,0.5)"
-                        />
                     </div>
                 </div>
                 <div class="incidents">
@@ -116,7 +104,6 @@ export default {
     data: function() {
         return {
             call: JSON.parse(JSON.stringify(this.$store.getters.getModalData('call').entity)),
-            newDescription: '',
             incidentTag: '',
             locationTag: '',
             failedValidation: false
@@ -153,7 +140,7 @@ export default {
                 );
             });
             return this.thingToTags(filtered);
-        }
+        },
     },
     methods: {
         close() {
@@ -161,15 +148,15 @@ export default {
                 type: 'call'
             });
         },
-        saveDescription() {
-            if (this.newDescription.length > 0) {
-                const now = Date.now();
+        allDescriptions() {
+            const desc = this.call.callDescriptions;
+            if (desc.length === 0 || desc[desc.length - 1].text.length > 0) {
                 this.call.callDescriptions.push({
                     id: Math.floor(Math.random() * 50000 + 1),
-                    text: this.newDescription
+                    text: ''
                 });
-                this.newDescription = '';
             }
+            return desc;
         },
         deleteDescription(index) {
             this.call.callDescriptions.splice(index, 1);
@@ -182,6 +169,9 @@ export default {
         },
         saveCall() {
             // First check we have everything we need
+            this.call.callDescriptions = this.call.callDescriptions.filter((desc) => 
+                desc.text.length > 0
+            );
             if (
                 !this.call.callGrade.id ||
                 !this.call.callType.id ||
@@ -234,7 +224,6 @@ export default {
     flex-direction: column;
     max-height: 200px;
     overflow-y: auto;
-    padding-right: 10px;
 }
 .description {
     display: flex;
@@ -242,8 +231,7 @@ export default {
 .description:not(:last-child) {
     margin-bottom: 10px;
 }
-.description-button,
-.call-save-button {
+.description-button {
     margin-left: 10px;
 }
 .call-select >>> .vs__dropdown-toggle {

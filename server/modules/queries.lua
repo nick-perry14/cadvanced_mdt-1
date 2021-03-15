@@ -190,6 +190,14 @@ function queries.get_all_unit_states()
     return json.encode(query)
 end
 
+function queries.get_all_unit_types()
+    local query = {
+        operationName = null,
+        query = "{ allUnitTypes { id name } } "
+    }
+    return json.encode(query)
+end
+
 function queries.get_all_citizen_markers()
     local query = {
         operationName = null,
@@ -475,6 +483,44 @@ function queries.delete_call(props)
             callId = props.id
         },
         query = "mutation ($callId: ID!) { deleteCall(id: $callId)}"
+    }
+    return json.encode(query)
+end
+
+function queries.create_unit(props)
+    local query = {
+        operationName = null,
+        variables = {
+            callSign = props.callSign,
+            unitStateId = props.unitState.id,
+            unitTypeId = props.unitType.id
+        },
+        query = "mutation ($callSign: String!, $unitTypeId: ID!, $unitStateId: ID!) { createUnit(callSign: $callSign, UnitTypeId: $unitTypeId, UnitStateId: $unitStateId) { id } }"
+    }
+    return json.encode(query)
+end
+
+function queries.update_unit(props)
+    local query = {
+        operationName = null,
+        variables = {
+            id = props.id,
+            callSign = props.callSign,
+            unitStateId = props.unitState.id,
+            unitTypeId = props.unitType.id
+        },
+        query = "mutation ($id: ID!, $callSign: String!, $unitTypeId: ID!, $unitStateId: ID!) { updateUnit(id: $id, callSign: $callSign, UnitTypeId: $unitTypeId, UnitStateId: $unitStateId) { id } }"
+    }
+    return json.encode(query)
+end
+
+function queries.delete_unit(props)
+    local query = {
+        operationName = null,
+        variables = {
+            unitId = props.id
+        },
+        query = "mutation ($unitId: ID!) { deleteUnit(id: $unitId)}"
     }
     return json.encode(query)
 end

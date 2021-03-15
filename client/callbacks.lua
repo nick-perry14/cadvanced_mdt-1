@@ -268,6 +268,34 @@ RegisterNUICallback(
     end
 )
 
+-- Callback to handle saving of a unit
+RegisterNUICallback(
+    "sendUnit",
+    function(data, cb)
+        -- Tell the server to send the call
+        print_debug("RECEIVED REQUEST FROM NUI TO SAVE UNIT")
+        print_debug("SENDING UNIT SAVE REQUEST TO SERVER")
+        TriggerServerEvent("send_unit", data)
+        if cb then
+            cb()
+        end
+    end
+)
+
+-- Callback to handle deleting of a call
+RegisterNUICallback(
+    "deleteUnit",
+    function(data, cb)
+        -- Tell the server to delete the call
+        print_debug("RECEIVED REQUEST FROM NUI TO DELETE UNIT")
+        print_debug("SENDING UNIT DELETE REQUEST TO SERVER")
+        TriggerServerEvent("delete_unit", data)
+        if cb then
+            cb()
+        end
+    end
+)
+
 -- Callback to handle saving of a ticket
 RegisterNUICallback(
     "saveTicket",
